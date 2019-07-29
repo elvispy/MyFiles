@@ -1,4 +1,4 @@
-x = 3
+x = 3;
 y = 4; //This is an integer
 disp(x) // This will display the variable
 m = "Hello world" // This is a string
