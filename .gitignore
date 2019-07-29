@@ -1,2 +1,11 @@
 #this is a comment in the gitignore file.
 C++/*.exe
+Latex/*.pdf
+*.aux
+*.log
+*.nav
+*.out
+*.snm
+*.gz
+*.toc
+*.synctex*
