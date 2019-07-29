@@ -4,7 +4,7 @@ disp(x) // This will display the variable
 m = "Hello world" // This is a string
 a = 0:0.01:10;
 b = cos(a);
-plot(a,b)
+plot(a,b);
 
 format e; //this will write all numers in exponential notation
 
