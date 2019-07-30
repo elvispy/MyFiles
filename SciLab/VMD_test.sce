@@ -19,7 +19,7 @@ clc;
 T = 1000;
 fs = 1/T;
 t = (1:T)/T;
-freqs = 2*pi*(t-0.5-1/T)/(fs);
+freqs = 2*%pi*(t-0.5-1/T)/(fs);
 
 // center frequencies of components
 f_1 = 2;
@@ -27,9 +27,9 @@ f_2 = 24;
 f_3 = 288;
 
 // modes
-v_1 = (cos(2*pi*f_1*t));
-v_2 = 1/4*(cos(2*pi*f_2*t));
-v_3 = 1/16*(cos(2*pi*f_3*t));
+v_1 = (cos(2*%pi*f_1*t));
+v_2 = 1/4*(cos(2*%pi*f_2*t));
+v_3 = 1/16*(cos(2*%pi*f_3*t));
 
 // for visualization purposes
 fsub = {};
@@ -37,12 +37,12 @@ wsub = {};
 fsub{1} = v_1;
 fsub{2} = v_2;
 fsub{3} = v_3;
-wsub{1} = 2*pi*f_1;
-wsub{2} = 2*pi*f_2;
-wsub{3} = 2*pi*f_3;
+wsub{1} = 2*%pi*f_1;
+wsub{2} = 2*%pi*f_2;
+wsub{3} = 2*%pi*f_3;
 
 // composite signal, including noise
-f = v_1 + v_2 + v_3 + 0.1*randn(size(v_1));
+f = v_1 + v_2 + v_3 + 0.1*rand(1, 'normal');
 f_hat = fftshift((fft(f)));
 
 // some sample parameters for VMD
@@ -74,7 +74,8 @@ tol = 1e-7;
 //--------------- Visualization
 
 // For convenience here: Order omegas increasingly and reindex u/u_hat
-[~, sortIndex] = sort(omega(end,:));
+sortIndex = gsort(omega($,:));
+sortIndex = sortIndex(2:$);
 omega = omega(:,sortIndex);
 u_hat = u_hat(:,sortIndex);
 u = u(sortIndex,:);
@@ -91,7 +92,7 @@ for sub = 1:length(fsub)
 end
 
 figure('Name', 'Input signal spectrum' );
-loglog(freqs(T/2+1:end), abs(f_hat(T/2+1:end)), 'k');
+loglog(freqs(T/2+1:$), abs(f_hat(T/2+1:$)), 'k');
 set(gca, 'XLim', [1 T/2]*pi*2, 'XGrid', 'on', 'YGrid', 'on', 'XMinorGrid', 'off', 'YMinorGrid', 'off');
 ylims = get(gca, 'YLim');
 hold on;
@@ -109,11 +110,11 @@ set(gca, 'YLim', [1,size(omega,1)]);
 set(gca, 'XLim', [2*pi,0.5*2*pi/fs], 'XGrid', 'on', 'XMinorGrid', 'on');
 
 figure('Name', 'Spectral decomposition');
-loglog(freqs(T/2+1:end), abs(f_hat(T/2+1:end)), 'k:');
+loglog(freqs(T/2+1:$), abs(f_hat(T/2+1:$)), 'k:');
 set(gca, 'XLim', [1 T/2]*pi*2, 'XGrid', 'on', 'YGrid', 'on', 'XMinorGrid', 'off', 'YMinorGrid', 'off');
 hold on;
 for k = 1:K
-    loglog(freqs(T/2+1:end), abs(u_hat(T/2+1:end,k)), linestyles{k});
+    loglog(freqs(T/2+1:$), abs(u_hat(T/2+1:$,k)), linestyles{k});
 end
 set(gca, 'YLim', ylims);
 
