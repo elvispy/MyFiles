@@ -47,7 +47,7 @@ function [u, u_hat, omega] = VMD(signal, alpha, tau, K, DC , init, tol)
     freqs = t-.5-1/T; //(what's this?)
     
     //Maximum number of iterations allowed
-    N = 1000;
+    N = 500;
     
     //For future generalizations: individual alpha for each mode
     Alpha = alpha* ones(1, K);

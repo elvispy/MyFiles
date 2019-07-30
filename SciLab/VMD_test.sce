@@ -66,7 +66,7 @@ tol = 1e-7;
 
 
 
-
+/*
 
 
 
@@ -75,10 +75,12 @@ tol = 1e-7;
 
 // For convenience here: Order omegas increasingly and reindex u/u_hat
 sortIndex = gsort(omega($,:));
+disp(sortIndex)
 sortIndex = sortIndex(2:$);
 omega = omega(:,sortIndex);
 u_hat = u_hat(:,sortIndex);
 u = u(sortIndex,:);
+disp("OK")
 linestyles = {'b', 'g', 'm', 'c', 'c', 'r', 'k'};
 
 figure('Name', 'Composite input signal' );
@@ -128,3 +130,4 @@ for k = 1:K
     set(gca, 'XLim', [0 1]);
 end
 
+*/
