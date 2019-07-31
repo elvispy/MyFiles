@@ -62,6 +62,11 @@ tol = 1e-7;
 
 [u, u_hat, omega] = VMD(f, alpha, tau, K, DC, init, tol);
 
+approx = zeros(1, length(u(1, :)));
+for i = 1:K
+    approx = approx + u(i, :)
+end
+
 
 
 
