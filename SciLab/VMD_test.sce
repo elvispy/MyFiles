@@ -61,7 +61,7 @@ N = 200;
 
 //--------------- Run actual VMD code
 
-[u, u_hat, omega] = VMD2(f, alpha, tau, K, DC, init, tol, N);
+//[u, u_hat, omega] = VMD2(f, alpha, tau, K, DC, init, tol, N);
 disp("-----1-----")
 [u2, u_hat2, omega2] = VMD(f, alpha, tau, K, DC, init, tol, N);
 
@@ -71,12 +71,12 @@ disp("-----1-----")
 approx = zeros(1, length(u(1, :)));
 approx2 = approx
 for i = 1:K
-    approx = approx + u(i, :)
+    //approx = approx + u(i, :)
     approx2 = approx2 + u2(i, :)
 end
 
 
-disp(norm(f-approx, 2))
+//disp(norm(f-approx, 2))
 disp("----")
 disp(norm(f-approx2, 2))
 //Testing different tolerance and N levels
