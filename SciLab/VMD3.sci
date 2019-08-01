@@ -1,4 +1,4 @@
-function [u, u_hat, omega] = VMD(signal, alpha, tau, K, DC , init, tol, N)
+function [u, u_hat, omega, HS, H] = VMD3(signal, alpha, tau, K, DC , init, tol, N)
     /*
     Variational Mode Decomposition
     
@@ -59,7 +59,7 @@ function [u, u_hat, omega] = VMD(signal, alpha, tau, K, DC , init, tol, N)
     
     
     //Matrix keeping track of every iterant (could be discarded)
-    u_hat_plus = zeros(N, length(freqs), K);
+    u_hat_plus = zeros(N, T, K);
     
     //Initialization of omega_k
     omega_plus = zeros(N, K);
@@ -81,7 +81,7 @@ function [u, u_hat, omega] = VMD(signal, alpha, tau, K, DC , init, tol, N)
     end
     
     //start with empty dual variables
-    lambda_hat = zeros(N, length(freqs));
+    lambda_hat = zeros(N, T));
     
     //other inits
     
@@ -168,5 +168,11 @@ function [u, u_hat, omega] = VMD(signal, alpha, tau, K, DC , init, tol, N)
     for k = 1:K
         u_hat(:, k) = fftshift(fft(u(k, :)))';
     end
+    
+    
+    
+    //Now let's calculate the Hilbert Spectrum
+    
+    
     
 endfunction
