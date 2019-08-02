@@ -16,7 +16,7 @@ clear all;
 clc;
 
 // Time Domain 0 to T
-T = 1000;
+T = 2000;
 fs = 1/T;
 t = (1:T)/T;
 freqs = 2*%pi*(t-0.5-1/T)/(fs);
@@ -31,7 +31,7 @@ v_1 = (cos(2*%pi*f_1*t));
 v_2 = 1/4*(cos(2*%pi*f_2*t));
 v_3 = 1/16*(cos(2*%pi*f_3*t));
 
-// for visualization purposes
+// for visualization purposesu
 fsub = {};
 wsub = {};
 fsub{1} = v_1;
@@ -51,15 +51,20 @@ tau = 0;            // noise-tolerance (no strict fidelity enforcement)
 K = 3;              // 3 modes
 DC = 0;             // no DC part imposed
 init = 1;           // initialize omegas uniformly
-tol = 1e-7;
-N = 200;
+tol = 1e-10;
+N = 400;
+//inter = 1.D-3;
+inter = 4 * %pi;
 
 
 
 
 //--------------- Run actual VMD code
 
-[u, u_hat, omega] = VMD3(f, alpha, tau, K, DC, init, tol, N);
+[u, u_hat, omega] = VMD3(f, alpha, tau, K, DC, init, tol, N, inter);
+
+[HS, HMS] = hilbertVMD(u, inter);
+
 disp("-----1-----")
 //[u2, u_hat2, omega2] = VMD3(f, alpha, tau, K, DC, init, tol, N);
 
@@ -67,7 +72,7 @@ disp("-----1-----")
 
 
 approx = zeros(1, length(u(1, :)));
-approx2 = approx
+
 for i = 1:K
     approx = approx + u(i, :)
     //approx2 = approx2 + u2(i, :)

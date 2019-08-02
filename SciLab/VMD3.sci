@@ -1,4 +1,4 @@
-function [u, u_hat, omega, HS, H] = VMD3(signal, alpha, tau, K, DC , init, tol, N)
+function [u, u_hat, omega] = VMD3(signal, alpha, tau, K, DC , init, tol, N, inter)
     /*
     Variational Mode Decomposition
     
@@ -13,6 +13,8 @@ function [u, u_hat, omega, HS, H] = VMD3(signal, alpha, tau, K, DC , init, tol, 
               1 = all omegas start uniformly distributed (seems good)
               2 = all omegas initialized randomly
     tol     - tolerance of convergence criterion; tipically around 1e-6
+    N       - is the maximum number of iterations allowed to avoid overcharge
+    inter   - interval of time of the vibration.
     
     Outputs:
     --------
@@ -81,7 +83,7 @@ function [u, u_hat, omega, HS, H] = VMD3(signal, alpha, tau, K, DC , init, tol, 
     end
     
     //start with empty dual variables
-    lambda_hat = zeros(N, T));
+    lambda_hat = zeros(N, T);
     
     //other inits
     
@@ -153,7 +155,7 @@ function [u, u_hat, omega, HS, H] = VMD3(signal, alpha, tau, K, DC , init, tol, 
     u_hat((T/2+1):-1:2, :) = squeeze(conj(u_hat_plus(N, (T/2+1):T, :)));
     u_hat(1, :) = conj(u_hat($, :));
     
-    u = zeros(K, length(t));
+    u = zeros(K, T);
     
     for k = 1:K
         u(k, :) = real(ifft(ifftshift(u_hat(:, k))));
@@ -162,17 +164,22 @@ function [u, u_hat, omega, HS, H] = VMD3(signal, alpha, tau, K, DC , init, tol, 
     //removemirror part
     
     u = u(:, T/4+1:3*T/4);
-    
-    //recompose spectrum
+    /*
+    //defining the hilbert spectrum, instantenous frequency
+    time = size(u)(2);
+    HS = zeros(u);
+    omeg_k = HS; // instantenous angle frequency
+    teta_k = omeg_k;
+    step = inter/time;
+    interval = linspace(0, inter, time);
+    */
+    //recompose spectrum, calculate instantenous frequency
     clear u_hat
+    
     for k = 1:K
-        u_hat(:, k) = fftshift(fft(u(k, :)))';
+        u_hat(:, k) = fftshift(fft(u(k, :)))';    
+        
     end
     
-    
-    
-    //Now let's calculate the Hilbert Spectrum
-    
-    
-    
+  
 endfunction
