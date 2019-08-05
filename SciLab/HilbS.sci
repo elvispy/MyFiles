@@ -45,8 +45,10 @@ function [HS, HMS] = hilbertVMD(u, inter)
         A_k(k, :) = sqrt(imag(AS(k, :)).^2 + real(AS(k, :)).^2);
         
     end
-    disp(max(omeg_k));
-    disp(min(omeg_k));
+    
+    
+    
+    
     //teta_k = exp(%i*teta_k);
     //disp(norm(imag(HS./teta_k))); //to check whether teta_k is well defined
     // disp(norm(reHS-u)); to check whether the analytical signal is ok
