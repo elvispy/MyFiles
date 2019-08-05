@@ -55,6 +55,7 @@ tol = 1e-10;
 N = 400;
 //inter = 1.D-3;
 inter = 4 * %pi;
+prec = 1e-3;
 
 
 
@@ -63,7 +64,7 @@ inter = 4 * %pi;
 
 [u, u_hat, omega] = VMD3(f, alpha, tau, K, DC, init, tol, N, inter);
 
-[HS, HMS] = hilbertVMD(u, inter);
+[HMS] = hilbertVMD(u, inter, prec);
 
 disp("-----1-----")
 //[u2, u_hat2, omega2] = VMD3(f, alpha, tau, K, DC, init, tol, N);
