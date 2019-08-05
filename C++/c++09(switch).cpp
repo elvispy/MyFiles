@@ -5,14 +5,13 @@ using namespace std;
 int main(){
 	//lets analize the switch structure
 	
-	int day = 7;
+	int day = 1;
 	switch (day){
 		case 1:
 			cout << "Monday";
-			break;
-		case 2:
-			cout << "Tuesday";
-			break;
+			break; //if you dont put the break, it'll execute all following instructions
+			
+		case 2: //if you don't put any instructions, both will be squeezed into one
 		case 3:
 			cout << "Wednesday";
 			break;
