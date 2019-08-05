@@ -51,11 +51,11 @@ tau = 0;            // noise-tolerance (no strict fidelity enforcement)
 K = 3;              // 3 modes
 DC = 0;             // no DC part imposed
 init = 1;           // initialize omegas uniformly
-tol = 1e-10;
-N = 400;
+tol = 1e-10;        //Tolerance of the method in VMD
+N = 400;            //Number of iterations before getting out
 //inter = 1.D-3;
-inter = 4 * %pi;
-prec = 1e-3;
+inter = 4 * %pi;    //Interval of definition of the data
+prec = 1e-1;        //precision in the Hilbert Marginal Spectrum decomposition
 
 
 
@@ -63,9 +63,9 @@ prec = 1e-3;
 //--------------- Run actual VMD code
 
 [u, u_hat, omega] = VMD3(f, alpha, tau, K, DC, init, tol, N, inter);
-
+tic();
 [HMS] = hilbertVMD(u, inter, prec);
-
+disp(toc());
 disp("-----1-----")
 //[u2, u_hat2, omega2] = VMD3(f, alpha, tau, K, DC, init, tol, N);
 
@@ -84,70 +84,3 @@ disp(norm(f-approx, 2))
 disp("----")
 //disp(norm(f-approx2, 2))
 //Testing different tolerance and N levels
-
-
-/*
-
-
-
-
-//--------------- Visualization
-
-// For convenience here: Order omegas increasingly and reindex u/u_hat
-sortIndex = gsort(omega($,:));
-disp(sortIndex)
-sortIndex = sortIndex(2:$);
-omega = omega(:,sortIndex);
-u_hat = u_hat(:,sortIndex);
-u = u(sortIndex,:);
-disp("OK")
-linestyles = {'b', 'g', 'm', 'c', 'c', 'r', 'k'};
-
-figure('Name', 'Composite input signal' );
-plot(t,f, 'k');
-set(gca, 'XLim', [0 1]);
-
-for sub = 1:length(fsub)
-    figure('Name', ['Input signal component ' num2str(sub)] );
-    plot(t,fsub{sub}, 'k');
-    set(gca, 'XLim', [0 1]);
-end
-
-figure('Name', 'Input signal spectrum' );
-loglog(freqs(T/2+1:$), abs(f_hat(T/2+1:$)), 'k');
-set(gca, 'XLim', [1 T/2]*pi*2, 'XGrid', 'on', 'YGrid', 'on', 'XMinorGrid', 'off', 'YMinorGrid', 'off');
-ylims = get(gca, 'YLim');
-hold on;
-for sub = 1:length(wsub)
-    loglog([wsub{sub} wsub{sub}], ylims, 'k--');
-end
-set(gca, 'YLim', ylims);
-
-figure('Name', 'Evolution of center frequencies omega');
-for k=1:K
-    semilogx(2*pi/fs*omega(:,k), 1:size(omega,1), linestyles{k});
-    hold on;
-end
-set(gca, 'YLim', [1,size(omega,1)]);
-set(gca, 'XLim', [2*pi,0.5*2*pi/fs], 'XGrid', 'on', 'XMinorGrid', 'on');
-
-figure('Name', 'Spectral decomposition');
-loglog(freqs(T/2+1:$), abs(f_hat(T/2+1:$)), 'k:');
-set(gca, 'XLim', [1 T/2]*pi*2, 'XGrid', 'on', 'YGrid', 'on', 'XMinorGrid', 'off', 'YMinorGrid', 'off');
-hold on;
-for k = 1:K
-    loglog(freqs(T/2+1:$), abs(u_hat(T/2+1:$,k)), linestyles{k});
-end
-set(gca, 'YLim', ylims);
-
-
-for k = 1:K
-    figure('Name', ['Reconstructed mode ' num2str(K)]);
-    plot(t,u(k,:), linestyles{k});   hold on;
-    if ~isempty(fsub)
-        plot(t, fsub{min(k,length(fsub))}, 'k:');
-    end
-    set(gca, 'XLim', [0 1]);
-end
-
-*/

@@ -55,8 +55,10 @@ function [HMS, HS] = hilbertVMD(u, inter, prec)
     
     //inter2 = min(omeg_k):(step*(max(omeg_k)-min(omeg_k))/inter):max(omeg_k);
     
-    inter2 = linspace(min(omeg_k), max(omeg_k), time); //check if 2000 is enough
+    inter2 = min(omeg_k):prec:max(omeg_k); //check if 2000 is enough
+    
     aux = length(inter2);
+    
     
     HMS = zeros(aux,1);
     
@@ -89,6 +91,7 @@ function [HMS, HS] = hilbertVMD(u, inter, prec)
     for i = 1:aux
         //calculating h(omega) for all omega
         omega = inter2(i);
+        disp(aux)
         disp(i)
         for k = 1:K
             //calculating the integral for all k
