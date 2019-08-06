@@ -97,7 +97,7 @@ function [HMS, HS] = hilbertVMD(u, inter, prec)
             //calculating the integral for all k
             for j = 1:time
                 //adding the integral
-                if abs(omega - omeg_k(k, j)) < prec
+                if abs(omega - omeg_k(k, j)) <= prec
                     HMS(i) = HMS(i) + A_k(k,j)* interval(j);
                 end
             end

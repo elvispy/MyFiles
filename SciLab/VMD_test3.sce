@@ -16,7 +16,7 @@ clear all;
 clc;
 
 // Time Domain 0 to T
-T = 2000;
+T = 2500;
 fs = 1/T;
 t = (1:T)/T;
 freqs = 2*%pi*(t-0.5-1/T)/(fs);
@@ -49,22 +49,28 @@ f_hat = fftshift((fft(f)));
 alpha = 2000;        // moderate bandwidth constraint
 tau = 0;            // noise-tolerance (no strict fidelity enforcement)
 K = 3;              // 3 modes
-DC = 0;             // no DC part imposed
+DC = 0;             // no DC part imposed 
 init = 1;           // initialize omegas uniformly
 tol = 1e-10;        //Tolerance of the method in VMD
 N = 400;            //Number of iterations before getting out
 //inter = 1.D-3;
 inter = 4 * %pi;    //Interval of definition of the data
-prec = 1e-1;        //precision in the Hilbert Marginal Spectrum decomposition
+prec = 1e-4;        //precision in the Hilbert Marginal Spectrum decomposition
 
 
 
 
 //--------------- Run actual VMD code
-
+disp("Summary")
+disp("-------------")
+tic();
 [u, u_hat, omega] = VMD3(f, alpha, tau, K, DC, init, tol, N, inter);
+disp("Running time  of  finding of IMFs")
+disp(toc());
 tic();
 [HMS] = hilbertVMD(u, inter, prec);
+
+disp("Running time of HMS calculations")
 disp(toc());
 disp("-----1-----")
 //[u2, u_hat2, omega2] = VMD3(f, alpha, tau, K, DC, init, tol, N);
@@ -78,8 +84,8 @@ for i = 1:K
     approx = approx + u(i, :)
     //approx2 = approx2 + u2(i, :)
 end
-
-
+//plot(HMS) beware of the precision. Could overload Scilab if too small.
+disp("Error (L2 norm) between sum of the u_ks (the IMFS) and the original signal")
 disp(norm(f-approx, 2))
 disp("----")
 //disp(norm(f-approx2, 2))

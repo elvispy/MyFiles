@@ -147,7 +147,7 @@ function [u, u_hat, omega] = VMD3(signal, alpha, tau, K, DC , init, tol, N, inte
     // discard empty space if converged early
     N = min(N, n);
     
-    omega = omega_plus(1:N, :);
+    omega = omega_plus(N, :);
     
     //signal reconstruction
     u_hat = zeros(T, K);

@@ -16,7 +16,7 @@ public: //access specifier
 	
 	void displayMessage( ) const //this const reserved word tells c++ that  this function mustn't modify the instance of the class
 	{
-		cout << "Welcome to the Grade Boook\n" << getCourseName() << "!" << endl;
+		cout << "Welcome to the Grade Boook\n" << getCourseName() << "!" << endl; //it is recommended to get the coursename in this way
 	}
 	void setCourseName( string name){
 		courseName = name; //sets the coursename

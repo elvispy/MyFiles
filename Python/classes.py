@@ -5,7 +5,7 @@ class Employee:
     num_of_emps=0
     raise_amt=1.05
 
-    def __init__(self, first, last, pay):
+    def __init__(self, first, last, pay): #these are the inputs to be initialized
         self.first=first
         self.last=last
         self.pay=pay
@@ -20,7 +20,7 @@ class Employee:
         
 
     @property
-    def email(self):
+    def email(self): #email automatically updates whenever we change name or lastname
         return "{0.first}.{0.last}@gmail.com".format(self)
     def apply_raise(self):
         self.pay = int(self.pay * self.raise_amt)
@@ -127,7 +127,7 @@ emp_1.apply_raise()
 #print(emp_1.pay)
 
 ##Python has two useful builtin functions isinstance() and issubclass()
-## remember that inheritance preserves instantiation
+## remember that inheritance preserves instantiation (what the hell is this?)
 
 
 ## Another comment: Methods which begin and end with "__" are called Dunders
