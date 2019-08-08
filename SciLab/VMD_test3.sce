@@ -16,7 +16,7 @@ clear all;
 clc;
 
 // Time Domain 0 to T
-T = 2500;
+T = 1500;
 fs = 1/T;
 t = (1:T)/T;
 freqs = 2*%pi*(t-0.5-1/T)/(fs);
@@ -55,7 +55,7 @@ tol = 1e-10;        //Tolerance of the method in VMD
 N = 400;            //Number of iterations before getting out
 //inter = 1.D-3;
 inter = 4 * %pi;    //Interval of definition of the data
-prec = 1e-4;        //precision in the Hilbert Marginal Spectrum decomposition
+prec = 1e-3;        //precision in the Hilbert Marginal Spectrum decomposition
 
 
 
