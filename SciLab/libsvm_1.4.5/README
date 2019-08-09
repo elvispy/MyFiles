@@ -1,0 +1,22 @@
+This tool provides a simple interface to LIBSVM, a library for support vector
+machines (http://www.csie.ntu.edu.tw/~cjlin/libsvm).
+It is very easy to use as
+the usage and the way of specifying parameters are the same as that of LIBSVM.
+
+
+Additional Information
+======================
+
+This interface was initially written by Jun-Cheng Chen, Kuan-Jen Peng,
+Chih-Yuan Yang and Chih-Huai Cheng from Department of Computer
+Science, National Taiwan University. 
+
+It was converted to Scilab 5.3 by Holger Nahrstaedt from TU Berlin.
+
+If you find this tool useful, please cite LIBSVM as follows
+
+Chih-Chung Chang and Chih-Jen Lin, LIBSVM : a library for support
+vector machines. ACM Transactions on Intelligent Systems and
+Technology, 2:27:1--27:27, 2011. Software available at
+http://www.csie.ntu.edu.tw/~cjlin/libsvm
+
