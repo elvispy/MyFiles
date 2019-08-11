@@ -9,3 +9,4 @@ Latex/**/*.pdf
 *.gz
 *.toc
 *.synctex*
+Latex/**/*.docx
