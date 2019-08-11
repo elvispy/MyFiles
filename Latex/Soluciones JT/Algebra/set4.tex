@@ -1,0 +1,61 @@
+\section{Desigualdades}
+
+\begin{sol}
+	La primera desigualdad es trivial. Para la segunda. Veamos que 
+	\begin{align}
+	\frac{a}{1+b}+\frac{b}{1+a} \leq 1 &\iff a(a+1) + b(b+1) \leq (a+1)(b+1) \iff \\
+	a^2 + b^2 \leq 1+ab &\iff a^2-ab+b^2 \leq 1 \iff \\
+	(a+b)(a^2-ab+b^2) \leq (a+b) &\iff a^3+b^3 \leq a+b
+	\end{align}
+	Que se cumple puesto que $a,b \in [0,1]$
+\end{sol}
+
+\begin{sol}
+	LLame $z = a-b = c-d, x = a-c=b-d$. Entonces la desigualdad puede ser escrita como :
+	
+	\centering{ $z^2 + x^2 + (z-x)(z+x) = 2z^2 \leq 0 \hspace{0.1cm} \square$}
+	
+\end{sol}
+
+
+\begin{sol}
+	Vea que $\sqrt{xy} \geq \frac{2}{\frac{1}{x}+\frac{1}{y}} \implies \frac{1}{\sqrt{xy}} \leq \frac{x+y}{2xy}$. Luego,
+	
+	\begin{align}
+	\frac{1}{\sqrt{xy}} + \frac{1}{\sqrt{yz}} + \frac{1}{\sqrt{xz}} &\leq \frac{x+y}{2xy} + \frac{z+y}{2zy} + \frac{x+z}{2xz} \\
+	& = \frac{2(xy + yz +xz)}{2xyz} \\
+	& = \frac{1}{x} + \frac{1}{y} + \frac{1}{z}
+	\end{align}
+\end{sol}
+
+
+\begin{sol}
+	Apliquemos MA-MG a $\sqrt{y^2(x^2+z^2)} \leq \frac{ y^2 + (x^2+z^2)}{2}$. Analogamente $\sqrt{x^2(y^2+z^2)} \leq \frac{ x^2 + (y^2+z^2)}{2}$. Sumando estas dos desigualdades, obtenemos el resultado.
+\end{sol}
+
+\begin{sol}
+	$\frac{a^n-1}{n} = (a-1)\frac{(a^{n-1} + a^{n-2} \dots +1 ) }{n}\leq (a-1) a^{\frac{n(n-1)}{2n}} = a^{\frac{n+1}{2}} - a^{\frac{n-1}{2}}$. No te que la desigualdad es estricta porque $a>1$. 
+\end{sol}
+
+\begin{sol}
+	Substituyamos $abc = 1$ en el denominador:
+	\begin{align}
+	\frac{1+ab}{1+a}+\frac{1+cb}{1+b}+\frac{1+ac}{1+c} &= \frac{1+ab}{abc+a}+\frac{1+cb}{abc+b}+\frac{1+ac}{abc+c}\\
+	& \geq 3 \bigg(\frac{1+ab}{abc+a}\cdot \frac{1+cb}{abc+b}\cdot\frac{1+ac}{abc+c}\bigg)^{\frac{1}{3}} \\
+	&= \bigg( \frac{1}{abc} \bigg) ^{\frac{1}{3}} = 3 
+	\end{align}
+\end{sol}
+
+\begin{sol}
+	Expandiendo nos queda que:
+	\begin{align}
+	(1+\frac{1}{a})(1+\frac{1}{b})(1+\frac{1}{c}) &= \frac{2}{abc} + \frac{1}{a}+\frac{1}{b} + \frac{1}{c} + 1 \\
+	&\geq 54 + 9 +1 =  64
+	\end{align}
+	Estos siguen de $\frac{a+b+c}{3} \geq (abc)^{\frac{1}{3}} \geq \frac{3}{\frac{1}{a}+\frac{1}{b} + \frac{1}{c}} \implies \frac{2}{abc} \geq 54$ $\land$ $\frac{1}{a}+\frac{1}{b} + \frac{1}{c} \geq 9$. 
+\end{sol}
+
+\begin{sol}
+	Procedemos por inducci\'on en $n$. Para $n = 1$ es el caso base. Supongamos que se cumple para $n = k$, y multipliquemos por $(1+x)\geq 0$. $(1+x)^{k+1} = (1+x)(1+x)^{k} \geq (1+x)(1+xn) = 1+xn+x+x^2n \geq 1+xn+x = 1+ (n+1)x$. 
+\end{sol}
+
