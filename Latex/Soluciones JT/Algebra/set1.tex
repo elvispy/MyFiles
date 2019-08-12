@@ -1,4 +1,6 @@
-\section{Primer set de problemas}
+
+
+\section{Definici\'on y propiedades de funciones}
 
 \begin{ejer}
 	Determinar si las siguientes funciones son inyectivas, sobreyectivas o biyectivas:
@@ -10,6 +12,97 @@
 
 \end{ejer}
 
-\begin{proof}[Prueba.]
+\begin{sol}
+	Observe la siguiente tabla:
+	\begin{table}[h!]
+		\centering
+		%%\caption{My caption}
+		%%\label{my-label}
+		\begin{tabular}{| l |l| l | l |}
+			\hline
+			Funcion & Inyectiva & Sobreyectiva & Biyectiva   \\ \hline
+			$f(x) = \left \lfloor {x} \right \rfloor$   & \cellcolor{red!70}$f(1) = f(1.5)$ & \cellcolor{green!25} $f(z) = z$, $ \forall z\in \mathbb{Z}$ & \cellcolor{red!70} No es inyectiva\\ \hline
+			
+			$f(x) = x^2+x-1$  & \cellcolor{red!70}$f(0) = f(-1)$ & \cellcolor{red!70} $f(x)\geq -2$ & \cellcolor{red!70} No es Sobreyectiva. \\ \hline
+		 $f(x) = x^3+x$  & \cellcolor{green!25} $f(x) \geq 0  \iff x\geq 0$ $ \land $  & \cellcolor{green!25}Grafique la funcion & \cellcolor{green!25} Es sobreyectiva \\ 
+		 & \cellcolor{green!25} $f$ es estrictamente & \cellcolor{green!25}para convencerse & \cellcolor{green!25} e inyectiva\\
+		 &  \cellcolor{green!25} monotona en $\mathbb{R}^{+}$  & \cellcolor{green!25} & \cellcolor{green!25} \\ \hline
+			
+		\end{tabular}
+	\end{table}
+
+\end{sol}
+
+\begin{sol}
+	\begin{itemize}
+		\item Con $X = \mathbb{R}$ la funcion es biyectiva y con $X = \mathbb{N}$ no.
+		\item Con $X = \mathbb{R} / \{0\}$ no es biyectiva, y con $X = \{a\}$ con $f(a) = a$ la funcion es biyectiva. (Grafique para convencerse que existe)
+		\item Se puede escoger $X = \{0\}$ para la condicion de biyectividad. Escoja $X = \mathbb{R}^{+}$ si $c\leq 1$ y escoja $X = [-1, \infty]$ caso contrario, para que la funcion no sea biyectiva.
+		
+	\end{itemize}
+\end{sol}
+
+\begin{sol}
+	Vea que
+	\begin{equation}
+	\begin{aligned}
+	f(f(x)) &= \frac{1}{1-\frac{1}{1-x}} 
+	&= \frac{1-x}{1-x-1} 
+	&= \frac{x-1}{x}
+	\end{aligned}
+	\end{equation}
 	
-\end{proof}
+	\begin{equation}
+	\begin{aligned}
+	f(f(f(x)) )&= f(\frac{x-1}{x})  
+	&= \frac{1}{1-\frac{x-1}{x}} 
+	&= \frac{x}{x-(x-1)} 
+	&= x
+	\end{aligned}
+	\end{equation} 
+	
+\end{sol}
+
+
+\begin{sol}
+	Vea que la funcion es impar, luego podemos asumir que $x$ es no negativo. 
+	Observe que 
+	\begin{align}
+	\frac{x}{x^2+1} &\leq \frac{1}{2}  \\
+	2x &\leq x^2 +1  \\
+	0 &\leq (x-1)^2 
+	\end{align}
+\end{sol}
+
+\begin{sol}
+	Si la funcion no fuese estrictamente creciente. Existir\'ian $x$ e $y$ diferentes tales que $f(X) = f(y)$. Supongamos que ese es el caso. Entonces $x^2+x-1 = y^2-y+1$. Lo cual implica que $x^2-y^2 = y-x$. Como $x \neq y$, eso implica que $x+y = 1$. Pero como el dominio es $(\frac{1}{2}, \infty)$, tenemos que la condicion mencionada arriba es imposible de cumplir. Luego, la funcion es estrictamente monotona y por lo tanto inyectiva.
+\end{sol}
+
+\begin{sol}
+	\begin{itemize}
+		\item Como la ra\'iz c\'ubica est\'a siempre definida, el dominio son todos los reales. Sin embargo la funci\'on no es biyectiva en el intervalo, pues es una funcion par. Por lo tanto no posee inversa
+		\item Debemos evitar $|x| = 1$. Luego, el dominio es el conjunto $\mathbb{R}/\{1, -1\}$.
+		\item El dominio es $\mathbb{R}/(-1, 1)$. De nuevo, a funcion es par (si se toma la parte positiva de la ra\'iz), por lo tanto no es biyectiva.
+		
+	
+	\end{itemize}
+	(Supongo que quieren que me restrinja a dominios mas chicos. Sin embargo, lo cual parece ser ambiguo. Me remito a dejar la tarea al editor)
+\end{sol}
+
+\begin{sol}
+	Claramente la funci\'on esta bien definida. Dado un n\'umero natural, podemos calcular inequ\'ivocamente la cantidad de factores primos distintos. Esta funcion es claramente sobreyectiva debido a que si tomamos una enumeraci\'on de los primos cualquiera $\{p_{i}\}_{i\in \mathbb{N}}$, se cumple que $h(\prod_{i=1}^{k}p_{i}) = k$, $\forall k\in \mathbb{N}$. No es inyectiva debido a que $p_{i} \in h^{-1}(\{1\})$, $\forall i\geq 1$
+\end{sol}
+
+\begin{sol}
+	\begin{itemize}
+		\item Simplemente tome $f' = f|_{f(A)} : A \to f(A)$ que es sobreyectiva por definici\'on, y tome $h : f(A) \to B $ la funci\'on identidad.
+		\item Para este \'item, deberemos definir un nuevo conjunto. Sea $M = max \{|f^{-1}(b)|,b \in B \}$, donde $|\cdot|$ es la cardinalidad de un conjunto. Sea $C$ $M$ copias disjuntas de $A$ (Si $A = \{a, b, c \cdots \}$ entonces $C = \{a_{1}, a_{2}, \cdots a_{M}, b_{1}, \cdots  ,b_{M}, \cdots \}$). Definamos $f': A \to C$ como siendo la funci\'on $f$, pero volvi\'endola inyectiva. Por ejemplo, si $f(x) = f(y)$, entonces $f'(x)$ y $f'(y)$ van al conjunto $C$, representan al mismo elemento de $A$ pero con \'indices distintos. Los indices no se van a acabar por la definici\'on de $M$. Finalmente, defina $\pi : C\to f(B)$ como siendo $\pi(c_{i}) = f(c)$, $\forall i$. Que es sobreyectiva por definici\'on.
+	\end{itemize}
+\end{sol}
+
+\begin{sol}
+	\begin{itemize}
+		\item Supongamos que $z \in f(X) - f(Y)$. Entonces $\exists a \in X $ tal que $f(a) = z$. Si $a \in Y$, entonces $f(a) \in f(Y) \implies z\notin f(X)-f(Y)$, contradicci\'on. Luego $a\notin Y$. Eso implica que $a\in X-Y$, y por lo tanto $z = f(a) \in X-Y$.
+		\item Supongamos que $f$ no es inyectiva, luego existen $a$ y $b$ tal que $f(a) = f(b)$. Llame $X = \{a\}, Y = \{b\}$. Tenemos que $f(X-Y) = f(X) \neq f(X) - f(Y) = \emptyset$. Luego, si la igualdad se cumple debe ser que $f$ es inyectiva.
+	\end{itemize}
+\end{sol}

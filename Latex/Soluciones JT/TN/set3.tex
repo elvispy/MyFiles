@@ -1,0 +1,55 @@
+\section{EL teorema de Euler}
+
+\begin{sol}
+	Suponga que el conjunto no es un sistema completo de residuos m\'odulo $n$. Entonces existen $i, j$ tal que $i\neq j$, $a\cdot r_{i}+b \equiv a \cdot r_{j}+b \mod n \implies a \cdot r_{i} \equiv a \cdot r_{j} \implies r_{i} \equiv r_{j}$, que es una contradicci\'on
+\end{sol}
+
+\begin{sol}
+	Copie la prueba del ejercicio anterior y use el ejercicio 1.19 de la secci\'on 1.3
+\end{sol}
+
+\begin{sol}
+	$a\cdot b^{p} - b \cdot a^{p} = ab(b^{p-1}-a^{p-1}) \equiv 0 $ debido a que si uno de los dos numeros $a$ o $b$ son multiplos de $p$, el resultado final lo se\'a. Caso contraraio, el teorema de fermat garante que $a^{p-1} \equiv b^{p-1}$. 
+\end{sol}
+
+\begin{sol}
+	$p^{8} \equiv 1 \mod 240 \iff (p-1)(p+1)(p^2+1)(p^4+1) \equiv 0 \mod 240$. Veamos que todos los factores de la parte izquierda de la euivalencia son pares, luego $2^4 | p^8-1$. Ademas, $(p+1)$ o $(p-1)$ son m\'ultiplos de 3, luego $3|p^8-1$. Falta probar que $5|p^8-1$. Suponamos que $p \not \equiv \pm 1 \mod 5$. Entonces $p \equiv 2$ o $3 \mod 5$. En cualquier caso, $p^2+1 \equiv 0 \mod 5$. Por lo que el resultado sigue.
+\end{sol}
+
+\begin{sol}
+	Tome $m = \varphi(b)-1, n = \varphi(a)-1$. Entonces $a^m +b^n \equiv b^n \equiv 1 \mod a$. Del mismo modo, $a^m + b^n \equiv 1 \mod b$. Es decir, $(a| a^m+b^n-1) \land (b| a^m+b^n-1) \implies ab | a^m+b^n-1 \implies a^m+b^n \equiv 1 \mod ab$.
+\end{sol}
+
+\begin{sol}
+	Supongamos que $p$ no es primo. Es decir, $p = a\cdot b$ con $1<a, b<p$. Luego, $ab | (p-1)! \implies p | (p-1)! \implies (p-1)! \equiv 0 \mod p$. Contradicci\'on.
+\end{sol}
+
+\begin{sol}
+	Supongamos que si. Primero observemos que podemos suponer que $a_{p} \equiv b_{p} \equiv 0 \mod p$ (Ya que solo debe haber un cero m\'odulo p). Entonces $1 =(-1)^2=(p-1)!\cdot (p-1)! =(\prod_{i=1}^{p-1}a_{i})\cdot (\prod_{i=1}^{p-1}b_{i}) = \prod_{i =1}^{p-1} a_{i}b_{i} \equiv (p-1)! \equiv -1 \mod p$. Contradicci\'on
+\end{sol}
+
+\begin{sol}
+	Veamos que con $4$ $2's$ y $1484$ $1's$ se puede lograr el cometido en $(a)$. Para $(b)$, note que $x^{7} \equiv x \mod 7$. Luego, $1998 \equiv \sum_{x} x^{7} \equiv \sum_{x} x \equiv 1492 \mod 7$, pero $1998 \not\equiv 1492 \mod 7$.
+\end{sol}
+
+\begin{sol}
+	Solucion en proceso
+\end{sol}
+
+\begin{sol}
+	\begin{enumerate}[a.]
+		\item Observe que $2 \equiv 2 \mod 7, 2^2 \equiv 4 \mod 7, 2^3 \equiv 1 \mod 7$, y el ciclo se repite. Luego, solo para $n \equiv 1 \mod 3 $ se tiene que $2^n \equiv 1 \mod 7$.
+		\item$ 2^1 +1 \equiv 3 \mod 7, 2^2+1 \equiv 5 \mod 7, 2^3 +1 \equiv 2 \mod 7, 2^4+1 \equiv 3 \mod 7. $ El ciclo se repite debido a que $2^k \equiv 2^{k+3} \mod 7$. Como en el primer ciclo no hubo ning\'un cero, tenemos que la ecuaci\'on $2^n +1 \equiv 0 \mod 7 $ no tiene soluciones.
+	\end{enumerate}
+\end{sol}
+
+\begin{sol}
+	Solucion en proceso
+\end{sol}
+
+\begin{sol}
+	Repita la prueba del ejercicio 4.2. Entonces, vea que el sistema es equivalente a $(p-1)! \equiv (p-1) \mod p, (p-1)! \equiv p-1 \mod (p-1)$. Lo cual es trivialmente verdadero.
+\end{sol}
+
+
+
