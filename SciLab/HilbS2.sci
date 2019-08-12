@@ -116,8 +116,4 @@ function [HMS, HS] = hilbertVMD(u, inter, prec)
     end
 
 endfunction
-
-    
-    
-    
    

@@ -5,7 +5,7 @@ clear all;
 clc;
 
 // Time Domain 0 to T
-T = 4000;
+T = 3500;
 fs = 1/T;
 t = (1:T)/T;
 freqs = 2*%pi*(t-0.5-1/T)/(fs);
@@ -21,14 +21,7 @@ v_2 = 1/4*(cos(2*%pi*f_2*t));
 v_3 = 1/16*(cos(2*%pi*f_3*t));
 
 // for visualization purposesu
-fsub = {};
-wsub = {};
-fsub{1} = v_1;
-fsub{2} = v_2;
-fsub{3} = v_3;
-wsub{1} = 2*%pi*f_1;
-wsub{2} = 2*%pi*f_2;
-wsub{3} = 2*%pi*f_3;
+
 
 // composite signal, including noise
 f = v_1 + v_2 + v_3 + 0.1*rand(1, 'normal');
@@ -79,3 +72,24 @@ disp(norm(f-approx, 2))
 disp("----")
 //disp(norm(f-approx2, 2))
 //Testing different tolerance and N levels
+
+
+
+//saving the data 
+
+b = pwd();
+b = b + "\IMFData"
+if ~isdir(b) then
+    mkdir("IMFData");
+end
+
+chdir(b);
+    
+filename = fullfile(b, "IMF.csv");
+csvWrite(u, filename);
+
+
+//filename = fullfile(b, "IMF_hat.csv");
+//csvWrite(u_hat, filename);
+
+
