@@ -8,7 +8,7 @@ using namespace std;
 Employee::Employee( string name)
 	:EmpName( name )
 {	
- //empty body
+ Employee::DisplayMessage();
 }  //initializing the instance (always put comments after a bracket is closed)
 
 void Employee::SetEmpName(string name)

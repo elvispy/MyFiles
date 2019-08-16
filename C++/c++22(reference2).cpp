@@ -13,6 +13,13 @@ int main( void ){
 	cout << food << "\n";
 	cout << meal << "\n"; //Both will output Pizza
 	
+	meal = "jojo";
+	
+	cout << food << endl;
+	
+	cout << meal;
+	
+	
 	//You can address the memory position of a variable
 	
 	cout << &food << "\n"; //returns 0x22fe20 (dont know if it will change after another compilation)
