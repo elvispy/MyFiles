@@ -50,7 +50,7 @@ tic();
 disp("Running time  of  finding of IMFs")
 disp(toc());
 tic();
-[HMS] = hilbertVMD(u, inter, prec);
+[HMS, HMSEE] = hilbertVMD(u, inter, prec);
 
 disp("Running time of HMS calculations")
 disp(toc());
@@ -75,6 +75,10 @@ disp("----")
 
 
 
+
+
+
+/*
 //saving the data 
 
 b = pwd();
@@ -91,5 +95,5 @@ csvWrite(u, filename);
 
 //filename = fullfile(b, "IMF_hat.csv");
 //csvWrite(u_hat, filename);
-
+*/
 

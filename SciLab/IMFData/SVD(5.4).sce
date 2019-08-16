@@ -42,4 +42,5 @@ function [SVD] = localSVD()
     end
     
     chdir(curr);
+    
 endfunction
