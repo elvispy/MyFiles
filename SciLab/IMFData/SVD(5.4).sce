@@ -7,7 +7,7 @@ function [SVD] = localSVD()
 //    
 //    Outputs:
 //    
-//    SVD --- A vector of local Singular Value decompositions
+//    SVD --- A vector of local Singular Value decomposition
 
 
     //stores the current working directory

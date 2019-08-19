@@ -2,7 +2,7 @@
 #include <iomanip>
 #include <array>
 #include <string>
-#include <algorithm>
+#include <algorithm> //contains sort and binary search
 
 
 using namespace std;

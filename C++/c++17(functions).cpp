@@ -32,7 +32,7 @@ double plusFunc(double x, double y) {
 
 
 
-int main(void){
+int main(void ){
 	int  vari = lol();
 	return 0;
 }
