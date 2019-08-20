@@ -52,6 +52,7 @@
 \end{sol}
 
 \begin{sol}
+<<<<<<< HEAD
 	Solucion en proceso
 \end{sol}
 
@@ -60,7 +61,18 @@
 \end{sol}
 
 \begin{sol}
-	Solucion en proceso
+	Probaremos que siempre existe un $k$ para el cual $a_{k}$ no es coprimo con $p$, sea cual sea $p$ primo. Para eso, veamos que $2|a_{1}, 3|a_{2}$, por lo que podemos asumir que $(p, 6) = 1$. Por lo que 
+	\begin{align}
+	a_{p-2} &\equiv 2^{p-2} + 3^{p-2} + 6^{p-2} -1 \equiv 0 \iff \\
+	\frac{1}{2}+\frac{1}{3}+\frac{1}{6}-1 &\equiv 0 \iff \\
+	6 \cdot ( \frac{1}{2}+\frac{1}{3}+\frac{1}{6}-1) &\equiv 6 \cdot 0 \iff \\
+	3 + 2 + 1 - 6 &\equiv 0
+	\end{align}
+	Lo cual es verdad. En la segunda l\'inea se us\'o el pequeño teorema de Fermat: $a^{\varphi(p)-1} \equiv \frac{1}{a} \mod p$.
+\end{sol}
+
+\begin{sol}
+	Procederemos por inducci\'on. Suponga que hemos escogido los primeros $n$ elementos ($e_{i} = 2 ^{v_{i}} - 3$) de la lista, y sea $M_{n} = mcm(e_{1}, e_{2} \cdots e_{n})$. Entonces, utilizando el criterio de euler, vemos que $(2_{v_{i}}-3, 2^{k}-3) = (2^{v_{i}}-3, 2^{v_{i}}(2^{k-v_{i}}-1)) = (2^{v_{i}}-3, 2^{k-v_{i}}-1)$. Observe el siguiente sistema
 \end{sol}
 
 
