@@ -39,12 +39,12 @@
 \begin{sol}
 	Supongamos lo contrario, es decir existe un primo $q$ tal que $q | 2^{n}+1$ y $q = 8k +7$. Notemos que $\left(\dfrac{2}{q}\right) = 1$ y $\left(\dfrac{-1}{q}\right) =-1$. Pero 
 	\begin{align}
-	a^{2n} \equiv \left(a^{2}\right)^{n} \equiv 2^{n} \equiv -1 \implies \left(\dfrac{-1}{q}\right) = 1
+	\left(a^{n}\right)^{2} \equiv \left(a^{2}\right)^{n} \equiv 2^{n} \equiv -1 \implies \left(\dfrac{-1}{q}\right) = 1
 	\end{align}
 	
 	Lo cual es una contradicci\'on. 
 \end{sol}
 
 \begin{sol}
-	Llame $c_{n} = a_{n}b_{n}$. Supongamos por contradicci\'on que $2003|c_{n_{0}}$ (y que es el menor con esta propiedad). Observemos que $c_{n+1} = a_{n}b_{n} = \left(a_{n}b_{n}\right)^{2001} + a_{n}b_{n} + a_{n}^{2002}+b_{n}^{2002}$, entonces, para $k<n_{0}$ obtenemos que $c_{k+1} \equiv c_{k}^{2001}+c_{k} +2 (\mod 2003)$ ($\varphi(2003) = 2002$). Ponemos $k = n_{0}-1$ en la ecuaci\'on anterior, nos da que $c_{n_{0}-1}^{2001} +c_{n_{0}-1} + 2 \equiv 0 \iff 1+c_{n_{0}-1}^{2} + 2c_{n_{0}-1} \equiv 0 \iff (c_{n_{0}-1}+1)^{2} \equiv 0 \iff c_{n_{0}-1} \equiv -1$. En particular, tenemos que para $n< n_{0}$, $c_{n}c_{n-1} \equiv \left(1+c_{n-1}\right)^{2} \implies \left(\dfrac{c_{n}c_{n-1}}{2003}\right) = 1 \implies \left(\dfrac{c_{n}}{2003}\right) = \left(\dfrac{c_{n-1}}{2003}\right)$. Como $c_{n_{0}-1} = -1 \implies -1 = \left(\dfrac{c_{n_{0}-1}}{2003}\right) = \left(\dfrac{c_{0}}{2003}\right) = \left(\dfrac{4}{2003}\right) = 1$. Lo cual es una contradicci\'on.
+	Llame $c_{n} = a_{n}b_{n}$. Supongamos por contradicci\'on que $2003|c_{n_{0}}$ (y que es el menor con esta propiedad). Observemos que $c_{n+1} = a_{n}b_{n} = \left(a_{n}b_{n}\right)^{2001} + a_{n}b_{n} + a_{n}^{2002}+b_{n}^{2002}$, entonces, para $k<n_{0}$ obtenemos que $c_{k+1} \equiv c_{k}^{2001}+c_{k} +2 \mod 2003$, ($\varphi(2003) = 2002$). Ponemos $k = n_{0}-1$ en la ecuaci\'on anterior, nos da que $c_{n_{0}-1}^{2001} +c_{n_{0}-1} + 2 \equiv 0 \iff 1+c_{n_{0}-1}^{2} + 2c_{n_{0}-1} \equiv 0 \iff (c_{n_{0}-1}+1)^{2} \equiv 0 \iff c_{n_{0}-1} \equiv -1$. En particular, tenemos que para $n< n_{0}$, $c_{n}c_{n-1} \equiv \left(1+c_{n-1}\right)^{2} \implies \left(\dfrac{c_{n}c_{n-1}}{2003}\right) = 1 \implies \left(\dfrac{c_{n}}{2003}\right) = \left(\dfrac{c_{n-1}}{2003}\right)$. Como $c_{n_{0}-1} = -1 \implies -1 = \left(\dfrac{c_{n_{0}-1}}{2003}\right) = \left(\dfrac{c_{0}}{2003}\right) = \left(\dfrac{4}{2003}\right) = 1$. Lo cual es una contradicci\'on.
 \end{sol}
