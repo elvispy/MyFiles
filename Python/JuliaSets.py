@@ -18,14 +18,19 @@ if __name__ == "__main__":
 	# setting up the variables according to 
 	# the equation to create the fractal 
 	#cX, cY = -0.7, 0.27015
-	cX, cY = 0, 0
+	zx = 0
+	zy = 0
 	moveX, moveY = 0.0, 0.0
 	maxIter = 255
 
 	for x in range(w): 
 		for y in range(h): 
-			zx = 1.5*(x - w/2)/(0.5*zoom*w) + moveX 
-			zy = 1.0*(y - h/2)/(0.5*zoom*h) + moveY 
+			cX = 1.5*(x - w/2)/(0.5*zoom*w) + moveX 
+			cY = 1.0*(y - h/2)/(0.5*zoom*h) + moveY
+
+			zx = 0
+			zy = 0
+
 			i = maxIter 
 			while zx*zx + zy*zy < 4 and i > 1: 
 				tmp = zx*zx - zy*zy + cX 
