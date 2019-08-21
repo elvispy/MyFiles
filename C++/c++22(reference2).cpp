@@ -17,7 +17,7 @@ int main( void ){
 	
 	cout << food << endl;
 	
-	cout << meal;
+	cout << meal << endl;
 	
 	
 	//You can address the memory position of a variable
