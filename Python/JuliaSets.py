@@ -6,7 +6,7 @@ if __name__ == "__main__":
 	
 	# setting the width, height and zoom 
 	# of the image to be created 
-	w, h, zoom = 1920,1080,1
+	w, h, zoom = 3840,2160,100
 
 	# creating the new image in RGB mode 
 	bitmap = Image.new("RGB", (w, h), "white") 
@@ -20,7 +20,7 @@ if __name__ == "__main__":
 	#cX, cY = -0.7, 0.27015
 	zx = 0
 	zy = 0
-	moveX, moveY = 0.0, 0.0
+	moveX, moveY = -1.75, 0.0
 	maxIter = 255
 
 	for x in range(w): 
