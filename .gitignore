@@ -10,3 +10,5 @@ Latex/**/*.pdf
 *.toc
 *.synctex*
 Latex/**/*.docx
+R/**/.RData
+R/**/.Rhistory
