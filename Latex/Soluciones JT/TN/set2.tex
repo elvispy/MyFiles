@@ -21,7 +21,11 @@
 \end{sol}
 
 \begin{sol}
-	Solucion pendiente
+	Note que $(k, n) = n-k, n)$, debido al algoritmo de Euler. Sea $S_{n}$ la suma que queremos encontrar. Tenemos por lo tanto que 
+	\begin{equation}
+	2S_{n} = 2 \sum\limits_{\substack{(n, k) = 1 \\ 1\leq k \leq n}} k = \sum\limits_{\substack{(n, k) = 1 \\ 1\leq k \leq n}} k + \sum\limits_{\substack{(n, k) = 1 \\ 1\leq k \leq n}} n-k = \sum\limits_{\substack{(n, k) = 1 \\ 1\leq k \leq n}} n = n \cdot \varphi(n)
+	\end{equation}
+	Concluyendo que $S_{n} = \frac{n \cdot \varphi(n)}{2}$
 \end{sol}
 
 
