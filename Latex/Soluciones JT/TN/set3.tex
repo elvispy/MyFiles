@@ -33,7 +33,24 @@
 \end{sol}
 
 \begin{sol}
-	Solucion en proceso.
+	Supongamos que $n$ satisface la propiedad del ejercicio. Entonces el sistema
+	\begin{align}
+	a^{25} \equiv a \mod n
+	\end{align}
+	es equivalente a (ejercicio 4.2).
+	
+	\begin{align}
+	a^{25} &\equiv a \mod p_{1}^{e_{1}} \\
+	a^{25} &\equiv a \mod p_{2}^{e_{2}} \\
+	  &\vdots \\
+	a^{25} &\equiv a \mod p_{r}^{e_{r}} \\
+	\end{align}
+	Donde $n = \prod_{i=1}^{r}p_{i}^{e_{i}}$.
+	
+	Observemos que si $e_{i} \geq 2$ para alg\'un $i$, entonces escogemos $a = p_{i}^{e_{i}-1}$, donde $a^{25} = p_{1}^{25e_{i}-25} \equiv 0 \not\equiv p_{i}^{e_{i}-1}$ mod $p_{i}^{e_{i}}$. Por lo tanto podemos suponer que $e_{i} =1, \forall i$. Es decir, podemos suponer que $n$ es primo. Primero notemos que si $\varphi(n)|24$, entonces el resultado sigue del pequeño teorema de Fermat. Esto es verdad para $p = 2, 3, 5, 7, 13$. En otros casos, veamos que $2^ {24} \equiv 1$ mod $p$ implica que $p | 2^{24}-1$. Pero como $2^{24}-1 = 3^2\cdot 5 \cdot 7 \cdot 13 \cdot 17 \cdot 241$, obtenemos que los \'unicos valores de $p$ posibles ahora son $17$ y $241$. Se puede verificar que $3^{25} \not\equiv 3 $ mod $17$, $241$. Por lo tanto $n$ es de la forma $n = 2^{b_{1}}\cdot3^{b_{2}}\cdot5^{b_{3}}\cdot7^{b_{4}}\cdot13^{b_{5}}\cdot$, donde $b_{i} \in \{0, 1\}$ y $\sum b_{i} \geq 1$ (Hay 31 enteros positivos con esta propiedad).
+
+	
+
 \end{sol}
 
 \begin{sol}
@@ -63,7 +80,7 @@
 \end{sol}
 
 \begin{sol}
-	Procederemos por inducci\'on. Suponga que hemos escogido los primeros $n$ elementos ($e_{i} = 2 ^{v_{i}} - 3$) de la lista, y sea $M_{n} = mcm(e_{1}, e_{2} \cdots e_{n})$. Entonces, utilizando el criterio de euler, vemos que $(2_{v_{i}}-3, 2^{k}-3) = (2^{v_{i}}-3, 2^{v_{i}}(2^{k-v_{i}}-1)) = (2^{v_{i}}-3, 2^{k-v_{i}}-1)$. Observe el siguiente sistema
+	Procederemos por inducci\'on. Suponga que hemos escogido los primeros $n$ elementos ($e_{i} = 2 ^{v_{i}} - 3$) de la lista, y sea $M_{n} = mcm(e_{1}, e_{2} \cdots e_{n})$. Entonces, utilizando el criterio de euler, vemos que $(2_{v_{i}}-3, 2^{k}-3) = (2^{v_{i}}-3, 2^{v_{i}}(2^{k-v_{i}}-1)) = (2^{v_{i}}-3, 2^{k-v_{i}}-1)$. Observe el siguiente sistema $_{\cdots}$
 \end{sol}
 
 \begin{sol}
