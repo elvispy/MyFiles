@@ -1,5 +1,6 @@
 #this is a comment in the gitignore file.
 C++/**/*.exe
+C++/**/*.gch
 Latex/**/*.pdf
 *.aux
 *.log
