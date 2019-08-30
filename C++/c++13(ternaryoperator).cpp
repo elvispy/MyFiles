@@ -3,6 +3,7 @@
 int main(void){
 	int grade;
 	int lol;
+	int lolazo = 3;
 	
 	scanf("%d", &grade);
 	
@@ -11,6 +12,11 @@ int main(void){
 	float average = ( float ) grade / 17; //will convert to float, since integer  division returns an integer
 	
 	printf("Deixa eu ver %.2f\n", average); //.2f means two digits of precision default precision is six if no number is specified
+	
+	lolazo = lolazo + (lol == 42 ? lol : lolazo);
+	
+	printf("%i", lolazo);
+	
 	
 	return 0;
 }

@@ -36,7 +36,7 @@ int main (void )
 	cout << "Pass by value returned: " << f2(c[1]) << endl;
 	cout << "Value after pass-by-value function: " << c[1] << endl;
 	cout << "Pass by reference function returned: " << f2(&c[1]) << endl; //we give the address
-	cout << "Value after pass-by-reference: "c[1] << endl;
+	cout << "Value after pass-by-reference: " << c[1] << endl;
 	
 	return 0;
 }
