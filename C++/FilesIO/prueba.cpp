@@ -1,27 +1,33 @@
 #include <iostream>
 #include <string>
-
 using namespace std;
 
-void printt (void );
-string lol;
 
-int main ( void )
+
+int main ( void ) 
 {
-	lol = "asdlkfj";
-	int c[10] = {};
-	cout << c[6];
-	
-	lol =  lol + "j";
-	cout << lol.size();
-	
+   int size;
+   int q;
+   string abc = "abcdefghijklmnopqrstuvwxyz";
+   cin >> q;
+   size = 2 * q-1;
+   int x, y;
+   for(int i = 0; i< size; i++)
+   {
+   
+   for ( int j = 0; j < size; j++)
+   {
+      x = i;
+      y = j;
+	  x = ( x >= q ? size-1-x : x);
+      y = ( y >= q ? size-1-y : y);
+      
+      cout << abc[min(x, y)];
+   
+   }//end inner for
+   
+   cout << endl;
+   } //end outer for
 
-	
-	
-	
-}//end main
+} //end main
 
-void printt (void )
-{
-	cout << lol;
-}
