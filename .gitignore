@@ -14,3 +14,4 @@ Latex/**/*.docx
 R/**/.RData
 R/**/.Rhistory
 Python/MathuraCorreo/key.bin
+Python/**/mycreds.txt
