@@ -14,11 +14,14 @@ def main():
 
     folders = drive.ListFile({'q':"sharedWithMe"}).GetList()
     mefin = [a for a in folders if a['title'] == 'MEFIN'][0] #MEFIN folder
+    print(mefin['id'])
+    
 
     folders = drive.ListFile({'q':"'%s' in parents and trashed=false"%
                               mefin['id']}).GetList() #folders inside MEFIN
 
     hern = [a for a in folders if a['title'] == 'Hernandarias'][0]
+    print(hern['id'])
 
     folders = drive.ListFile({'q':"'%s' in parents and trashed=false"%
                               hern['id']}).GetList() #folders inside hernandarias
@@ -34,6 +37,6 @@ def main():
 
 if __name__ == '__main__':
     
-    main()
+    ids = main()
     
     

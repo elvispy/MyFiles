@@ -5,7 +5,7 @@ import os
 #Steps to do the login, and authentification.
 
 g_login = GoogleAuth()
-g_login('mycreds.txt')
+g_login.LoadCredentialsFile('mycreds.txt')
 g_login.Authorize()
 drive = GoogleDrive(g_login)
 #See https://medium.com/@annissouames99/how-to-upload-files-automatically-to-drive-with-python-ee19bb13dda

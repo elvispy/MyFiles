@@ -8,7 +8,7 @@ from selenium.webdriver.common.keys import Keys
 from time import sleep
 
 
-def buscar_licitacion(convocante, year, driver):
+def buscar_contrato(convocante, year, driver):
     xp_lista_convocantes = '//*[@id="convocantes"]'
     xp_criterios_avanzados = '//*[@id="headingOne"]/h4/a' 
     xp_caract_esp = '//*[@id="collapseOne"]/div/div[1]/div/span[1]/span[1]/span/ul/li/input'
@@ -42,8 +42,10 @@ def buscar_licitacion(convocante, year, driver):
     #restricting to fonacide
     driver.find_element_by_xpath(xp_criterios_avanzados).click()
     sleep(0.5)
+    #DONT MOVE THE SCREEN
     driver.find_element_by_xpath(xp_caract_esp).send_keys("Fonacide", Keys.RETURN)
-    sleep(5)
+    sleep(2)
     driver.find_element_by_xpath(xp_buscar).click()
+    sleep(5)
 
-    sleep(30)
+    
