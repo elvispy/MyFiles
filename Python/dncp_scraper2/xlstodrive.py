@@ -129,7 +129,7 @@ def main(contratos = []):
     writehere(w_sheet, remaining_contratos, n)
 
     #Update the file
-    wb.save(xlsxData['title'])
+    wb.save(xlsxData['title'][-1])
 
 
     #file.SetContentFile(xlsxData['title'] + ".xlsx")
