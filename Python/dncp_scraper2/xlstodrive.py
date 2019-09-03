@@ -22,20 +22,38 @@ encabezado = {
     10:'categoria'
     }
 
-def write(w_sheet, r_sheet, contrato, row):
-    '''This function will write into the excel file, for every contract and in column col'''
-    for i in list(encabezado.keys()):
-        for rows in range(100):
-            try:
-                if r_sheet.cell(rows, 0).value == contrato['id_licitacion']:
-                    row = rows
-        w_sheet.write(, , contrato[encabezado[i]])
-        
+def overwrite(w_sheet, r_sheet, contratos):
+    '''This function will overwrite the columns that are already in the excel file'''
+
+    copy_contratos = contratos
+
+    for contrato in copy_contratos:
+        if contrato['nro_contrato'] in [cell.value for cell in r_sheet.row(0)]:
+            row = [cell.value for cell in r_sheet.row(0)].index(contrato['nro_contrato'])
+
+            for i in list(encabezado.keys()):
+                w_sheet.write(row, i, contrato[encabezado[i]])
+
+            copy_contratos.remove(contrato)
+
+    return copy_contratos
+
+def writehere(w_sheet, contratos, n):
+    if len(contratos) == 0:
+        return None
+    for contrato in contratos:
+        for i in list(encabezado.keys()):
+            w_sheet.write(n, i, contrato[encabezado[i]])
+
+        n+=1
     
+    
+        
 def find_min(sheet, m):
     '''This function will try to find the earliest place in the sheet to write the data'''
     if m == 0:
-        m = 1
+        #if nothing to add
+        return None
     n = -1
     condition = False
     list2 = [0]
@@ -52,7 +70,7 @@ def find_min(sheet, m):
                 n = n+1
         else:
             n += 1
-        print(n)
+
     return n
 
 
@@ -61,7 +79,7 @@ def find_min(sheet, m):
     
 
 
-def main(datos = []):
+def main(contratos = []):
 
     print(os.getcwd())
     #Check credentials. If an error is raised, run gencredentials
@@ -87,25 +105,31 @@ def main(datos = []):
 
     os.chdir(os.getcwd() + "\\Temps")
 
-    file.GetContentFile(xlsxData['title'] + ".xlsx")
+    file.GetContentFile(xlsxData['title'])
+    print(xlsxData['title'])
 
     #Open the file on both reading and writing mode
-    book = xlrd.open_workbook(xlsxData['title'] + ".xlsx")
+    book = xlrd.open_workbook(xlsxData['title'])
     r_sheet = book.sheet_by_index(0)
 
-    #Find a place to write data without overwriting
-    n = find_min(r_sheet, len(datos))
+    
     
     #Copy the book in writing mode
     wb = copy(book)
     w_sheet = wb.get_sheet(0)
     
-    #Save the file
-    for row, contrato in enumerate(datos, start = n):
-        write(w_sheet, r_sheet, contrato, row)
+  
+    #Update the data
+    remaining_contratos = overwrite(w_sheet, r_sheet, contratos)
+
+    #See how much space do we need to store the data:
+    n = find_min(r_sheet, len(remaining_contratos))
+
+    #Write the remaining contratos
+    writehere(w_sheet, remaining_contratos, n)
 
     #Update the file
-    wb.save(xlsxData['title'] + ".xlsx")
+    wb.save(xlsxData['title'])
 
 
     #file.SetContentFile(xlsxData['title'] + ".xlsx")
@@ -115,4 +139,4 @@ def main(datos = []):
     
 if __name__ == '__main__':
 
-    sheet = main()
+    pass

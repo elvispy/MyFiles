@@ -121,7 +121,7 @@ def main(driver, year, path, datos):
 
 
 
-    sleep(0.05)
+    sleep(0.1)
     #Download Codigo de Contratacion
     down_button = row_proveedor.find_elements_by_tag_name("td")[-1]
     
