@@ -279,6 +279,11 @@ def main(contratos = [], year = datetime.datetime.now().year):
             file.SetContentFile(contract)
             file.Upload()
 
+    #Now let's send the file to the cloud
+    excel_fold_id = '0B2nk5yneb6l3X2R6TGU1cHBzOUk' #To the moon folder for now
+
+    
+
 
     
 if __name__ == '__main__':
