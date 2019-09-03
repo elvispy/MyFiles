@@ -27,6 +27,7 @@ def main():
                               hern['id']}).GetList() #folders inside hernandarias
 
     cont = [a for a in folders if a['title'] == 'Contratos'][0]
+    print(cont['id'])
 
     folders = drive.ListFile({'q':"'%s' in parents and trashed=false"%
                               cont['id']}).GetList() #folders inside contratos

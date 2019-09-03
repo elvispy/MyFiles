@@ -15,14 +15,16 @@ import os
 import selenium.webdriver.support.ui as UI
 from random import randint
 from time import sleep
+import datetime
 
 import buscar_contrato
 import datos_contrato
 import descargar_docs
+import formatt
 
 
 
-def main(municipio = "Hernandarias", year = 2018):
+def main(municipio = "Hernandarias", year = datetime.datetime.now().year):
     #Convocante de las licitaciones
     year = str(year)
     convocante = 'Municipalidad de '+ municipio
@@ -74,10 +76,13 @@ def main(municipio = "Hernandarias", year = 2018):
 
             contrato_out = datos_contrato.obtener_datos(driver)
             
-
+            contrato_out.update({'periodo':int(year)})
+            
+            contrato_out = formatt.main(contrato_out)
+            
             #Download files and get total amount.
             contrato_out = descargar_docs.main(driver, year, path,  contrato_out)
-            contrato_out.update({'periodo':year})
+            
             solo_contratos.append(contrato_out)
 
             driver.close()

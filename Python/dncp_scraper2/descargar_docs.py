@@ -14,7 +14,7 @@ def find_proveedor(rows, datos):
     for element in rows:
         prov_name = element.find_element_by_tag_name("td").text.lower()
         
-        if name[0] in prov_name and name[-1] in prov_name:
+        if name[0] in prov_name:
             return element
         
     return None
@@ -79,21 +79,21 @@ def main(driver, year, path, datos):
     nomenclatura = "{nro} {id_c} {name}".format(
         nro = datos['nro_contrato'].replace("/", "-"),
         id_c = datos['id_licitacion'],
-        name = datos['proveedor']
+        name = datos['nombre_empresa']
         )
     if  not os.path.exists(path + "\\" + nomenclatura):
         os.makedirs(path + "\\" + nomenclatura)
 
     
     #Download contract
-    if os.path.isfile(path + "\\" + nomenclatura + "\\Contrato " + datos['proveedor'] + ".pdf"):
+    if os.path.isfile(path + "\\" + nomenclatura + "\\Contrato " + datos['nombre_empresa'] + ".pdf"):
         pass
     else:
         row.find_elements_by_tag_name("td")[-1].find_element_by_tag_name("a").click()
     
         #Move contract to correct folder
         move_to_download_folder(path, path + "\\" + nomenclatura + "\\",
-                            "Contrato " + datos['proveedor'],
+                            "Contrato " + datos['nombre_empresa'],
                             ".pdf")
 
     #Buscando el codigo de contratacion
@@ -103,7 +103,10 @@ def main(driver, year, path, datos):
 
     xp_monto_total = '//*[@id="datos_adjudicacion"]/section/div/div/div[9]/div[2]'
     monto_total = driver.find_element_by_xpath(xp_monto_total).text
+    
     datos.update({'monto_total':monto_total})
+    
+    datos['monto_total'] = int(datos['monto_total'][2:].replace(".", ""))
     
     #Click to Proveedores adjudicados
     ul_tabs = driver.find_element_by_xpath(xp_ul_tabs)
@@ -139,7 +142,7 @@ def main(driver, year, path, datos):
 
     
         move_to_download_folder(path, path + "\\" + nomenclatura + "\\",
-                            "Codigo Contratacion",
+                            "Codigo de Contratacion",
                             ".pdf")
     
         driver.close()
