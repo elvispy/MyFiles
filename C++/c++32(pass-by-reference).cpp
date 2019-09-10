@@ -7,7 +7,7 @@ int main()
 {
 	int number = 12;
 	
-	cout << "The originla value of number is " << number;
+	cout << "The original value of number is " << number;
 	
 	cubeByReference ( &number ); //pass number address to cubeByReference
 	

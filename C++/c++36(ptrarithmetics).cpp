@@ -20,7 +20,7 @@ int main( void )
 	int * Ptr2 =&c[1];
 	int * Ptr3 = &c[4];
 	int  v = Ptr3 - Ptr2;
-	
+	cout << *Ptr3 << endl;
 	cout << v << endl;
 	
 	return 0;

@@ -3,6 +3,12 @@
 
 #include <string>
 
+
+//There are some ways of passing an array as an input
+void procedure( int arr[10]);
+
+void procedure2 (int * ptr);
+
 using namespace std;
 int main (void ){
 	
@@ -25,9 +31,21 @@ int main (void ){
     cout << arra[9] << "\n";
     
     
+    int *Myptr = &numb[0];
+    procedure2(Myptr);
+    procedure(numb);
     
     
     return 0;
     
 }
 
+void procedure(int arr[10])
+{
+	cout << arr[1] << "\n";
+}
+
+void procedure2 ( int * ptr)
+{
+	cout << *(ptr + 1) << "\n";
+}
