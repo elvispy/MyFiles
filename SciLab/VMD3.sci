@@ -5,7 +5,7 @@ function [u, u_hat, omega] = VMD3(signal, alpha, tau, K, DC , init, tol, N, inte
     Input and Parameters:
     ---------------------
     signal  - the time domain signal (1D) to be decomposed
-    alpha   - th ebalancing parameter of the data-fidelity constraint
+    alpha   - the balancing parameter of the data-fidelity constraint
     tau     - time-step of the dual ascent (pick 0 for noise-slack)
     K       - The numbers of modes to be recovered
     DC      - true if the first mode is put and kept at DC (0-freq)
