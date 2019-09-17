@@ -15,8 +15,8 @@ int main() {
   Rectangle * foo, * bar, * baz;
   foo = &obj;
   bar = new Rectangle (5, 6);
-  baz = new Rectangle[2] { {2,5}, {3,6} };
-  cout << "obj's area: " << obj.area() << '\n';
+  baz = new Rectangle[2] { {2,5}, {3,6} }; //initializes two class intances with the lists given
+  cout << "obj's area: " << obj.area() << '\n'; //equivalent to obj.area()
   cout << "*foo's area: " << foo->area() << '\n';
   cout << "*bar's area: " << bar->area() << '\n';
   cout << "baz[0]'s area:" << baz[0].area() << '\n';
