@@ -34,10 +34,10 @@ K = 3;              // 3 modes
 DC = 0;             // no DC part imposed 
 init = 1;           // initialize omegas uniformly
 tol = 1e-10;        //Tolerance of the method in VMD
-N = 400;            //Number of iterations before getting out
+N = 1200;            //Number of iterations before getting out
 //inter = 1.D-3;
 inter = 4 * %pi;    //Interval of definition of the data
-prec = 1e-3;        //precision in the Hilbert Marginal Spectrum decomposition
+prec = 1e-5;        //precision in the Hilbert Marginal Spectrum decomposition
 
 
 
@@ -47,15 +47,20 @@ disp("Summary")
 disp("-------------")
 tic();
 [u, u_hat, omega] = VMD3(f, alpha, tau, K, DC, init, tol, N, inter);
+
 disp("Running time  of  finding of IMFs")
 disp(toc());
+disp("-------------")
 tic();
+[u2, u_hat2, omega2] = VMD2(f, alpha, tau, K, DC, init, tol, N, inter);
+disp(toc())
+/*
 [HMS, HMSEE] = hilbertVMD(u, inter, prec);
 
 disp("Running time of HMS calculations")
 disp(toc());
 disp("-----1-----")
-//[u2, u_hat2, omega2] = VMD3(f, alpha, tau, K, DC, init, tol, N);
+
 
 
 
@@ -74,7 +79,7 @@ disp("----")
 //Testing different tolerance and N levels
 
 
-
+*/
 
 
 
