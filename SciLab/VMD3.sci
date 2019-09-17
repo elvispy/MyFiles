@@ -39,7 +39,7 @@ function [u, u_hat, omega] = VMD3(signal, alpha, tau, K, DC , init, tol, N, inte
     f_mirror(1:T/2) = signal(T/2:-1:1);
     f_mirror(T/2+1:3*T/2) = signal;
     f_mirror(3*T/2+1:2*T) = signal(T:-1:T/2+1);
-    f = f_mirror
+    f = f_mirror;
     
     // Time Domain 0 to T (of mirrores signal)
     T = length(f);

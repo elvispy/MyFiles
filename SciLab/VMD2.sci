@@ -1,4 +1,4 @@
-function [u, u_hat, omega, control1] = VMD2(signal, alpha, tau, K, DC , init, tol, N)
+function [u, u_hat, omega] = VMD2(signal, alpha, tau, K, DC , init, tol, N, inter)
     /*
     Variational Mode Decomposition
     
@@ -46,7 +46,7 @@ function [u, u_hat, omega, control1] = VMD2(signal, alpha, tau, K, DC , init, to
     
     //Spectral Domain Discretization
     freqs = t-.5-1/T; //(what's this?)}
-
+    disp(size(freqs))
 
     
     //Maximum number of iterations allowed
@@ -65,25 +65,16 @@ function [u, u_hat, omega, control1] = VMD2(signal, alpha, tau, K, DC , init, to
     f_hat_plus(1:T/2) = 0;
     
     
-    //my plotting to keep track of everything
-    /*
-    
-    plot(f, 'g')
-    plot(f_hat, 'b')
-    plot(f_hat_plus, 'r')
-    h1 = legend(['f', 'f_hat', 'f_hat_plus'])
-    
-    */
-    //end of the plot
+   
     
     
     
     //Matrix keeping track of every iterant (could be discarded)
-    u_hat_plus = zeros(N, T, K);
+
     u_hat_plus = zeros(2, T, K);
     
     //Initialization of omega_k
-    omega_plus = zeros(N, K);
+
     omega_plus = zeros(2, K);
     
     switch init
@@ -114,40 +105,41 @@ function [u, u_hat, omega, control1] = VMD2(signal, alpha, tau, K, DC , init, to
     
 
     // ----------  main loop for iterative updates
-    C=1;
+  
     while (uDiff > tol & n< N) //not converged and below iteration limit
-        u_hat_plus(1, :, :) = u_hat_plus(2, :, :);
-        omega_plus(1, :) = omega_plus(2, :);
-        lambda_hat(1,:) = lambda_hat(2, :);
+
+        u_hat_plus(2, :, :) = u_hat_plus(1, :, :);
+        omega_plus(2, :) = omega_plus(1, :);
+        lambda_hat(2,:) = lambda_hat(1, :);
 
         
         //update first mode acumulator
         k = 1;
-        sum_uk = u_hat_plus(1, :, K) + sum_uk - u_hat_plus(1, :, 1);
+        sum_uk = u_hat_plus(2, :, K) + sum_uk - u_hat_plus(2, :, 1);
         
         //update spectrum of first mode trhough wiener filter of residuals
-        u_hat_plus(2, :, k) =(f_hat_plus - sum_uk - lambda_hat(1,:)/2)./(1+Alpha(1,k)*(freqs - omega_plus(1,k)).^2);
+        u_hat_plus(1, :, k) =(f_hat_plus - sum_uk - lambda_hat(2,:)/2)./(1+Alpha(1,k)*(freqs - omega_plus(2,k)).^2);
         
         //update first omega if not held at 0
         if ~DC then
-            omega_plus(2,k) = (freqs(T/2+1:T)*(abs(u_hat_plus(2, T/2+1:T, k)).^2)')/sum(abs(u_hat_plus(2,T/2+1:T,k)).^2);
+            omega_plus(1,k) = (freqs(T/2+1:T)*(abs(u_hat_plus(1, T/2+1:T, k)).^2)')/sum(abs(u_hat_plus(1,T/2+1:T,k)).^2);
         end
         
         //update of any other mode
         for k = 2:K
            
            //accumulator
-           sum_uk = u_hat_plus(2,:,k-1) + sum_uk - u_hat_plus(1,:,k);
+           sum_uk = u_hat_plus(1,:,k-1) + sum_uk - u_hat_plus(2,:,k);
            
            //mode spectrum
-           u_hat_plus(2,:,k) = (f_hat_plus - sum_uk - lambda_hat(1,:)/2)./(1+Alpha(1,k)*(freqs - omega_plus(1,k)).^2); //this is strange. there is a minus there.
+           u_hat_plus(1,:,k) = (f_hat_plus - sum_uk - lambda_hat(2,:)/2)./(1+Alpha(1,k)*(freqs - omega_plus(2,k)).^2); //this is strange. there is a minus there.
            
            //center frequencies
-           omega_plus(2,k) = (freqs(T/2+1:T)*(abs(u_hat_plus(2, T/2+1:T, k)).^2)')/sum(abs(u_hat_plus(2,T/2+1:T,k)).^2); //it seems ok, but we need to check.
+           omega_plus(1,k) = (freqs(T/2+1:T)*(abs(u_hat_plus(1, T/2+1:T, k)).^2)')/sum(abs(u_hat_plus(1,T/2+1:T,k)).^2); //it seems ok, but we need to check.
            
         end
         //dual ascent
-        lambda_hat(2, :) = lambda_hat(1, :) + tau*(sum(u_hat_plus(2, :, :), 3) - f_hat_plus); //there is a missing minus sign here.
+        lambda_hat(1, :) = lambda_hat(2, :) + tau*(sum(u_hat_plus(1, :, :), 3) - f_hat_plus); //there is a missing minus sign here.
         
         n = n + 1; //loop counter
         
@@ -155,7 +147,7 @@ function [u, u_hat, omega, control1] = VMD2(signal, alpha, tau, K, DC , init, to
         uDiff = %eps;
         
         for i = 1:K
-            uDiff = uDiff + 1/T * (u_hat_plus(2, :, i) - u_hat_plus(1, :, i)) * conj((u_hat_plus(2, :, i)-u_hat_plus(1, :, i)))';
+            uDiff = uDiff + 1/T * (u_hat_plus(1, :, i) - u_hat_plus(2, :, i)) * conj((u_hat_plus(1, :, i)-u_hat_plus(2, :, i)))';
             
             //last line does not agree with the papers. See Zosso2014 page 536 for example.
             // This next line is an attempt to fix the tolerance criteria. Observe that it is computationally incredibly more expensive.
@@ -169,15 +161,13 @@ function [u, u_hat, omega, control1] = VMD2(signal, alpha, tau, K, DC , init, to
  
     //Postprocessing and cleanup
     
-    // discard empty space if converged early
-    N = min(N, n);
     
-    omega = omega_plus(2, :);
+    omega = omega_plus(1, :);
     
     //signal reconstruction
     u_hat = zeros(T, K);
-    u_hat((T/2+1):T, :) = squeeze(u_hat_plus(2, (T/2+1):T, :));
-    u_hat((T/2+1):-1:2, :) = squeeze(conj(u_hat_plus(2, (T/2+1):T, :)));
+    u_hat((T/2+1):T, :) = squeeze(u_hat_plus(1, (T/2+1):T, :));
+    u_hat((T/2+1):-1:2, :) = squeeze(conj(u_hat_plus(1, (T/2+1):T, :)));
     u_hat(1, :) = conj(u_hat($, :));
     
     u = zeros(K, T);
@@ -195,4 +185,5 @@ function [u, u_hat, omega, control1] = VMD2(signal, alpha, tau, K, DC , init, to
     for k = 1:K
         u_hat(:, k) = fftshift(fft(u(k, :)))';
     end
+    
 endfunction
