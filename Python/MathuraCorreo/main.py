@@ -18,8 +18,6 @@ try:
         #print(correo, passs)
         del passs, correo
 
-    correo = "elvisavfc65@gmail.com"
-    passs = r"6uVfVlpSV5_avfcE"
 
     with open("msgs.txt", "r") as f:
         msg = f.read()
