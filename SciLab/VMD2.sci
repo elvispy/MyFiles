@@ -47,33 +47,22 @@ function [u, u_hat, omega] = VMD2(signal, alpha, tau, K, DC , init, tol, N, inte
     //Spectral Domain Discretization
     freqs = t-.5-1/T; //(what's this?)}
 
-    
     //Maximum number of iterations allowed
-
     //N = 1500;
-
-
     
     //For future generalizations: individual alpha for each mode
     Alpha = alpha* ones(1, K);
-    //Alpha = alpha;
-    
+       
     //Construct and center f_hat (I NEED TO CHECK THIS PART IN THE DOCS) (It's Ok)
     f_hat = fftshift(fft(f));
     f_hat_plus = f_hat;
     f_hat_plus(1:T/2) = 0;
     
     
-   
-    
-    
-    
     //Matrix keeping track of every iterant (could be discarded)
-
     u_hat_plus = zeros(2, T, K);
     
     //Initialization of omega_k
-
     omega_plus = zeros(2, K);
     
     switch init
