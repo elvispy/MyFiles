@@ -46,7 +46,6 @@ function [u, u_hat, omega] = VMD2(signal, alpha, tau, K, DC , init, tol, N, inte
     
     //Spectral Domain Discretization
     freqs = t-.5-1/T; //(what's this?)}
-    disp(size(freqs))
 
     
     //Maximum number of iterations allowed
@@ -147,6 +146,7 @@ function [u, u_hat, omega] = VMD2(signal, alpha, tau, K, DC , init, tol, N, inte
         uDiff = %eps;
         
         for i = 1:K
+
             uDiff = uDiff + 1/T * (u_hat_plus(1, :, i) - u_hat_plus(2, :, i)) * conj((u_hat_plus(1, :, i)-u_hat_plus(2, :, i)))';
             
             //last line does not agree with the papers. See Zosso2014 page 536 for example.

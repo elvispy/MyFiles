@@ -24,7 +24,7 @@ v_3 = 1/16*(cos(2*%pi*f_3*t));
 
 
 // composite signal, including noise
-f = v_1 + v_2 + v_3 + 0.1*rand(1, 'normal');
+f = v_1 + v_2 + v_3// + 0.1*rand(1, 'normal');
 f_hat = fftshift((fft(f)));
 
 // some sample parameters for VMD
