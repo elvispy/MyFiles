@@ -1,4 +1,4 @@
-function [u, u_hat, omega] = VMD2(signal, alpha, tau, K, DC , init, tol, N, inter)
+function [u, u_hat, omega, test] = VMD2(signal, alpha, tau, K, DC , init, tol, N, inter)
     /*
     Variational Mode Decomposition
     
@@ -14,6 +14,7 @@ function [u, u_hat, omega] = VMD2(signal, alpha, tau, K, DC , init, tol, N, inte
               2 = all omegas initialized randomly
     tol     - tolerance of convergence criterion; tipically around 1e-6
     N       - Maximum nmber of iterations allowed.
+    inter   - Is the physical interval of time in which we are working
     
     Outputs:
     --------
@@ -28,7 +29,8 @@ function [u, u_hat, omega] = VMD2(signal, alpha, tau, K, DC , init, tol, N, inte
     //-------------------Preparations
     
     // Period and sampling frequency of input signal
-
+    test = 0;
+    
     save_T = length(signal);
     fs = 1/save_T;
     
@@ -39,7 +41,7 @@ function [u, u_hat, omega] = VMD2(signal, alpha, tau, K, DC , init, tol, N, inte
     f_mirror(T/2+1:3*T/2) = signal;
     f_mirror(3*T/2+1:2*T) = signal(T:-1:T/2+1);
     f = f_mirror;
-    
+
     // Time Domain 0 to T (of mirrores signal)
     T = length(f);
     t = (1:T)/T;
@@ -57,8 +59,8 @@ function [u, u_hat, omega] = VMD2(signal, alpha, tau, K, DC , init, tol, N, inte
     f_hat = fftshift(fft(f));
     f_hat_plus = f_hat;
     f_hat_plus(1:T/2) = 0;
-    
-    
+
+   
     //Matrix keeping track of every iterant (could be discarded)
     u_hat_plus = zeros(2, T, K);
     
@@ -90,7 +92,7 @@ function [u, u_hat, omega] = VMD2(signal, alpha, tau, K, DC , init, tol, N, inte
     n = 1; //loop counter
     sum_uk = 0; // accumulator
     
-    
+    //test = f_hat_plus;
 
     // ----------  main loop for iterative updates
   
@@ -104,6 +106,7 @@ function [u, u_hat, omega] = VMD2(signal, alpha, tau, K, DC , init, tol, N, inte
         //update first mode acumulator
         k = 1;
         sum_uk = u_hat_plus(2, :, K) + sum_uk - u_hat_plus(2, :, 1);
+   
         
         //update spectrum of first mode trhough wiener filter of residuals
         u_hat_plus(1, :, k) =(f_hat_plus - sum_uk - lambda_hat(2,:)/2)./(1+Alpha(1,k)*(freqs - omega_plus(2,k)).^2);
@@ -113,6 +116,7 @@ function [u, u_hat, omega] = VMD2(signal, alpha, tau, K, DC , init, tol, N, inte
             omega_plus(1,k) = (freqs(T/2+1:T)*(abs(u_hat_plus(1, T/2+1:T, k)).^2)')/sum(abs(u_hat_plus(1,T/2+1:T,k)).^2);
         end
         
+  
         //update of any other mode
         for k = 2:K
            
@@ -126,6 +130,12 @@ function [u, u_hat, omega] = VMD2(signal, alpha, tau, K, DC , init, tol, N, inte
            omega_plus(1,k) = (freqs(T/2+1:T)*(abs(u_hat_plus(1, T/2+1:T, k)).^2)')/sum(abs(u_hat_plus(1,T/2+1:T,k)).^2); //it seems ok, but we need to check.
            
         end
+        /*
+        if n == 1 then
+            test = omega_plus;
+            break;
+        end
+        */
         //dual ascent
         lambda_hat(1, :) = lambda_hat(2, :) + tau*(sum(u_hat_plus(1, :, :), 3) - f_hat_plus); //there is a missing minus sign here.
         
@@ -146,7 +156,7 @@ function [u, u_hat, omega] = VMD2(signal, alpha, tau, K, DC , init, tol, N, inte
         uDiff = abs(uDiff);
         
     end
-    
+
  
     //Postprocessing and cleanup
     

@@ -46,13 +46,13 @@ prec = 1e-5;        //precision in the Hilbert Marginal Spectrum decomposition
 disp("Summary")
 disp("-------------")
 tic();
-[u, u_hat, omega] = VMD3(f, alpha, tau, K, DC, init, tol, N, inter);
+//[u, u_hat, omega] = VMD3(f, alpha, tau, K, DC, init, tol, N, inter);
 
 disp("Running time  of  finding of IMFs")
 disp(toc());
 disp("-------------")
 tic();
-[u2, u_hat2, omega2] = VMD2(f, alpha, tau, K, DC, init, tol, N, inter);
+[u2, u_hat2, omega2, test] = VMD2(f, alpha, tau, K, DC, init, tol, N, inter);
 disp(toc())
 /*
 [HMS, HMSEE] = hilbertVMD(u, inter, prec);
