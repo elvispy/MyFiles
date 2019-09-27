@@ -156,9 +156,7 @@ function [u, u_hat, omega, test] = VMD2(signal, alpha, tau, K, DC , init, tol, N
         uDiff = abs(uDiff);
  
     end
-    
-    
- 
+
     //Postprocessing and cleanup
     
 
@@ -170,13 +168,13 @@ function [u, u_hat, omega, test] = VMD2(signal, alpha, tau, K, DC , init, tol, N
     u_hat((T/2+1):T, :) = squeeze(u_hat_plus(1, (T/2+1):T, :));
     u_hat((T/2+1):-1:2, :) = squeeze(conj(u_hat_plus(1, (T/2+1):T, :)));
     u_hat(1, :) = conj(u_hat($, :));
-    test = u_hat;
+ 
     u = zeros(K, T);
     
     for k = 1:K
         u(k, :) = real(ifft(ifftshift(u_hat(:, k))));
     end
-    
+
     //removemirror part
     
     u = u(:, T/4+1:3*T/4);
