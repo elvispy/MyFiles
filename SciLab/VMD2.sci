@@ -98,6 +98,8 @@ function [u, u_hat, omega, test] = VMD2(signal, alpha, tau, K, DC , init, tol, N
   
     while (uDiff > tol & n< N) //not converged and below iteration limit
 
+      
+        
         u_hat_plus(2, :, :) = u_hat_plus(1, :, :);
         omega_plus(2, :) = omega_plus(1, :);
         lambda_hat(2,:) = lambda_hat(1, :);
@@ -115,8 +117,11 @@ function [u, u_hat, omega, test] = VMD2(signal, alpha, tau, K, DC , init, tol, N
         if ~DC then
             omega_plus(1,k) = (freqs(T/2+1:T)*(abs(u_hat_plus(1, T/2+1:T, k)).^2)')/sum(abs(u_hat_plus(1,T/2+1:T,k)).^2);
         end
-        
+ 
   
+  
+        
+        
         //update of any other mode
         for k = 2:K
            
@@ -130,12 +135,7 @@ function [u, u_hat, omega, test] = VMD2(signal, alpha, tau, K, DC , init, tol, N
            omega_plus(1,k) = (freqs(T/2+1:T)*(abs(u_hat_plus(1, T/2+1:T, k)).^2)')/sum(abs(u_hat_plus(1,T/2+1:T,k)).^2); //it seems ok, but we need to check.
            
         end
-        /*
-        if n == 1 then
-            test = omega_plus;
-            break;
-        end
-        */
+ 
         //dual ascent
         lambda_hat(1, :) = lambda_hat(2, :) + tau*(sum(u_hat_plus(1, :, :), 3) - f_hat_plus); //there is a missing minus sign here.
         
@@ -154,27 +154,27 @@ function [u, u_hat, omega, test] = VMD2(signal, alpha, tau, K, DC , init, tol, N
             //uDiff = uDiff + ((u_hat_plus(n, :, i) - u_hat_plus(n-1, :, i)) * conj((u_hat_plus(n, :, i)-u_hat_plus(n-1, :, i)))' )/(u_hat_plus(n, :, i)* conj(u_hat_plus(n, :, i)');
         end
         uDiff = abs(uDiff);
-        
+ 
     end
 
- 
     //Postprocessing and cleanup
     
-    
+
     omega = omega_plus(1, :);
     
     //signal reconstruction
     u_hat = zeros(T, K);
+    test= squeeze(u_hat_plus(1, (T/2+1):T, :));
     u_hat((T/2+1):T, :) = squeeze(u_hat_plus(1, (T/2+1):T, :));
     u_hat((T/2+1):-1:2, :) = squeeze(conj(u_hat_plus(1, (T/2+1):T, :)));
     u_hat(1, :) = conj(u_hat($, :));
-    
+ 
     u = zeros(K, T);
     
     for k = 1:K
         u(k, :) = real(ifft(ifftshift(u_hat(:, k))));
     end
-    
+
     //removemirror part
     
     u = u(:, T/4+1:3*T/4);
