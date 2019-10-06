@@ -4,7 +4,7 @@ from cryptography.fernet import Fernet
 import os
 
 senders = []
-wb = xlrd.open_workbook(os.getcwd()+"\\correos.xls") #change it later on
+wb = xlrd.open_workbook(os.getcwd()+"\\correo brofes.xlsx") #change it later on
 
 sheet = wb.sheet_by_index(0)
 
