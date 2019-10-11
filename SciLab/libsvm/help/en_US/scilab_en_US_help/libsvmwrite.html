@@ -1,0 +1,91 @@
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>libsvmwrite</title>
+    <style type="text/css" media="all">
+      @import url("scilab_code.css");
+      @import url("xml_code.css");
+      @import url("c_code.css");
+      @import url("style.css");
+    </style>
+  </head>
+  <body>
+    <div class="manualnavbar">
+    <table width="100%"><tr>
+      <td width="30%">
+    	<span class="previous"><a href="libsvmread.html">&lt;&lt; libsvmread</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_1010ae11fc7218968624430e76845204.html">utilities</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+
+
+
+    <span class="path" dir="ltr"><a href="index.html">libsvm</a> &gt;&gt; <a href="section_1010ae11fc7218968624430e76845204.html">utilities</a> &gt; libsvmwrite</span>
+
+    <br /><br />
+    <div class="refnamediv"><h1 class="refname">libsvmwrite</h1>
+    <p class="refpurpose">writes sparse matrix to a file in LIBSVM format</p></div>
+
+
+<div class="refsynopsisdiv"><h3 class="title">Calling Sequence</h3>
+   <div class="synopsis"><pre><span class="functionid">libsvmwrite</span><span class="default">(</span><span class="default">filename</span><span class="default">, </span><span class="default">label_vector</span><span class="default">, </span><span class="default">instance_matrix</span><span class="default">)</span></pre></div></div>
+
+<div class="refsection"><h3 class="title">Parameters</h3>
+   <dl><dt><span class="term">filename :</span>
+      <dd><p class="para">string containing the file name with or without path in which the data will be saved</p></dd></dt>
+   <dt><span class="term">label_vector:</span>
+      <dd><p class="para">a vector containing the group information. For a two class problem each element is either -1 or 1.  for multi class the entries are positive numbers.</p></dd></dt>
+   <dt><span class="term">instance_matrix:</span>
+      <dd><p class="para">a sparse matrix containing the features. Each column is a feature vector associated to the group in the coresponding entry in label_vector</p></dd></dt></dl></div>
+
+<div class="refsection"><h3 class="title">Description</h3>
+   <p class="para">The instance_matrix must be a sparse matrix. (type must be double)</p></div>
+
+<div class="refsection"><h3 class="title">Examples</h3>
+   <div class="programlisting"><table border="0" width="100%"><tr><td width="98%"><pre class="scilabcode"><span class="scilabid">N</span><span class="scilaboperator">=</span><span class="scilabnumber">1000</span><span class="scilabdefault">;</span>
+<span class="scilabid">label_vector</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span><a class="scilabcommand" href="scilab://ones">ones</a><span class="scilabopenclose">(</span><span class="scilabid">N</span><span class="scilaboperator">/</span><span class="scilabnumber">2</span><span class="scilabdefault">,</span><span class="scilabnumber">1</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span> <span class="scilaboperator">-</span><a class="scilabcommand" href="scilab://ones">ones</a><span class="scilabopenclose">(</span><span class="scilabid">N</span><span class="scilaboperator">/</span><span class="scilabnumber">2</span><span class="scilabdefault">,</span><span class="scilabnumber">1</span><span class="scilabopenclose">)</span><span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
+<span class="scilabid">d</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span><span class="scilabid">label_vector</span><span class="scilaboperator">/</span><span class="scilabnumber">2</span> <span class="scilaboperator">+</span> <a class="scilabcommand" href="scilab://rand">rand</a><span class="scilabopenclose">(</span><span class="scilabid">N</span><span class="scilabdefault">,</span><span class="scilabnumber">1</span><span class="scilabdefault">,</span><span class="scilabstring">&#0039;</span><span class="scilabstring">norm</span><span class="scilabstring">&#0039;</span><span class="scilabopenclose">)</span><span class="scilaboperator">/</span><span class="scilabnumber">1</span>  <span class="scilabid">label_vector</span><span class="scilaboperator">-</span><a class="scilabcommand" href="scilab://rand">rand</a><span class="scilabopenclose">(</span><span class="scilabid">N</span><span class="scilabdefault">,</span><span class="scilabnumber">1</span><span class="scilabdefault">,</span><span class="scilabstring">&#0039;</span><span class="scilabstring">norm</span><span class="scilabstring">&#0039;</span><span class="scilabopenclose">)</span><span class="scilaboperator">/</span><span class="scilabnumber">1</span> <a class="scilabcommand" href="scilab://rand">rand</a><span class="scilabopenclose">(</span><span class="scilabid">N</span><span class="scilabdefault">,</span> <span class="scilabnumber">1</span><span class="scilabdefault">,</span><span class="scilabstring">&#0039;</span><span class="scilabstring">norm</span><span class="scilabstring">&#0039;</span><span class="scilabopenclose">)</span><span class="scilabopenclose">]</span><span class="scilabdefault">;</span> <span class="scilabcomment">// data</span>
+<span class="scilabid">instance_matrix</span><span class="scilaboperator">=</span><a class="scilabcommand" href="scilab://sparse">sparse</a><span class="scilabopenclose">(</span><span class="scilabid">d</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabid">libsvmwrite</span><span class="scilabopenclose">(</span><span class="scilabstring">&#0039;</span><span class="scilabstring">test_data</span><span class="scilabstring">&#0039;</span><span class="scilabdefault">,</span> <span class="scilabid">label_vector</span><span class="scilabdefault">,</span> <span class="scilabid">instance_matrix</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+
+<span class="scilabid">model</span> <span class="scilaboperator">=</span> <span class="scilabid">libsvm_svmtrain</span><span class="scilabopenclose">(</span><span class="scilabid">label_vector</span><span class="scilabdefault">,</span><span class="scilabid">d</span><span class="scilabdefault">,</span><span class="scilabstring">&#0039;</span><span class="scilabstring">-t 0 -q</span><span class="scilabstring">&#0039;</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabopenclose">[</span><span class="scilabid">predicted_label</span><span class="scilabdefault">,</span> <span class="scilabid">accuracy</span><span class="scilabdefault">,</span> <span class="scilabid">decision_values</span><span class="scilabopenclose">]</span> <span class="scilaboperator">=</span> <span class="scilabid">libsvm_svmpredict</span><span class="scilabopenclose">(</span><span class="scilabid">label_vector</span><span class="scilabdefault">,</span> <span class="scilabid">instance_matrix</span><span class="scilabdefault">,</span> <span class="scilabid">model</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span></pre></td><td valign="top"><a href="scilab://scilab.execexample/"><img src="ScilabExecute.png" border="0"/></a></td><td valign="top"><a href="scilab://scilab.editexample/"><img src="ScilabEdit.png" border="0"/></a></td><td></td></tr></table></div></div>
+
+<div class="refsection"><h3 class="title">See also</h3>
+   <ul class="itemizedlist"><li class="member"><a href="libsvmread.html" class="link">libsvmread</a></li></ul></div>
+
+<div class="refsection"><h3 class="title">Authors</h3>
+   <ul class="itemizedlist"><li class="member">Chih-Chung Chang</li>
+   <li class="member">Chih-Jen Lin</li>
+   <li class="member">Holger Nahrstaedt</li>
+   <li class="member">Tan Chin Luh</li></ul></div>
+    <br />
+
+    <div class="manualnavbar">
+    <table width="100%">
+    <tr><td colspan="3" class="next"><a href="http://bugzilla.scilab.org/enter_bug.cgi?product=Scilab%20software&component=Documentation%20pages" class="ulink">Report an issue</a></td></tr>
+<tr>
+      <td width="30%">
+    	<span class="previous"><a href="libsvmread.html">&lt;&lt; libsvmread</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_1010ae11fc7218968624430e76845204.html">utilities</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+  </body>
+</html>

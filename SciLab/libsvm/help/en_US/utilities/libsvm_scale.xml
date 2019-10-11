@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from libsvm_scale.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="libsvm_scale" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>libsvm_scale</refname>
+    <refpurpose>scale the input data for correct learning</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   [scaled_instance,scaled_parameters] = libsvm_scale(instance);
+   [scaled_instance,scaled_parameters] = libsvm_scale(instance,[lower,upper]);
+   
+   [scaled_instance] = libsvm_scale(instance,scaled_parameters);
+   
+   [scaled_instance,scaled_parameters,scaled_label,scaled_label_parameters] = libsvm_scale(instance,[lower,upper],label,[label_lower, label_upper]);
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Description</title>
+   <para>
+   </para>
+   <para>
+Scaling before applying SVM is very important in order to avoid several  numerical problems! Normally good ranges are [0,1] or [-1,+1].
+Each feature row in the instance matrix has be scaled indepented from the other features.
+   </para>
+   <para>
+It is important to scale the testing data with the same scale as the training data!
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+[label,instance]=libsvmread(fullfile(libsvm_getpath(),"demos","heart_scale"));
+[scaled_instance,scaled_parameters] = libsvm_scale(instance,[-1,1]);
+cc = libsvm_svmtrain(label,scaled_instance);
+[predicted_label,accuracy]=libsvm_svmpredict(label,svmnormalize(instance,scaled_parameters),cc);
+disp("accuracy: "+string(accuracy(1))+" %");
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>See also</title>
+   <simplelist type="inline">
+   <member><link linkend="libsvm_normalize">libsvm_normalize</link></member>
+   </simplelist>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Holger Nahrstaedt</member>
+   </simplelist>
+</refsection>
+</refentry>

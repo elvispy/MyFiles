@@ -1,0 +1,184 @@
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>libsvm_svmtrain</title>
+    <style type="text/css" media="all">
+      @import url("scilab_code.css");
+      @import url("xml_code.css");
+      @import url("c_code.css");
+      @import url("style.css");
+    </style>
+  </head>
+  <body>
+    <div class="manualnavbar">
+    <table width="100%"><tr>
+      <td width="30%">
+    	<span class="previous"><a href="libsvm_svmpredict.html">&lt;&lt; libsvm_svmpredict</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_55ddec68de65093495d0be4c9ff008b4.html">libsvm</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="section_1010ae11fc7218968624430e76845204.html">utilities &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+
+
+
+    <span class="path" dir="ltr"><a href="index.html">libsvm</a> &gt;&gt; <a href="section_55ddec68de65093495d0be4c9ff008b4.html">libsvm</a> &gt; libsvm_svmtrain</span>
+
+    <br /><br />
+    <div class="refnamediv"><h1 class="refname">libsvm_svmtrain</h1>
+    <p class="refpurpose">trains a svm model</p></div>
+
+
+<div class="refsynopsisdiv"><h3 class="title">Calling Sequence</h3>
+   <div class="synopsis"><pre><span class="default">model</span><span class="default"> = </span><span class="functionid">libsvm_svmtrain</span><span class="default">(</span><span class="default">training_label_vector</span><span class="default">, </span><span class="default">training_instance_matrix</span><span class="default">);</span>
+<span class="default">model</span><span class="default"> = </span><span class="functionid">libsvm_svmtrain</span><span class="default">(</span><span class="default">training_label_vector</span><span class="default">, </span><span class="default">training_instance_matrix</span><span class="default">,</span><span class="default">libsvm_options</span><span class="default">);</span>
+<span class="default">crossvalidationResult</span><span class="default"> = </span><span class="functionid">libsvm_svmtrain</span><span class="default">(</span><span class="default">training_label_vector</span><span class="default">, </span><span class="default">training_instance_matrix</span><span class="default">,</span>&#0034;<span class="default">.. -</span><span class="default">v</span> <span class="default">n</span>&#0034;<span class="default">);</span></pre></div></div>
+
+<div class="refsection"><h3 class="title">Parameters</h3>
+   <dl><dt><span class="term">libsvm_options:</span>
+      <dd><p class="para"></p></dd></dt>
+   <dt><span class="term">s svm_type :</span>
+      <dd><p class="para">set type of SVM (default 0)</p></dd></dt>
+   <dt><span class="term">0 :</span>
+      <dd><p class="para">C-SVC (class seperation)</p></dd></dt>
+   <dt><span class="term">1 :</span>
+      <dd><p class="para">nu-SVC (nu - classification)</p></dd></dt>
+   <dt><span class="term">2 :</span>
+      <dd><p class="para">one-class SVM (one-class-classification)</p></dd></dt>
+   <dt><span class="term">3 :</span>
+      <dd><p class="para">epsilon-SVR (epsilon - regression)</p></dd></dt>
+   <dt><span class="term">4 :</span>
+      <dd><p class="para">nu-SVR (nu - regression)</p></dd></dt>
+   <dt><span class="term">-t kernel_type :</span>
+      <dd><p class="para">set type of kernel function (default 2)</p></dd></dt>
+   <dt><span class="term">0 -- linear:</span>
+      <dd><p class="para">u&#0039;*v</p></dd></dt>
+   <dt><span class="term">1 -- polynomial:</span>
+      <dd><p class="para">(gamma*u&#0039;*v + coef0)^degree</p></dd></dt>
+   <dt><span class="term">2 -- radial basis function:</span>
+      <dd><p class="para">exp(-gamma*|u-v|^2)</p></dd></dt>
+   <dt><span class="term">3 -- sigmoid:</span>
+      <dd><p class="para">tanh(gamma*u&#0039;*v + coef0)</p></dd></dt>
+   <dt><span class="term">4 -- precomputed kernel:</span>
+      <dd><p class="para">(kernel values in training_instance_matrix)</p></dd></dt>
+   <dt><span class="term">-d degree :</span>
+      <dd><p class="para">set degree in kernel function (default 3)</p></dd></dt>
+   <dt><span class="term">-g gamma :</span>
+      <dd><p class="para">set gamma in kernel function (default 1/num_features)</p></dd></dt>
+   <dt><span class="term">-r coef0 :</span>
+      <dd><p class="para">set coef0 in kernel function (default 0)</p></dd></dt>
+   <dt><span class="term">-c cost :</span>
+      <dd><p class="para">set the parameter C of C-SVC, epsilon-SVR, and nu-SVR (default 1)</p></dd></dt>
+   <dt><span class="term">-n nu :</span>
+      <dd><p class="para">set the parameter nu of nu-SVC, one-class SVM, and nu-SVR (default 0.5)</p></dd></dt>
+   <dt><span class="term">-p epsilon :</span>
+      <dd><p class="para">set the epsilon in loss function of epsilon-SVR (default 0.1)</p></dd></dt>
+   <dt><span class="term">-m cachesize :</span>
+      <dd><p class="para">set cache memory size in MB (default 100)</p></dd></dt>
+   <dt><span class="term">-e epsilon :</span>
+      <dd><p class="para">set tolerance of termination criterion (default 0.001)</p></dd></dt>
+   <dt><span class="term">-h shrinking :</span>
+      <dd><p class="para">whether to use the shrinking heuristics, 0 or 1 (default 1)</p></dd></dt>
+   <dt><span class="term">-b probability_estimates :</span>
+      <dd><p class="para">whether to train a SVC or SVR model for probability estimates, 0 or 1 (default 0)</p></dd></dt>
+   <dt><span class="term">-wi weight :</span>
+      <dd><p class="para">set the parameter C of class i to weight*C, for C-SVC and nu-SVC (default 1)</p></dd></dt>
+   <dt><span class="term">-v n :</span>
+      <dd><p class="para">n-fold cross validation mode</p></dd></dt>
+   <dt><span class="term">-q :</span>
+      <dd><p class="para">quiet mode (no outputs)</p></dd></dt>
+   <dt><span class="term">model structure:</span>
+      <dd><p class="para"></p></dd></dt>
+   <dt><span class="term">model.Parameters:</span>
+      <dd><p class="para">parameters</p></dd></dt>
+   <dt><span class="term">model.nr_class:</span>
+      <dd><p class="para">number of classes; = 2 for regression/one-class svm</p></dd></dt>
+   <dt><span class="term">model.totalSV:</span>
+      <dd><p class="para">total #SV</p></dd></dt>
+   <dt><span class="term">model.rho:</span>
+      <dd><p class="para">-b of the decision function(s) wx+b</p></dd></dt>
+   <dt><span class="term">model.Label:</span>
+      <dd><p class="para">label of each class; empty for regression/one-class SVM</p></dd></dt>
+   <dt><span class="term">model.sv_indices:</span>
+      <dd><p class="para">sv_indices[0,...,nSV-1] are values in [1,...,num_traning_data] to indicate SVs in the training set</p></dd></dt>
+   <dt><span class="term">model.ProbA:</span>
+      <dd><p class="para">pairwise probability information; empty if -b 0 or in one-class SVM</p></dd></dt>
+   <dt><span class="term">model.ProbB:</span>
+      <dd><p class="para">pairwise probability information; empty if -b 0 or in one-class SVM</p></dd></dt>
+   <dt><span class="term">model.nSV:</span>
+      <dd><p class="para">number of SVs for each class; empty for regression/one-class SVM</p></dd></dt>
+   <dt><span class="term">model.sv_coef:</span>
+      <dd><p class="para">coefficients for SVs in decision functions</p></dd></dt>
+   <dt><span class="term">model.SVs:</span>
+      <dd><p class="para">support vectors</p></dd></dt>
+   <dt><span class="term">Cross validation results:</span>
+      <dd><p class="para"></p></dd></dt>
+   <dt><span class="term">crossvalidationResult:</span>
+      <dd><p class="para">[Cross Validation Accuracy, Positive Cross Validation Accuracy, Negative Cross Validation Accuracy]</p></dd></dt></dl></div>
+
+<div class="refsection"><h3 class="title">Description</h3>
+   <p class="para">svm types:</p>
+   <p class="para">Class separation (-s 0): optimal separating hyperplane between the two classes by maximizing the margin between the classes’ closest points
+the points lying on the boundaries are called support vectors, and the middle of the margin is our optimal separating hyperplane</p>
+   <p class="para">nu-Classification (-s 1): this model allows for more control over the number of support vectors by specifying an additional parameter (-n nu) which approximates the fraction of support vectors.</p>
+   <p class="para">one-class-classification ( -s 2): this model tries to ﬁnd the support of a distribution and thus allows for outlier/novelty detection</p>
+   <p class="para">epsilon-regression ( -s 3): here, the data points lie in between the two borders of the margin which is maximized under suitable conditions to avoid outlier inclusion.</p>
+   <p class="para">nu-regression ( -s 4): With one additional parameter (-n nu)  which approximates the fraction of support vectors</p>
+   <p class="para"></p>
+   <p class="para">Crossvalidation:</p>
+   <p class="para">to assess the quality of the training result, a k-fold cross-classiﬁcation on the training data can be performed by setting the parameter
+(-v ) to n (default: 0). This option -v randomly splits the data into n parts and calculates crossvalidation accuracy/mean squared error on them.
+The returned model is just a vector: [Cross Validation Accuracy, Positive Cross Validation Accuracy, Negative Cross Validation Accuracy].</p>
+   <p class="para">Scaling:</p>
+   <p class="para">Scale your data. For example, scale each column of the instance matrix to [0,1] or [-1,+1].</p>
+   <p class="para">Output:</p>
+   <p class="para">The &#0039;svmtrain&#0039; function returns a model which can be used for future
+prediction.  It is a structure and is organized as [Parameters, nr_class,
+totalSV, rho, Label, ProbA, ProbB, nSV, sv_coef, SVs]:</p>
+   <p class="para">If you do not use the option &#0039;-b 1&#0039;, ProbA and ProbB are empty
+matrices</p></div>
+
+<div class="refsection"><h3 class="title">Examples</h3>
+   <div class="programlisting"><table border="0" width="100%"><tr><td width="98%"><pre class="scilabcode"><span class="scilabid">label_vector</span><span class="scilaboperator">=</span><span class="scilabopenclose">[</span><a class="scilabcommand" href="scilab://zeros">zeros</a><span class="scilabopenclose">(</span><span class="scilabnumber">20</span><span class="scilabdefault">,</span><span class="scilabnumber">1</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span><a class="scilabcommand" href="scilab://ones">ones</a><span class="scilabopenclose">(</span><span class="scilabnumber">20</span><span class="scilabdefault">,</span><span class="scilabnumber">1</span><span class="scilabopenclose">)</span><span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
+<span class="scilabid">instance_matrix</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span><a class="scilabcommand" href="scilab://rand">rand</a><span class="scilabopenclose">(</span><span class="scilabnumber">20</span><span class="scilabdefault">,</span><span class="scilabnumber">2</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span> <span class="scilaboperator">-</span><span class="scilabnumber">1</span><span class="scilaboperator">*</span><a class="scilabcommand" href="scilab://rand">rand</a><span class="scilabopenclose">(</span><span class="scilabnumber">20</span><span class="scilabdefault">,</span><span class="scilabnumber">2</span><span class="scilabopenclose">)</span><span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
+<span class="scilabid">model</span><span class="scilaboperator">=</span><span class="scilabid">libsvm_svmtrain</span><span class="scilabopenclose">(</span><span class="scilabid">label_vector</span><span class="scilabdefault">,</span><span class="scilabid">instance_matrix</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+
+<span class="scilabopenclose">[</span><span class="scilabid">pred</span><span class="scilabdefault">,</span><span class="scilabid">acc</span><span class="scilabdefault">,</span><span class="scilabid">dec</span><span class="scilabopenclose">]</span><span class="scilaboperator">=</span><span class="scilabid">libsvm_svmpredict</span><span class="scilabopenclose">(</span><span class="scilabid">label_vector</span><span class="scilabdefault">,</span><span class="scilabid">instance_matrix</span><span class="scilabdefault">,</span><span class="scilabid">model</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span></pre></td><td valign="top"><a href="scilab://scilab.execexample/"><img src="ScilabExecute.png" border="0"/></a></td><td valign="top"><a href="scilab://scilab.editexample/"><img src="ScilabEdit.png" border="0"/></a></td><td></td></tr></table></div></div>
+
+<div class="refsection"><h3 class="title">See also</h3>
+   <ul class="itemizedlist"><li class="member"><a href="libsvm_svmpredict.html" class="link">libsvm_svmpredict</a></li></ul></div>
+
+<div class="refsection"><h3 class="title">Authors</h3>
+   <ul class="itemizedlist"><li class="member">Chih-Chung Chang</li>
+   <li class="member">Chih-Jen Lin</li>
+   <li class="member">Holger Nahrstaedt</li></ul></div>
+    <br />
+
+    <div class="manualnavbar">
+    <table width="100%">
+    <tr><td colspan="3" class="next"><a href="http://bugzilla.scilab.org/enter_bug.cgi?product=Scilab%20software&component=Documentation%20pages" class="ulink">Report an issue</a></td></tr>
+<tr>
+      <td width="30%">
+    	<span class="previous"><a href="libsvm_svmpredict.html">&lt;&lt; libsvm_svmpredict</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_55ddec68de65093495d0be4c9ff008b4.html">libsvm</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="section_1010ae11fc7218968624430e76845204.html">utilities &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+  </body>
+</html>

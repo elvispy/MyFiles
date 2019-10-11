@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<scilablib name="libsvmlib">
+  <macro name="libsvm_confmat" file="libsvm_confmat.bin" md5="1000e2b12aaeaa273a7cd669d600d9ec"/>
+  <macro name="libsvm_getpath" file="libsvm_getpath.bin" md5="614e9b397f8ed0c9ee05e9deda7e2b0f"/>
+  <macro name="libsvm_grid" file="libsvm_grid.bin" md5="ff9eb92772d22181584f417371c0c222"/>
+  <macro name="libsvm_gridlinear" file="libsvm_gridlinear.bin" md5="c5a8be62ed9784dd736e4580326237c3"/>
+  <macro name="libsvm_normalize" file="libsvm_normalize.bin" md5="1d5393630002c643150d3495ff31446c"/>
+  <macro name="libsvm_partest" file="libsvm_partest.bin" md5="1653fdf802174956b4425e2db9bb7bb7"/>
+  <macro name="libsvm_rocplot" file="libsvm_rocplot.bin" md5="3c739ed1a1677dfb3d726b6d9d3a46dd"/>
+  <macro name="libsvm_scale" file="libsvm_scale.bin" md5="7d56998de7442eb9509c1374d16dda3f"/>
+  <macro name="libsvm_size_acc" file="libsvm_size_acc.bin" md5="bb59cb51c825810b1842d6ac0ed7968f"/>
+  <macro name="libsvm_toy" file="libsvm_toy.bin" md5="49163bb936140e69c04a35f61839c6a9"/>
+</scilablib>

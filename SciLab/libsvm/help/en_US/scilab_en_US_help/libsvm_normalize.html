@@ -1,0 +1,87 @@
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>libsvm_normalize</title>
+    <style type="text/css" media="all">
+      @import url("scilab_code.css");
+      @import url("xml_code.css");
+      @import url("c_code.css");
+      @import url("style.css");
+    </style>
+  </head>
+  <body>
+    <div class="manualnavbar">
+    <table width="100%"><tr>
+      <td width="30%">
+    	<span class="previous"><a href="libsvm_loadmodel.html">&lt;&lt; libsvm_loadmodel</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_1010ae11fc7218968624430e76845204.html">utilities</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="libsvm_partest.html">libsvm_partest &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+
+
+
+    <span class="path" dir="ltr"><a href="index.html">libsvm</a> &gt;&gt; <a href="section_1010ae11fc7218968624430e76845204.html">utilities</a> &gt; libsvm_normalize</span>
+
+    <br /><br />
+    <div class="refnamediv"><h1 class="refname">libsvm_normalize</h1>
+    <p class="refpurpose">scale the input data for correct learning</p></div>
+
+
+<div class="refsynopsisdiv"><h3 class="title">Calling Sequence</h3>
+   <div class="synopsis"><pre><span class="default">[</span><span class="default">scaled_instance</span><span class="default">,</span><span class="default">scaled_parameters</span><span class="default">] = </span><span class="functionid">libsvm_normalize</span><span class="default">(</span><span class="default">instance</span><span class="default">);</span>
+<span class="default">[</span><span class="default">scaled_instance</span><span class="default">,</span><span class="default">scaled_parameters</span><span class="default">] = </span><span class="functionid">libsvm_normalize</span><span class="default">(</span><span class="default">instance</span><span class="default">,[</span><span class="default">meanV</span><span class="default">,</span><span class="default">stdV</span><span class="default">]);</span>
+
+<span class="default">[</span><span class="default">scaled_instance</span><span class="default">] = </span><span class="functionid">libsvm_normalize</span><span class="default">(</span><span class="default">instance</span><span class="default">,</span><span class="default">scaled_parameters</span><span class="default">);</span>
+
+<span class="default">[</span><span class="default">scaled_instance</span><span class="default">,</span><span class="default">scaled_parameters</span><span class="default">,</span><span class="default">scaled_label</span><span class="default">,</span><span class="default">scaled_label_parameters</span><span class="default">] = </span><span class="functionid">libsvm_normalize</span><span class="default">(</span><span class="default">instance</span><span class="default">,[</span><span class="default">meanV</span><span class="default">,</span><span class="default">stdV</span><span class="default">],</span><span class="default">label</span><span class="default">,[</span><span class="default">label_mean</span><span class="default">, </span><span class="default">label_std</span><span class="default">]);</span></pre></div></div>
+
+<div class="refsection"><h3 class="title">Description</h3>
+   <p class="para">Scaling before applying SVM is very important in order to avoid several  numerical problems!
+Each feature row in the instance matrix has be scaled indepented from the other features.</p>
+   <p class="para">It is important to scale the testing data with the same scale as the training data!
+Scale your data. For example, scale each attribute to a mean of 0 and a standard deviation of 1.</p></div>
+
+<div class="refsection"><h3 class="title">Examples</h3>
+   <div class="programlisting"><table border="0" width="100%"><tr><td width="98%"><pre class="scilabcode"><span class="scilabopenclose">[</span><span class="scilabid">label</span><span class="scilabdefault">,</span><span class="scilabid">instance</span><span class="scilabopenclose">]</span><span class="scilaboperator">=</span><span class="scilabid">libsvmread</span><span class="scilabopenclose">(</span><a class="scilabmacro" href="scilab://fullfile">fullfile</a><span class="scilabopenclose">(</span><span class="scilabid">libsvm_getpath</span><span class="scilabopenclose">(</span><span class="scilabopenclose">)</span><span class="scilabdefault">,</span><span class="scilabstring">&#0034;</span><span class="scilabstring">demos</span><span class="scilabstring">&#0034;</span><span class="scilabdefault">,</span><span class="scilabstring">&#0034;</span><span class="scilabstring">heart_scale</span><span class="scilabstring">&#0034;</span><span class="scilabopenclose">)</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabopenclose">[</span><span class="scilabid">scaled_instance</span><span class="scilabdefault">,</span><span class="scilabid">scaled_parameters</span><span class="scilabopenclose">]</span> <span class="scilaboperator">=</span> <span class="scilabid">libsvm_normalize</span><span class="scilabopenclose">(</span><span class="scilabid">instance</span><span class="scilabdefault">,</span><span class="scilabopenclose">[</span><span class="scilabnumber">0</span><span class="scilabdefault">,</span><span class="scilabnumber">1</span><span class="scilabopenclose">]</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabid">cc</span> <span class="scilaboperator">=</span> <span class="scilabid">libsvm_svmtrain</span><span class="scilabopenclose">(</span><span class="scilabid">label</span><span class="scilabdefault">,</span><span class="scilabid">scaled_instance</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabopenclose">[</span><span class="scilabid">predicted_label</span><span class="scilabdefault">,</span><span class="scilabid">accuracy</span><span class="scilabopenclose">]</span><span class="scilaboperator">=</span><span class="scilabid">libsvm_svmpredict</span><span class="scilabopenclose">(</span><span class="scilabid">label</span><span class="scilabdefault">,</span><span class="scilabid">libsvm_normalize</span><span class="scilabopenclose">(</span><span class="scilabid">instance</span><span class="scilabdefault">,</span><span class="scilabid">scaled_parameters</span><span class="scilabopenclose">)</span><span class="scilabdefault">,</span><span class="scilabid">cc</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<a class="scilabcommand" href="scilab://disp">disp</a><span class="scilabopenclose">(</span><span class="scilabstring">&#0034;</span><span class="scilabstring">accuracy: </span><span class="scilabstring">&#0034;</span><span class="scilaboperator">+</span><a class="scilabcommand" href="scilab://string">string</a><span class="scilabopenclose">(</span><span class="scilabid">accuracy</span><span class="scilabopenclose">(</span><span class="scilabnumber">1</span><span class="scilabopenclose">)</span><span class="scilabopenclose">)</span><span class="scilaboperator">+</span><span class="scilabstring">&#0034;</span><span class="scilabstring"> %</span><span class="scilabstring">&#0034;</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span></pre></td><td valign="top"><a href="scilab://scilab.execexample/"><img src="ScilabExecute.png" border="0"/></a></td><td valign="top"><a href="scilab://scilab.editexample/"><img src="ScilabEdit.png" border="0"/></a></td><td></td></tr></table></div></div>
+
+<div class="refsection"><h3 class="title">See also</h3>
+   <ul class="itemizedlist"><li class="member"><a href="libsvm_scale.html" class="link">libsvm_scale</a></li></ul></div>
+
+<div class="refsection"><h3 class="title">Authors</h3>
+   <ul class="itemizedlist"><li class="member">Holger Nahrstaedt</li></ul></div>
+    <br />
+
+    <div class="manualnavbar">
+    <table width="100%">
+    <tr><td colspan="3" class="next"><a href="http://bugzilla.scilab.org/enter_bug.cgi?product=Scilab%20software&component=Documentation%20pages" class="ulink">Report an issue</a></td></tr>
+<tr>
+      <td width="30%">
+    	<span class="previous"><a href="libsvm_loadmodel.html">&lt;&lt; libsvm_loadmodel</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_1010ae11fc7218968624430e76845204.html">utilities</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="libsvm_partest.html">libsvm_partest &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+  </body>
+</html>

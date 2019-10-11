@@ -1,0 +1,138 @@
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>libsvm_svmpredict</title>
+    <style type="text/css" media="all">
+      @import url("scilab_code.css");
+      @import url("xml_code.css");
+      @import url("c_code.css");
+      @import url("style.css");
+    </style>
+  </head>
+  <body>
+    <div class="manualnavbar">
+    <table width="100%"><tr>
+      <td width="30%">
+    	<span class="previous"><a href="section_55ddec68de65093495d0be4c9ff008b4.html">&lt;&lt; libsvm</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_55ddec68de65093495d0be4c9ff008b4.html">libsvm</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="libsvm_svmtrain.html">libsvm_svmtrain &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+
+
+
+    <span class="path" dir="ltr"><a href="index.html">libsvm</a> &gt;&gt; <a href="section_55ddec68de65093495d0be4c9ff008b4.html">libsvm</a> &gt; libsvm_svmpredict</span>
+
+    <br /><br />
+    <div class="refnamediv"><h1 class="refname">libsvm_svmpredict</h1>
+    <p class="refpurpose">Does prediction for a calculated svm model</p></div>
+
+
+<div class="refsynopsisdiv"><h3 class="title">Calling Sequence</h3>
+   <div class="synopsis"><pre><span class="default">[</span><span class="default">predicted_label</span><span class="default">, </span><span class="default">accuracy</span><span class="default">, </span><span class="default">decision_values</span><span class="default">] = </span><span class="functionid">libsvm_svmpredict</span><span class="default">(</span><span class="default">testing_label_vector</span><span class="default">, </span><span class="default">testing_instance_matrix</span><span class="default">, </span><span class="default">model</span><span class="default">)</span>
+<span class="default">[</span><span class="default">predicted_label</span><span class="default">, </span><span class="default">accuracy</span><span class="default">, </span><span class="default">decision_values</span><span class="default">] = </span><span class="functionid">libsvm_svmpredict</span><span class="default">(</span><span class="default">testing_label_vector</span><span class="default">, </span><span class="default">testing_instance_matrix</span><span class="default">, </span><span class="default">model</span><span class="default">, </span>&#0039;<span class="default">libsvm_options</span>&#0039;<span class="default">)</span></pre></div></div>
+
+<div class="refsection"><h3 class="title">Parameters</h3>
+   <dl><dt><span class="term">model:</span>
+      <dd><p class="para">SVM model structure from svmtrain.</p></dd></dt>
+   <dt><span class="term">libsvm_options:</span>
+      <dd><p class="para">-b probability_estimates: whether to predict probability estimates, 0 or 1 (default 0); one-class SVM not supported yet</p></dd></dt>
+   <dt><span class="term">predicted_label:</span>
+      <dd><p class="para">SVM prediction output vector</p></dd></dt>
+   <dt><span class="term">accuracy:</span>
+      <dd><p class="para">a vector with accuracy, mean squared error, squared correlation coefficient.</p></dd></dt>
+   <dt><span class="term">prob_estimates:</span>
+      <dd><p class="para">If selected, probability estimate vector</p></dd></dt>
+   <dt><span class="term">predicted_label:</span>
+      <dd><p class="para">vector of predicted labels</p></dd></dt>
+   <dt><span class="term">accuracy:</span>
+      <dd><p class="para">a vector including accuracy (for classification), mean squared error, and squared correlation coefficient (for regression).</p></dd></dt>
+   <dt><span class="term">decision_values:</span>
+      <dd><p class="para">a matrix containing decision values or probability estimates (if &#0039;-b 1&#0039; is specified).</p></dd></dt></dl></div>
+
+<div class="refsection"><h3 class="title">Description</h3>
+   <p class="para"></p>
+   <p class="para">The third output is a matrix containing decision values or probability estimates (if &#0039;-b 1&#0039; is specified). If k is the number of classes
+in training data, for decision values, each row includes results of predicting k(k-1)/2 binary-class SVMs.  For probability estimates, you need &#0039;-b 1&#0039; for training and testing.</p>
+   <p class="para">For classification, k = 1 is a special case. Decision value +1 is returned for each testing instance,instead of an empty vector.</p>
+   <p class="para">For probabilities, each row contains k values indicating the probability that the testing instance is in each class.</p>
+   <p class="para">Note that the order of classes here is the same as &#0039;Label&#0039; field in the model structure.</p>
+   <p class="para">Note that for testing, you can put anything in the testing_label_vector.</p>
+   <p class="para">To use precomputed kernel, you must include sample serial number as the first column of the training and testing data (assume your kernel matrix is K, # of instances is n). Precomputed kernel requires dense matrix</p>
+   <p class="para"></p>
+   <p class="para"></p></div>
+
+<div class="refsection"><h3 class="title">Examples</h3>
+   <div class="programlisting"><table border="0" width="100%"><tr><td width="98%"><pre class="scilabcode"><span class="scilabid">label_vector</span><span class="scilaboperator">=</span><span class="scilabopenclose">[</span><a class="scilabcommand" href="scilab://zeros">zeros</a><span class="scilabopenclose">(</span><span class="scilabnumber">20</span><span class="scilabdefault">,</span><span class="scilabnumber">1</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span><a class="scilabcommand" href="scilab://ones">ones</a><span class="scilabopenclose">(</span><span class="scilabnumber">20</span><span class="scilabdefault">,</span><span class="scilabnumber">1</span><span class="scilabopenclose">)</span><span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
+<span class="scilabid">instance_matrix</span> <span class="scilaboperator">=</span> <span class="scilabopenclose">[</span><a class="scilabcommand" href="scilab://rand">rand</a><span class="scilabopenclose">(</span><span class="scilabnumber">20</span><span class="scilabdefault">,</span><span class="scilabnumber">2</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span> <span class="scilaboperator">-</span><span class="scilabnumber">1</span><span class="scilaboperator">*</span><a class="scilabcommand" href="scilab://rand">rand</a><span class="scilabopenclose">(</span><span class="scilabnumber">20</span><span class="scilabdefault">,</span><span class="scilabnumber">2</span><span class="scilabopenclose">)</span><span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
+<span class="scilabid">model</span><span class="scilaboperator">=</span><span class="scilabid">libsvm_svmtrain</span><span class="scilabopenclose">(</span><span class="scilabid">label_vector</span><span class="scilabdefault">,</span><span class="scilabid">instance_matrix</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+
+<span class="scilabopenclose">[</span><span class="scilabid">pred</span><span class="scilabdefault">,</span><span class="scilabid">accuracy</span><span class="scilabdefault">,</span><span class="scilabid">dec</span><span class="scilabopenclose">]</span><span class="scilaboperator">=</span><span class="scilabid">libsvm_svmpredict</span><span class="scilabopenclose">(</span><span class="scilabid">label_vector</span><span class="scilabdefault">,</span><span class="scilabid">instance_matrix</span><span class="scilabdefault">,</span><span class="scilabid">model</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<a class="scilabcommand" href="scilab://disp">disp</a><span class="scilabopenclose">(</span><span class="scilabstring">&#0034;</span><span class="scilabstring">accuracy: </span><span class="scilabstring">&#0034;</span><span class="scilaboperator">+</span><a class="scilabcommand" href="scilab://string">string</a><span class="scilabopenclose">(</span><span class="scilabid">accuracy</span><span class="scilabopenclose">(</span><span class="scilabnumber">1</span><span class="scilabopenclose">)</span><span class="scilabopenclose">)</span><span class="scilaboperator">+</span><span class="scilabstring">&#0034;</span><span class="scilabstring"> %</span><span class="scilabstring">&#0034;</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+
+<span class="scilabcomment">// -------------------------------------</span>
+<span class="scilabcomment">//heart_scale demo</span>
+<span class="scilabopenclose">[</span><span class="scilabid">heart_scale_label</span><span class="scilabdefault">,</span> <span class="scilabid">heart_scale_inst</span><span class="scilabopenclose">]</span> <span class="scilaboperator">=</span> <span class="scilabid">libsvmread</span><span class="scilabopenclose">(</span><a class="scilabmacro" href="scilab://fullfile">fullfile</a><span class="scilabopenclose">(</span><span class="scilabid">libsvm_getpath</span><span class="scilabopenclose">(</span><span class="scilabopenclose">)</span><span class="scilabdefault">,</span><span class="scilabstring">&#0034;</span><span class="scilabstring">demos</span><span class="scilabstring">&#0034;</span><span class="scilabdefault">,</span><span class="scilabstring">&#0034;</span><span class="scilabstring">heart_scale</span><span class="scilabstring">&#0034;</span><span class="scilabopenclose">)</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabcomment">// Split Data</span>
+<span class="scilabid">train_data</span> <span class="scilaboperator">=</span> <span class="scilabid">heart_scale_inst</span><span class="scilabopenclose">(</span><span class="scilabnumber">1</span><span class="scilabspecial">:</span><span class="scilabnumber">150</span><span class="scilabdefault">,</span><span class="scilabspecial">:</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabid">train_label</span> <span class="scilaboperator">=</span> <span class="scilabid">heart_scale_label</span><span class="scilabopenclose">(</span><span class="scilabnumber">1</span><span class="scilabspecial">:</span><span class="scilabnumber">150</span><span class="scilabdefault">,</span><span class="scilabspecial">:</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabid">test_data</span> <span class="scilaboperator">=</span> <span class="scilabid">heart_scale_inst</span><span class="scilabopenclose">(</span><span class="scilabnumber">151</span><span class="scilabspecial">:</span><span class="scilabnumber">270</span><span class="scilabdefault">,</span><span class="scilabspecial">:</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabid">test_label</span> <span class="scilaboperator">=</span> <span class="scilabid">heart_scale_label</span><span class="scilabopenclose">(</span><span class="scilabnumber">151</span><span class="scilabspecial">:</span><span class="scilabnumber">270</span><span class="scilabdefault">,</span><span class="scilabspecial">:</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+
+<span class="scilabcomment">//linear kernel</span>
+<span class="scilabid">model_linear</span> <span class="scilaboperator">=</span> <span class="scilabid">libsvm_svmtrain</span><span class="scilabopenclose">(</span><span class="scilabid">train_label</span><span class="scilabdefault">,</span> <span class="scilabid">train_data</span><span class="scilabdefault">,</span> <span class="scilabstring">&#0039;</span><span class="scilabstring">-t 0</span><span class="scilabstring">&#0039;</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabopenclose">[</span><span class="scilabid">predict_label_L</span><span class="scilabdefault">,</span> <span class="scilabid">accuracy_L</span><span class="scilabdefault">,</span> <span class="scilabid">dec_values_L</span><span class="scilabopenclose">]</span> <span class="scilaboperator">=</span> <span class="scilabid">libsvm_svmpredict</span><span class="scilabopenclose">(</span><span class="scilabid">test_label</span><span class="scilabdefault">,</span> <span class="scilabid">test_data</span><span class="scilabdefault">,</span> <span class="scilabid">model_linear</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+
+<span class="scilabcomment">//precomputed kernel</span>
+<span class="scilabid">model_precomputed</span> <span class="scilaboperator">=</span> <span class="scilabid">libsvm_svmtrain</span><span class="scilabopenclose">(</span><span class="scilabid">train_label</span><span class="scilabdefault">,</span> <a class="scilabcommand" href="scilab://full">full</a><span class="scilabopenclose">(</span><span class="scilabopenclose">[</span><span class="scilabopenclose">(</span><span class="scilabnumber">1</span><span class="scilabspecial">:</span><span class="scilabnumber">150</span><span class="scilabopenclose">)</span><span class="scilaboperator">&#0039;</span><span class="scilabdefault">,</span> <span class="scilabid">train_data</span><span class="scilaboperator">*</span><span class="scilabid">train_data</span><span class="scilaboperator">&#0039;</span><span class="scilabopenclose">]</span><span class="scilabopenclose">)</span><span class="scilabdefault">,</span> <span class="scilabstring">&#0039;</span><span class="scilabstring">-t 4</span><span class="scilabstring">&#0039;</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabopenclose">[</span><span class="scilabid">predict_label_P</span><span class="scilabdefault">,</span> <span class="scilabid">accuracy_P</span><span class="scilabdefault">,</span> <span class="scilabid">dec_values_P</span><span class="scilabopenclose">]</span> <span class="scilaboperator">=</span> <span class="scilabid">libsvm_svmpredict</span><span class="scilabopenclose">(</span><span class="scilabid">test_label</span><span class="scilabdefault">,</span> <a class="scilabcommand" href="scilab://full">full</a><span class="scilabopenclose">(</span><span class="scilabopenclose">[</span><span class="scilabopenclose">(</span><span class="scilabnumber">1</span><span class="scilabspecial">:</span><span class="scilabnumber">120</span><span class="scilabopenclose">)</span><span class="scilaboperator">&#0039;</span><span class="scilabdefault">,</span> <span class="scilabid">test_data</span><span class="scilaboperator">*</span><span class="scilabid">train_data</span><span class="scilaboperator">&#0039;</span><span class="scilabopenclose">]</span><span class="scilabopenclose">)</span><span class="scilabdefault">,</span> <span class="scilabid">model_precomputed</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+
+<a class="scilabcommand" href="scilab://disp">disp</a><span class="scilabopenclose">(</span><span class="scilabstring">&#0034;</span><span class="scilabstring">accuracy using linear kernel: </span><span class="scilabstring">&#0034;</span><span class="scilaboperator">+</span><a class="scilabcommand" href="scilab://string">string</a><span class="scilabopenclose">(</span><span class="scilabid">accuracy_L</span><span class="scilabopenclose">(</span><span class="scilabnumber">1</span><span class="scilabopenclose">)</span><span class="scilabopenclose">)</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<a class="scilabcommand" href="scilab://disp">disp</a><span class="scilabopenclose">(</span><span class="scilabstring">&#0034;</span><span class="scilabstring">accuracy using precomputed kernel: </span><span class="scilabstring">&#0034;</span><span class="scilaboperator">+</span><a class="scilabcommand" href="scilab://string">string</a><span class="scilabopenclose">(</span><span class="scilabid">accuracy_P</span><span class="scilabopenclose">(</span><span class="scilabnumber">1</span><span class="scilabopenclose">)</span><span class="scilabopenclose">)</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+
+<span class="scilabcomment">// -------------------------------------</span>
+<span class="scilabcomment">//probability estimatation demo (you need </span><span class="scilabcomment">&#0039;</span><span class="scilabcomment">-b 1</span><span class="scilabcomment">&#0039;</span><span class="scilabcomment"> for training and testing)</span>
+
+<span class="scilabopenclose">[</span><span class="scilabid">heart_scale_label</span><span class="scilabdefault">,</span> <span class="scilabid">heart_scale_inst</span><span class="scilabopenclose">]</span> <span class="scilaboperator">=</span> <span class="scilabid">libsvmread</span><span class="scilabopenclose">(</span><a class="scilabmacro" href="scilab://fullfile">fullfile</a><span class="scilabopenclose">(</span><span class="scilabid">libsvm_getpath</span><span class="scilabopenclose">(</span><span class="scilabopenclose">)</span><span class="scilabdefault">,</span><span class="scilabstring">&#0034;</span><span class="scilabstring">demos</span><span class="scilabstring">&#0034;</span><span class="scilabdefault">,</span><span class="scilabstring">&#0034;</span><span class="scilabstring">heart_scale</span><span class="scilabstring">&#0034;</span><span class="scilabopenclose">)</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabid">model</span> <span class="scilaboperator">=</span> <span class="scilabid">libsvm_svmtrain</span><span class="scilabopenclose">(</span><span class="scilabid">heart_scale_label</span><span class="scilabdefault">,</span> <span class="scilabid">heart_scale_inst</span><span class="scilabdefault">,</span> <span class="scilabstring">&#0039;</span><span class="scilabstring">-c 1 -g 0.07 -b 1</span><span class="scilabstring">&#0039;</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabopenclose">[</span><span class="scilabid">predict_label</span><span class="scilabdefault">,</span> <span class="scilabid">accuracy</span><span class="scilabdefault">,</span> <span class="scilabid">prob_estimates</span><span class="scilabopenclose">]</span> <span class="scilaboperator">=</span> <span class="scilabid">libsvm_svmpredict</span><span class="scilabopenclose">(</span><span class="scilabid">heart_scale_label</span><span class="scilabdefault">,</span> <span class="scilabid">heart_scale_inst</span><span class="scilabdefault">,</span> <span class="scilabid">model</span><span class="scilabdefault">,</span> <span class="scilabstring">&#0039;</span><span class="scilabstring">-b 1</span><span class="scilabstring">&#0039;</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabid">prob_estimates</span></pre></td><td valign="top"><a href="scilab://scilab.execexample/"><img src="ScilabExecute.png" border="0"/></a></td><td valign="top"><a href="scilab://scilab.editexample/"><img src="ScilabEdit.png" border="0"/></a></td><td></td></tr></table></div></div>
+
+<div class="refsection"><h3 class="title">See also</h3>
+   <ul class="itemizedlist"><li class="member"><a href="libsvm_svmtrain.html" class="link">libsvm_svmtrain</a></li></ul></div>
+
+<div class="refsection"><h3 class="title">Authors</h3>
+   <ul class="itemizedlist"><li class="member">Chih-Chung Chang</li>
+   <li class="member">Chih-Jen Lin</li>
+   <li class="member">Holger Nahrstaedt</li></ul></div>
+    <br />
+
+    <div class="manualnavbar">
+    <table width="100%">
+    <tr><td colspan="3" class="next"><a href="http://bugzilla.scilab.org/enter_bug.cgi?product=Scilab%20software&component=Documentation%20pages" class="ulink">Report an issue</a></td></tr>
+<tr>
+      <td width="30%">
+    	<span class="previous"><a href="section_55ddec68de65093495d0be4c9ff008b4.html">&lt;&lt; libsvm</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_55ddec68de65093495d0be4c9ff008b4.html">libsvm</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="libsvm_svmtrain.html">libsvm_svmtrain &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+  </body>
+</html>

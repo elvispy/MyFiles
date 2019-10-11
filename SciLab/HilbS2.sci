@@ -1,17 +1,16 @@
-function [HMS, HMSEE] = hilbertVMD(u, inter, prec)
-    /*
-    This functions calculates the Hilbert Spectrum and
-    Hilbert Marginal spectrum of the signal decomposition
-    */
-    /*
-    Inputs and parameters
-    u      - VMD decomposition signals
-    inter  - Interval from which t will range [0, inter]
-    ---------------------------
-    HS     - Hilbert Spectrum
-    HMS    - Hilbert Marginal Spectrum
+function [HMS, rango, HMSEE] = hilbertVMD(u, inter, prec)
     
-    */
+    //This functions calculates the Hilbert Spectrum and
+    //Hilbert Marginal spectrum of the signal decomposition
+    
+    //Inputs and parameters
+    //u      - VMD decomposition signals
+    //inter  - Interval from which t will range [0, inter]
+    //---------------------------
+    //HS     - Hilbert Spectrum
+    //HMS    - Hilbert Marginal Spectrum
+    
+   
     
     //defining the hilbert spectrum, instantenous frequency
     
@@ -57,41 +56,13 @@ function [HMS, HMSEE] = hilbertVMD(u, inter, prec)
     
     
     
-    
-    //inter2 = min(omeg_k):(step*(max(omeg_k)-min(omeg_k))/inter):max(omeg_k);
-    
     minn = min(omeg_k); //minimum in omega
+    aux = max(omeg_k)-minn;
+    aux = int(aux/prec)+1;
     
-    inter2 = minn:prec:max(omeg_k); //check if 2000 is enough
-    
-    aux = length(inter2);
+    rango = [minn, max(omeg_k)]
     
     HMS = zeros(aux,K);
-    
-    
-    /* to check if everything is ok.
-    //some control variables
-    disp("min(inter2)")
-    disp(inter2(1))
-    disp("-----------")
-    disp("max(inter2)")
-    disp(inter2($))
-    disp("-----------")
-    disp("aux")
-    disp(aux)
-    disp("-----------")
-    disp("HMS")
-    disp(size(HMS))
-    disp("-----------")
-    disp("A_k")
-    disp(size(A_k))
-    disp("-----------")
-    disp("interval of time")
-    disp(size(interval));
-    disp("-----------")
-    disp("time")
-    disp(time)
-    */
     
     //Calculating HMS
     
@@ -102,54 +73,60 @@ function [HMS, HMSEE] = hilbertVMD(u, inter, prec)
             
             //adding the integral
             i = int((omeg_k(k, j) - minn)/prec + 1);
-            omega = inter2(i);
-            if abs(omega - omeg_k(k, j)) <= prec
-                
+            omega = minn + (i-1)*prec
+            
+            if abs(omega - omeg_k(k, j)) < prec
                 HMS(i, k) = HMS(i, k) + A_k(k,j)* prec;
             end //end first if
             
             if i>2
-                omega = inter2(i-1);
-                if abs(omega - omeg_k(k, j)) <= prec
+                omega = minn + (i-2) * prec;
+                if abs(omega - omeg_k(k, j)) < prec
                     HMS(i-1, k) = HMS(i-1, k) + A_k(k,j)* prec;
                 end
             end //end second if
             
             if i<aux
-                omega = inter2(i+1);
-                if abs(omega - omeg_k(k, j)) <= prec
+                omega = minn + i * prec;
+                if abs(omega - omeg_k(k, j)) < prec
                     HMS(i+1, k) = HMS(i+1, k) + A_k(k,j)* prec;
                 end
                 
             end //end third if
-        end
-    end
- 
+        end //end inner for
+    end //end outer for
+
     
-    Tot_energy = 0
     
-    E_k = zeros(K, 1)
+    Tot_energy = zeros(K, 1);
+    
+    E_k = zeros(int((aux-1)/100)+1, K)
     //Calculating the energy
     
+    
     for  k = 1:K
+        for i = 0:int((aux-1)/100)
+            try
+                
+                E_k(i+1, k) = norm(HMS((i*100+1):((i+1)*100),k), 2)^2 * prec;
+                
+            catch
+                E_k(i+1, k) = norm(HMS((i*100+1):$, 2))^2 * prec;
+            end
+            
+            Tot_energy(k) = Tot_energy(k) + E_k(i+1, k);
+            
+        end
         
-        E_k(k) = norm(HMS(:,k)) * prec;
-        
-        
-        Tot_energy = Tot_energy + E_k(k)
     end
-  
+    HMSEE = zeros(K, 1);
     for k = 1:K
-        pk = E_k(k)/Tot_energy;
-        HMSEE(k) = - pk * log(pk);
+        for i = 1:size(E_k, 1)
+            pk = E_k(i, k)/Tot_energy(k);
+            if ~(pk == 0)  then
+                HMSEE(k) = HMSEE(k) - pk * log(pk);
+            end
+        end
     end
     
-    
-    
-    
-    
-    
-    
-
 endfunction
-   

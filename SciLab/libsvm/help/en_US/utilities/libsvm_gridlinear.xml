@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from libsvm_gridlinear.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="libsvm_gridlinear" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>libsvm_gridlinear</refname>
+    <refpurpose>parameter selection tool for linear classification</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   [best_rate,best_c,best_s] = libsvm_gridlinear(label,instance)
+   [best_rate,best_c,best_s] = libsvm_gridlinear(label,instance,log2c)
+   [best_rate,best_c,best_s] = libsvm_gridlinear(label,instance,log2c,s_seq)
+   [best_rate,best_c,best_s] = libsvm_gridlinear(label,instance,log2c,s_seq,v)
+   [best_rate,best_c,best_s] = libsvm_gridlinear(label,instance,log2c,s_seq,v,option_string)
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>log2c :</term>
+      <listitem><para> [begin,end,step]</para></listitem></varlistentry>
+   <varlistentry><term>s_seq :</term>
+      <listitem><para> linear kernels (0 - 7, 11 - 13), e.g. [0 1 4]</para></listitem></varlistentry>
+   <varlistentry><term>v :</term>
+      <listitem><para> fold</para></listitem></varlistentry>
+   <varlistentry><term>option_string:</term>
+      <listitem><para> additional parameters for svmtrain</para></listitem></varlistentry>
+   <varlistentry><term>best_rate :</term>
+      <listitem><para> cross validation accuracy for the best parameter combination</para></listitem></varlistentry>
+   <varlistentry><term>best_c :</term>
+      <listitem><para> best parameter c</para></listitem></varlistentry>
+   <varlistentry><term>best_s :</term>
+      <listitem><para> best linear kernel</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+libsvm_gridlinear is a parameter selection tool for linear classification. It uses cross validation (CV)
+technique to estimate the accuracy of each parameter combination in
+the specified range and helps you to decide the best parameters for
+your problem.
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+[label,instance]=libsvmread(fullfile(libsvm_getpath(),"demos","heart_scale"));
+[best_rate,best_c,best_s] = libsvm_gridlinear(label,instance)
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>See also</title>
+   <simplelist type="inline">
+   <member><link linkend="libsvm_grid">libsvm_grid</link></member>
+   </simplelist>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Holger Nahrstaedt</member>
+   </simplelist>
+</refsection>
+</refentry>

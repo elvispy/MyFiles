@@ -1,0 +1,20 @@
+ find the maginal Hilbert Spectrum
+-------------------------------JDSA---------------------------------------
+ A is the sum of the contribution of each frequency component in the freq
+ vector for all time points.
+ 
+ F is the vector with the frequency axis, use it as x axis to plot the mhs
+ 
+ HS is the gilbert spectrum amplitudes, one imf per coulmn
+
+ freq is the instantaneous frequency, one instantaneous frequency per
+ column
+
+ Flag (1 or 0) flag=1 is used to quantize the values of the instantaneous 
+ frequency, then values inside a unit of the resolution ar counted as as
+ the same frequency. for instance if you have 2 frequencies 10,34 and 
+ 10,45 and the resolution is .25, those 2 frequencies are counted each one
+ as 10,5 and the mhs sum the amplitude related to each frequency as if 
+ they belong to the same frequency value, this produce smooted graphs
+ fs is the sample rate of the original signal.
+ flag = 0 dont quantize the vectors of instantaneous frequency

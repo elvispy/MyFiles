@@ -1,0 +1,68 @@
+1.5.0
+  - libsvmread fixed
+  - module fixed to work with Scilab 6
+  - some bugs fixed in the help file examples
+1.4.5
+ - libsvm_loadmodel and libsvm_savemodel fixed
+ - st_deviation renamed to stdev
+1.4.4
+ - 2nu-SVM added http://www.ece.rice.edu/~md/np_svm.php
+ - LIBLINEAR is updated to 1.94
+ - LIBSVM is updated to 3.20
+ - some bugfixes
+ - The crossvalidation (libsvm_svmtrain with "-v 5") result is now a vector with [Cross Validation Accuracy, Positive Cross Validation Accuracy, Negative Cross Validation Accuracy]
+1.4.3
+ - Depreated stack-c function were removed
+1.4.2
+ - new functions libsvm_savemodel and libsvm_loadmodel
+1.4.1
+ - buxfix for getpath
+ - help files fixed for libsvm_linpredict and libsvm_lintrain
+ - path operations are replaced by fullfile
+1.4.0
+ - unit tests for libsvmwrite and libsvmread
+ - fix issues 805, 806, 808, 809, 813, 814,
+ - renaming of the following functions:
+   *svmtrain > libsvm_svmtrain
+   *svmpredict > libsvm_svmpredict
+   *train > libsvm_lintrain
+   *predict > libsvm_linpredict
+   *svmconfmat > libsvm_confmat
+   *svmgrid > libsvm_grid
+   *svmgridlinear > libsvm_gridlinear
+   *svmnormalize > libsvm_normalize
+   *svmpartest > libsvm_partest
+   *svmrocplot > libsvm_rocplot
+   *svmscale > libsvm_scale
+   *svmtoy > libsvm_toy
+1.3.1
+ - compatible with scilab-5.4.0-beta-1 and  scilab-5.4.0-alpha-1 or lower
+1.3
+ - compatible with scilab-5.4.0-beta-1
+ - incompatible with scilab-5.4.0-alpha-1 and lower
+ - fix several bugs in examples
+ - fix precomputed kernel bug in svmtrain
+ - LIBLINEAR is updated to 1.91
+ - LIBSVM is updated to 3.12
+1.2.3
+ - ready for scilab 5.4
+
+1.2.2
+ - some bugfixes
+ - improved help files
+
+1.2.1
+ - svmtoy added
+ - improved error handling in sci_gateway
+ - improved help files
+ - bug in performance demo removed
+1.2
+ - the Nan-Toolbox 1.3 is compatible to his toolbox now!
+ - improved demos
+ - LIBLINEAR with optional instance weight support
+1.1
+ - improved demos
+ - works under Windows
+ - svmnormalize added
+1.0
+ - first release of libsvm - toolbox

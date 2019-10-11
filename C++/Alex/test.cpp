@@ -1,46 +1,91 @@
 #include<iostream>
 #include<string>
+#include<cctype>
 
 using namespace std;
 
-int thesum(int a);
+string tolower(string mys);
+string ACR(string mys);
+string toupper(string mys);
+
 
 int main()
 {
-   string name1;
-   string name2;
-   int val1 = 0, val2 = 0;
+	//cout << tolower("Lets see if this works");
+    string acronym;
+    cin >> acronym;
+    acronym = toupper(acronym);
+    int nLivres;
+    cin >> nLivres;
+    string linhe = "";
+    for (int i = 0; i < nLivres; i++)
+    {
+        getline(cin, linhe);
+		linhe = tolower(linhe);      
+        if (ACR(linhe) == acronym)
+			cout << linhe << "\n";
+      
+    }//end for
+    return 0;
+}//end main
 
-   cin >> name1;
-   cin >> name2;
+string toupper(string mys)
+{   
+    string res = "";
+    for(char aux: mys)
+        res = res + (char)toupper(aux);
    
-   for(char i: name1)
-   {
-   
-   val1 += ((int)i-65);
-   
-   } //end for
-   
-   for(char j: name2)
-   {
-      val2 += ((int)j-65);
-   }//end for
-   while ( val1 >9 || val2 > 9)
-   {
-         if (val1 > 9 ) val1 = thesum(val1);
-         
-         if (val2 > 9 ) val2 = thesum(val2);
-   }//end while
-   
-   cout << val1 << " " << val2;
-   
-   return 0;
-}
+    return res;
+}//end function definition
 
-int thesum(int a)
+string tolower(string mys)
+{   
+	char ant = mys[0];
+    string res = string() + (char)toupper(ant);
+    bool mybool = true;
+    for(char aux: mys)
+    {
+    	if (mybool == true)
+    	{
+    		mybool = false;
+    		continue;
+		}//end first if
+		
+		if ( ant == ' ')
+			res = res + (char)toupper(aux);
+    	else
+			res = res + (char)tolower(aux);
+			
+		ant = aux;
+	}//end for
+   
+    return res;
+}//end function definition
+
+string ACR(string mys)
 {
-   if(a < 10) return a;
-   else return (a%10 + thesum( (int) ((a - (a % 10)) / 10)));
-   
-}
+    char ant = mys[0];
 
+    string res = string() + ant;
+    bool mybool = true;
+    for(char aux: mys)
+    {
+        if (mybool == true)
+        {
+            mybool = false;
+            continue;
+        }
+        if(ant == ' ')
+        {
+            res = res + aux;
+        } // end if
+      
+        ant = aux;
+      
+   }//end for
+   
+   
+   
+   return res;
+   
+}//end acr definition

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from libsvm_linpredict.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="libsvm_linpredict" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>libsvm_linpredict</refname>
+    <refpurpose>Does prediction for a calculated svm model</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   [predicted_label, accuracy, decision_values/prob_estimates] = libsvm_linpredict(testing_label_vector, testing_instance_matrix, model)
+   [predicted_label, accuracy, decision_values/prob_estimates] = libsvm_linpredict(testing_label_vector, testing_instance_matrix, model,'liblinear_options')
+   [predicted_label, accuracy, decision_values/prob_estimates] = libsvm_linpredict(testing_label_vector, testing_instance_matrix, model, 'liblinear_options','col')
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>liblinear_options:</term>
+      <listitem><para> -b probability_estimates: whether to predict probability estimates, 0 or 1 (default 0)</para></listitem></varlistentry>
+   <varlistentry><term>col:</term>
+      <listitem><para> if 'col' is setted testing_instance_matrix is parsed in column format, otherwise is in row format</para></listitem></varlistentry>
+   <varlistentry><term>predicted_label:</term>
+      <listitem><para>a vector of predicted labels</para></listitem></varlistentry>
+   <varlistentry><term>accuracy:</term>
+      <listitem><para> a vector with accuracy, mean squared error, squared correlation coefficient</para></listitem></varlistentry>
+   <varlistentry><term>decision_values/prob_estimates:</term>
+      <listitem><para> a matrix containing decision values or probability estimates (if '-b 1' is specified).</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+   </para>
+   <para>
+The third output is a matrix containing decision values or probability
+estimates (if '-b 1' is specified). If k is the number of classes
+and k' is the number of classifiers (k'=1 if k=2, otherwise k'=k), for decision values,
+each row includes results of k' binary linear classifiers. For probabilities,
+each row contains k values indicating the probability that the testing instance is in
+each class. Note that the order of classes here is the same as 'Label'
+field in the model structure.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+label_vector=[zeros(20,1);ones(20,1)];
+instance_matrix = sparse([rand(20,2); -1*rand(20,2)]);
+model=libsvm_lintrain(label_vector,instance_matrix,"-q")
+[pred_label, accuracy, dec_values]=libsvm_linpredict(label_vector,instance_matrix,model);
+disp("accuracy: "+string(accuracy(1))+" %");
+
+//---------------------
+// heart scale demo
+[heart_scale_label, heart_scale_inst] = libsvmread(fullfile(libsvm_getpath(),"demos","heart_scale"));
+model = libsvm_lintrain(heart_scale_label, heart_scale_inst, '-c 1');
+[predict_label, accuracy, dec_values] = libsvm_linpredict(heart_scale_label, heart_scale_inst, model); // test the training data
+disp("accuracy: "+string(accuracy(1))+" %");
+
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>See also</title>
+   <simplelist type="inline">
+   <member><link linkend="libsvm_lintrain">libsvm_lintrain</link></member>
+   </simplelist>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Chih-Chung Chang</member>
+   <member>Chih-Jen Lin</member>
+   <member>Holger Nahrstaedt</member>
+   </simplelist>
+</refsection>
+</refentry>

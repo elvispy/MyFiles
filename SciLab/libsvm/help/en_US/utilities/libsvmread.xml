@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from libsvmread.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="libsvmread" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>libsvmread</refname>
+    <refpurpose>reads files in LIBSVM format</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   [label_vector, instance_matrix] = libsvmread(filename);
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>filename :</term>
+      <listitem><para> string containing the file with or without path which will be loaded</para></listitem></varlistentry>
+   <varlistentry><term>label_vector:</term>
+      <listitem><para> a vector containing the group information. For a two class problem each element is either -1 or 1. For multi class the entries are positive numbers.</para></listitem></varlistentry>
+   <varlistentry><term>instance_matrix:</term>
+      <listitem><para> a sparse matrix containing the features. Each column is a feature vector associated to the group in the coresponding entry in label_vector</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Two outputs are labels and instances, which can then be used as inputs
+of svmtrain or svmpredict.
+   </para>
+   <para>
+   </para>
+   <para>
+   </para>
+   <para>
+The data files from http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/ can be
+read using libsvmread
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+[heart_scale_label, heart_scale_inst] = libsvmread(fullfile(libsvm_getpath(),"demos","heart_scale"));
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>See also</title>
+   <simplelist type="inline">
+   <member><link linkend="libsvmwrite">libsvmwrite</link></member>
+   </simplelist>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Chih-Chung Chang</member>
+   <member>Chih-Jen Lin</member>
+   <member>Holger Nahrstaedt</member>
+   <member>Tan Chin Luh</member>
+   </simplelist>
+</refsection>
+</refentry>
