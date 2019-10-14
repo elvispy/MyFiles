@@ -4,88 +4,80 @@
 
 using namespace std;
 
-string tolower(string mys);
-string ACR(string mys);
-string toupper(string mys);
-
+char circ(char aux, int hm, bool isup);
+int guess(string line);
 
 int main()
 {
-	//cout << tolower("Lets see if this works");
-    string acronym;
-    cin >> acronym;
-    acronym = toupper(acronym);
-    int nLivres;
-    cin >> nLivres;
-    string linhe = "";
-    for (int i = 0; i < nLivres; i++)
-    {
-        getline(cin, linhe);
-		linhe = tolower(linhe);      
-        if (ACR(linhe) == acronym)
-			cout << linhe << "\n";
+   cout << circ('D', 104, false) << "\n";
+   int nPages;
+   cin >> nPages;
+   cin.ignore();
+   for(int i = 0; i< nPages; i++)
+   {
       
-    }//end for
-    return 0;
+      if(i>0)
+      {
+         string linea;
+         getline(cin, linea);
+         int chiffre = guess(string line);
+         //cout << chiffre << "\n";
+         for(char aux: linea)
+         {
+            if(isalpha(aux))
+            {
+               cout << circ(aux, chiffre, isupper(aux));
+            }else
+            {
+               cout << aux;
+            }//end inner if
+         }//end for
+         cout << "\n";
+      }//end if
+   
+   }//end for
+   return 0;
 }//end main
 
-string toupper(string mys)
-{   
-    string res = "";
-    for(char aux: mys)
-        res = res + (char)toupper(aux);
-   
-    return res;
-}//end function definition
-
-string tolower(string mys)
-{   
-	char ant = mys[0];
-    string res = string() + (char)toupper(ant);
-    bool mybool = true;
-    for(char aux: mys)
-    {
-    	if (mybool == true)
-    	{
-    		mybool = false;
-    		continue;
-		}//end first if
-		
-		if ( ant == ' ')
-			res = res + (char)toupper(aux);
-    	else
-			res = res + (char)tolower(aux);
-			
-		ant = aux;
-	}//end for
-   
-    return res;
-}//end function definition
-
-string ACR(string mys)
+char circ(char aux, int hm, bool isup)
 {
-    char ant = mys[0];
+   hm = hm % 26;
+   aux = tolower(aux);
+   int alph;
+   if((int)(aux + hm) > 122)
+      alph = aux + hm -26;
+   else if ( (int)(aux + hm) < 97)
+      alph = aux + hm + 26;
+   else
+      alph = aux + hm;
+   return isup ? (char)toupper((char)alph) : (char)(alph);
+}//end functino definition
 
-    string res = string() + ant;
-    bool mybool = true;
-    for(char aux: mys)
-    {
-        if (mybool == true)
-        {
-            mybool = false;
-            continue;
-        }
-        if(ant == ' ')
-        {
-            res = res + aux;
-        } // end if
-      
-        ant = aux;
-      
-   }//end for
-   
-   
-   
-   return res;
-   
-}//end acr definition
+int guess(string line)
+{
+	bool mybool = true;
+	bool mybool2 = true;
+	bool mybool3 = true;
+	char ant = line[0];
+	char aux2 = line[1];
+	char aux3 = line[2];
+	int cont = 0;
+	char guesses[26];
+	for(int i = 0; i < line.length(); i++)
+	{
+		if(i>2)
+		{
+			if(ant == ' ' && aux == ' ')
+			{
+				
+				
+			}//end if
+			ant = aux2;
+			aux2 = aux3;
+			aux3 = aux;
+		}//end if
+		
+		
+	}//end for
+}//end function definition
+
