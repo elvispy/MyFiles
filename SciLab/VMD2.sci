@@ -1,29 +1,50 @@
-function [u, u_hat, omega, test] = VMD2(signal, alpha, tau, K, DC , init, tol, N, inter)
-    /*
-    Variational Mode Decomposition
+if exists("ifftshift") == 0 then
+    disp("Redefinido ifftshift para version 5.4");
+    function shifted_x = ifftshift(x)
+
+        lol = size(x)
+        if lol(2) == 1 then
+            x = x';
+        end
+        for i = 1:ceil(length(x)/2)
+            x = [x($) x(1:$-1)]
+        end
+        
+        if lol(2) == 1 then
+            x = x';
+        end
+        
+        shifted_x = x;
+    endfunction
+end
+
+
+function [u, u_hat, omega, test] = VMD2(signal, alpha, tau, K, DC , init2, tol, N, inter)
+   
+    //    Variational Mode Decomposition
+    //    
+    //    Input and Parameters:
+    //    ---------------------
+    //    signal  - the time domain signal (1D) to be decomposed
+    //    alpha   - th ebalancing parameter of the data-fidelity constraint
+    //    tau     - time-step of the dual ascent (pick 0 for noise-slack)
+    //    K       - The numbers of modes to be recovered
+    //    DC      - true if the first mode is put and kept at DC (0-freq)
+    //    init    - 0 = all omegas start at 0
+    //              1 = all omegas start uniformly distributed (seems good)
+    //              2 = all omegas initialized randomly
+    //    tol     - tolerance of convergence criterion; tipically around 1e-6
+    //    N       - Maximum nmber of iterations allowed.
+    //    inter   - Is the physical interval of time in which we are working
+    //    
+    //    Outputs:
+    //    --------
+    //    u       - The collection of decomposed modes
+    //    u_hat   - spectra of the modes
+    //    omega   - estimated mode center frequencies
     
-    Input and Parameters:
-    ---------------------
-    signal  - the time domain signal (1D) to be decomposed
-    alpha   - th ebalancing parameter of the data-fidelity constraint
-    tau     - time-step of the dual ascent (pick 0 for noise-slack)
-    K       - The numbers of modes to be recovered
-    DC      - true if the first mode is put and kept at DC (0-freq)
-    init    - 0 = all omegas start at 0
-              1 = all omegas start uniformly distributed (seems good)
-              2 = all omegas initialized randomly
-    tol     - tolerance of convergence criterion; tipically around 1e-6
-    N       - Maximum nmber of iterations allowed.
-    inter   - Is the physical interval of time in which we are working
     
-    Outputs:
-    --------
-    u       - The collection of decomposed modes
-    u_hat   - spectra of the modes
-    omega   - estimated mode center frequencies
-    
-    
-    */
+   
     
     
     //-------------------Preparations
@@ -67,14 +88,14 @@ function [u, u_hat, omega, test] = VMD2(signal, alpha, tau, K, DC , init, tol, N
     //Initialization of omega_k
     omega_plus = zeros(2, K);
     
-    switch init
-    case 1
+    if (init2 == 1 )
+   
         for i = 1:K
             omega_plus(1, i) = (.5/K)*(i-1);
         end
-    case 2
+    elseif init2 == 2
         omega_plus(1,:) = gsort(exp(log(fs) + (log(.5)-log(fs))*rand(1, K)));
-    otherwise
+    else
         omega_plus(1,:) = 0;
     end
     
@@ -96,7 +117,7 @@ function [u, u_hat, omega, test] = VMD2(signal, alpha, tau, K, DC , init, tol, N
 
     // ----------  main loop for iterative updates
   
-    while (uDiff > tol & n< N) //not converged and below iteration limit
+    while (and([uDiff > tol , n< N])) //not converged and below iteration limit
 
       
         
@@ -147,11 +168,6 @@ function [u, u_hat, omega, test] = VMD2(signal, alpha, tau, K, DC , init, tol, N
         for i = 1:K
 
             uDiff = uDiff + 1/T * (u_hat_plus(1, :, i) - u_hat_plus(2, :, i)) * conj((u_hat_plus(1, :, i)-u_hat_plus(2, :, i)))';
-            
-            //last line does not agree with the papers. See Zosso2014 page 536 for example.
-            // This next line is an attempt to fix the tolerance criteria. Observe that it is computationally incredibly more expensive.
-            
-            //uDiff = uDiff + ((u_hat_plus(n, :, i) - u_hat_plus(n-1, :, i)) * conj((u_hat_plus(n, :, i)-u_hat_plus(n-1, :, i)))' )/(u_hat_plus(n, :, i)* conj(u_hat_plus(n, :, i)');
         end
         uDiff = abs(uDiff);
  

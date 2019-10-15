@@ -1,46 +1,83 @@
 #include<iostream>
 #include<string>
+#include<cctype>
 
 using namespace std;
 
-int thesum(int a);
+char circ(char aux, int hm, bool isup);
+int guess(string line);
 
 int main()
 {
-   string name1;
-   string name2;
-   int val1 = 0, val2 = 0;
-
-   cin >> name1;
-   cin >> name2;
-   
-   for(char i: name1)
+   cout << circ('D', 104, false) << "\n";
+   int nPages;
+   cin >> nPages;
+   cin.ignore();
+   for(int i = 0; i< nPages; i++)
    {
+      
+      if(i>0)
+      {
+         string linea;
+         getline(cin, linea);
+         int chiffre = guess(string line);
+         //cout << chiffre << "\n";
+         for(char aux: linea)
+         {
+            if(isalpha(aux))
+            {
+               cout << circ(aux, chiffre, isupper(aux));
+            }else
+            {
+               cout << aux;
+            }//end inner if
+         }//end for
+         cout << "\n";
+      }//end if
    
-   val1 += ((int)i-65);
-   
-   } //end for
-   
-   for(char j: name2)
-   {
-      val2 += ((int)j-65);
    }//end for
-   while ( val1 >9 || val2 > 9)
-   {
-         if (val1 > 9 ) val1 = thesum(val1);
-         
-         if (val2 > 9 ) val2 = thesum(val2);
-   }//end while
-   
-   cout << val1 << " " << val2;
-   
    return 0;
-}
+}//end main
 
-int thesum(int a)
+char circ(char aux, int hm, bool isup)
 {
-   if(a < 10) return a;
-   else return (a%10 + thesum( (int) ((a - (a % 10)) / 10)));
-   
-}
+   hm = hm % 26;
+   aux = tolower(aux);
+   int alph;
+   if((int)(aux + hm) > 122)
+      alph = aux + hm -26;
+   else if ( (int)(aux + hm) < 97)
+      alph = aux + hm + 26;
+   else
+      alph = aux + hm;
+   return isup ? (char)toupper((char)alph) : (char)(alph);
+}//end functino definition
+
+int guess(string line)
+{
+	bool mybool = true;
+	bool mybool2 = true;
+	bool mybool3 = true;
+	char ant = line[0];
+	char aux2 = line[1];
+	char aux3 = line[2];
+	int cont = 0;
+	char guesses[26];
+	for(int i = 0; i < line.length(); i++)
+	{
+		if(i>2)
+		{
+			if(ant == ' ' && aux == ' ')
+			{
+				
+				
+			}//end if
+			ant = aux2;
+			aux2 = aux3;
+			aux3 = aux;
+		}//end if
+		
+		
+	}//end for
+}//end function definition
 
