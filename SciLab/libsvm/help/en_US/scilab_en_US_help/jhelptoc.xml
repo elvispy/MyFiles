@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE toc PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp TOC Version 1.0//EN" "http://java.sun.com/products/javahelp/toc_1_0.dtd">
+<toc version="1.0">
+<tocitem target="index" text="libsvm">
+<tocitem target="section_734eb98749fee3f2c6cfeb87bb842b9e" text="liblinear">
+<tocitem target="libsvm_linpredict" text="libsvm_linpredict"/>
+<tocitem target="libsvm_lintrain" text="libsvm_lintrain"/>
+</tocitem>
+<tocitem target="section_55ddec68de65093495d0be4c9ff008b4" text="libsvm">
+<tocitem target="libsvm_svmpredict" text="libsvm_svmpredict"/>
+<tocitem target="libsvm_svmtrain" text="libsvm_svmtrain"/>
+</tocitem>
+<tocitem target="section_1010ae11fc7218968624430e76845204" text="utilities">
+<tocitem target="libsvm_confmat" text="libsvm_confmat"/>
+<tocitem target="libsvm_getpath" text="libsvm_getpath"/>
+<tocitem target="libsvm_grid" text="libsvm_grid"/>
+<tocitem target="libsvm_gridlinear" text="libsvm_gridlinear"/>
+<tocitem target="libsvm_loadmodel" text="libsvm_loadmodel"/>
+<tocitem target="libsvm_normalize" text="libsvm_normalize"/>
+<tocitem target="libsvm_partest" text="libsvm_partest"/>
+<tocitem target="libsvm_rocplot" text="libsvm_rocplot"/>
+<tocitem target="libsvm_savemodel" text="libsvm_savemodel"/>
+<tocitem target="libsvm_scale" text="libsvm_scale"/>
+<tocitem target="libsvm_toy" text="libsvm_toy"/>
+<tocitem target="libsvmread" text="libsvmread"/>
+<tocitem target="libsvmwrite" text="libsvmwrite"/>
+</tocitem>
+</tocitem>
+</toc>

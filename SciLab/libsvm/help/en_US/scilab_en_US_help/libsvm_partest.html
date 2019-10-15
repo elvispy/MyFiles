@@ -1,0 +1,199 @@
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>libsvm_partest</title>
+    <style type="text/css" media="all">
+      @import url("scilab_code.css");
+      @import url("xml_code.css");
+      @import url("c_code.css");
+      @import url("style.css");
+    </style>
+  </head>
+  <body>
+    <div class="manualnavbar">
+    <table width="100%"><tr>
+      <td width="30%">
+    	<span class="previous"><a href="libsvm_normalize.html">&lt;&lt; libsvm_normalize</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_1010ae11fc7218968624430e76845204.html">utilities</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="libsvm_rocplot.html">libsvm_rocplot &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+
+
+
+    <span class="path" dir="ltr"><a href="index.html">libsvm</a> &gt;&gt; <a href="section_1010ae11fc7218968624430e76845204.html">utilities</a> &gt; libsvm_partest</span>
+
+    <br /><br />
+    <div class="refnamediv"><h1 class="refname">libsvm_partest</h1>
+    <p class="refpurpose">This function calculate the performance, based on Bayes theorem, of a clinical test.</p></div>
+
+
+<div class="refsynopsisdiv"><h3 class="title">Calling Sequence</h3>
+   <div class="synopsis"><pre><span class="functionid">libsvm_partest</span><span class="default">(</span><span class="default">X</span><span class="default">)</span></pre></div></div>
+
+<div class="refsection"><h3 class="title">Parameters</h3>
+   <dl><dt><span class="term">X :</span>
+      <dd><p class="para">is a  2x2 matrix</p></dd></dt>
+   <dt><span class="term">Outputs:</span>
+      <dd><p class="para"></p></dd></dt>
+   <dt><span class="term">:</span>
+      <dd><p class="para">- Prevalence of disease</p></dd></dt>
+   <dt><span class="term">:</span>
+      <dd><p class="para">- Test Sensibility with 95% confidence interval</p></dd></dt>
+   <dt><span class="term">:</span>
+      <dd><p class="para">- Test Specificity with 95% confidence interval</p></dd></dt>
+   <dt><span class="term">:</span>
+      <dd><p class="para">- False positive and negative proportions</p></dd></dt>
+   <dt><span class="term">:</span>
+      <dd><p class="para">- Youden&#0039;s Index</p></dd></dt>
+   <dt><span class="term">:</span>
+      <dd><p class="para">- Test Accuracy</p></dd></dt>
+   <dt><span class="term">:</span>
+      <dd><p class="para">- Mis-classification Rate</p></dd></dt>
+   <dt><span class="term">:</span>
+      <dd><p class="para">- Positive predictivity with 95% confidence interval</p></dd></dt>
+   <dt><span class="term">:</span>
+      <dd><p class="para">- Positive Likelihood Ratio</p></dd></dt>
+   <dt><span class="term">:</span>
+      <dd><p class="para">- Negative predictivity with 95% confidence interval</p></dd></dt>
+   <dt><span class="term">:</span>
+      <dd><p class="para">- Negative Likelihood Ratio</p></dd></dt>
+   <dt><span class="term">:</span>
+      <dd><p class="para">- Error odds ratio</p></dd></dt>
+   <dt><span class="term">:</span>
+      <dd><p class="para">- Diagnostic odds ratio</p></dd></dt>
+   <dt><span class="term">:</span>
+      <dd><p class="para">- Discriminant Power</p></dd></dt>
+   <dt><span class="term">:</span>
+      <dd><p class="para">- Test bias</p></dd></dt>
+   <dt><span class="term">:</span>
+      <dd><p class="para">- Number needed to Diagnose (NDD)</p></dd></dt></dl></div>
+
+<div class="refsection"><h3 class="title">Description</h3>
+   <p class="para">X is the following 2x2 matrix.
+<p class="para"><table class="informaltable" border="1"><tr><td></td>
+<td>Affected(D+)</td>
+<td>Healthy(D-)</td></tr>
+<tr><td>Positive Test(T+)</td>
+<td>True  positives</td>
+<td>False positive</td></tr>
+<tr><td>Negative Test(T-)</td>
+<td>False negative</td>
+<td>True  negatives</td></tr></table></p></p>
+   <p class="para">Sensitivity and Specificity</p>
+   <p class="para">The Sensitivity is the probability that the test is positive on sick subjects: P(T+|D+)
+The Specificity is the probability that the test is negative on healthy subjects: P(T-|D-)</p>
+   <p class="para">Positive and Negative predictivity</p>
+   <p class="para">Positive predictivity is the probability that a subject is sick when test is positive: P(D+|T+)
+Negative predictivity is the probability that a subject is healthy when test is negative: P(D-|T-)
+Positive predictivity=Precision</p>
+   <p class="para">Youden&#0039;s Index</p>
+   <p class="para">Youden&#0039;s J statistics (also called Youden&#0039;s index) is a single statistic that
+captures the performance of a diagnostic test. The use of such a single index
+is &#0034;not generally to be recommended&#0034;. It is equal to the risk difference for a
+dichotomous test and it defined as: J = Sensitivity + Specificity - 1.
+A perfect test has J=1.</p>
+   <p class="para">Positive and Negative Likelihood Ratio</p>
+   <p class="para">When we decide to order a diagnostic test, we want to know which test (or
+tests) will best help us rule-in or rule-out disease in our patient.  In the
+language of clinical epidemiology, we take our initial assessment of the
+likelihood of disease (“pre-test probability”), do a test to help us shift our
+suspicion one way or the other, and then determine a final assessment of the
+likelihood of disease (“post-test probability”).
+Likelihood ratios tell us how much we should shift our suspicion for a
+particular test result. Because tests can be positive or negative, there are at
+least two likelihood ratios for each test.  The “positive likelihood ratio”
+(LR+) tells us how much to increase the probability of disease if the test is
+positive, while the “negative likelihood ratio” (LR-) tells us how much to
+decrease it if the test is negative.
+You can also define the LR+ and LR- in terms of sensitivity and specificity:
+LR+ = sensitivity / (1-specificity)
+LR- = (1-sensitivity) / specificity</p>
+   <p class="para">Accuracy and Mis-classification rate</p>
+   <p class="para">The Accuracy (or Power) is the probability that the test correctly classifies
+the subjects; the Mis-classification rate is its complement to 1.
+In statistics, the F1 score (also F-score or F-measure) is a measure of a
+test&#0039;s accuracy. It considers both the Precision (positive predictivity)
+and the Sensitivity of the test to compute the score:
+P is the number of correct results divided by the number of all returned results
+S is the number of correct results divided by the number of results that should
+have been returned.
+The F1 score can be interpreted as a weighted average of the Precision and
+Sensitivity, where an F1 score reaches its best value at 1 and worst score at 0.</p>
+   <p class="para">Test Bias (TB)</p>
+   <p class="para">A test which shows provable and systematic differences in the results of people
+based on group membership. For example, a test might be considered biased if
+members of one particular gender or race consistently and systematic have
+statistically different results from the rest of the testing population.
+It is defined as (T+)/(D+)=(TP+FP)/(TP+FN)
+A perfect test has a TB=1;
+If TB&lt;1 the test underestimates the disease because there are more affected than positive test
+If TB&gt;1 the test overestimates the disease because there are more positive test than affected</p>
+   <p class="para">Error Odds Ratio.</p>
+   <p class="para">Indicates if the probability of being wrongly classified is highest in the
+diseased or in the non-diseased group. If the error odds is higher than one the
+probability is highest in the diseased group (and the specificity of the test
+is better than the sensitivity), if the value is lower than one the probability
+of an incorrect classification is highest in the non-diseased group (and the
+sensitivity of the test is better than the specificity).
+It is defined as (Sensitivity/(1-Sensitivity))/(Specificity/(1-Specificity));</p>
+   <p class="para">Diagnostic Odds Ratio.</p>
+   <p class="para">Often used as a measure of the discriminative power of the test. Has the value
+one if the test does not discriminate between diseased and not diseased. Very
+high values above one means that a test discriminates well. Values lower than
+one mean that there is something wrong in the application of the test.
+It is defined as (Sensitivity/(1-Sensitivity))/((1-Specificity)/Specificity);</p>
+   <p class="para">Discriminant power</p>
+   <p class="para">The discriminant power for a test, also termed the test effectiveness, is a
+measure of how well a test distinguishes between affected and unaffected
+persons. It is the sum of logs of Sensivity and Specificity over own false
+proportion, scaled by the standard deviation of the logistic normal
+distribution curve (square root of 3 divided by π). Test effectiveness is
+interpreted as the standardized distance between the means for both populations.
+A test with a discriminant value of 1 is not effective in discriminating between affected and unaffected individuals.
+A test with a discriminant value of 3 is effective in discriminating between affected and unaffected individuals.</p>
+   <p class="para"></p>
+   <p class="para"></p></div>
+
+<div class="refsection"><h3 class="title">Examples</h3>
+   <div class="programlisting"><table border="0" width="100%"><tr><td width="98%"><pre class="scilabcode"><span class="scilabid">X</span><span class="scilaboperator">=</span><span class="scilabopenclose">[</span><span class="scilabnumber">80</span> <span class="scilabnumber">3</span><span class="scilabdefault">;</span> <span class="scilabnumber">5</span> <span class="scilabnumber">20</span><span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
+<span class="scilabid">libsvm_partest</span><span class="scilabopenclose">(</span><span class="scilabid">X</span><span class="scilabopenclose">)</span></pre></td><td valign="top"><a href="scilab://scilab.execexample/"><img src="ScilabExecute.png" border="0"/></a></td><td valign="top"><a href="scilab://scilab.editexample/"><img src="ScilabEdit.png" border="0"/></a></td><td></td></tr></table></div></div>
+
+<div class="refsection"><h3 class="title">See also</h3>
+   <ul class="itemizedlist"><li class="member"><a href="libsvm_rocplot.html" class="link">libsvm_rocplot</a></li>
+   <li class="member"><a href="libsvm_confmat.html" class="link">libsvm_confmat</a></li></ul></div>
+
+<div class="refsection"><h3 class="title">Authors</h3>
+   <ul class="itemizedlist"><li class="member">Created by Giuseppe Cardillo           giuseppe.cardillo-edta@poste.it</li>
+   <li class="member">H. Nahrstaedt - 2012</li></ul></div>
+    <br />
+
+    <div class="manualnavbar">
+    <table width="100%">
+    <tr><td colspan="3" class="next"><a href="http://bugzilla.scilab.org/enter_bug.cgi?product=Scilab%20software&component=Documentation%20pages" class="ulink">Report an issue</a></td></tr>
+<tr>
+      <td width="30%">
+    	<span class="previous"><a href="libsvm_normalize.html">&lt;&lt; libsvm_normalize</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_1010ae11fc7218968624430e76845204.html">utilities</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="libsvm_rocplot.html">libsvm_rocplot &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+  </body>
+</html>

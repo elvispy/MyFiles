@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book [
+<!--Begin Entities-->
+<!ENTITY a482cace9c9e71a016570d18cce55d875 SYSTEM "file:///C:/Program Files/scilab-6.0.2/contrib/libsvm/help/en_US/liblinear/libsvm_linpredict.xml">
+<!ENTITY acdb6c22a5206e00b844b34692bef9428 SYSTEM "file:///C:/Program Files/scilab-6.0.2/contrib/libsvm/help/en_US/liblinear/libsvm_lintrain.xml">
+<!ENTITY aa482e7e63c6835ac16a5c8cd7839b4c1 SYSTEM "file:///C:/Program Files/scilab-6.0.2/contrib/libsvm/help/en_US/libsvm/libsvm_svmpredict.xml">
+<!ENTITY a0e288c200ba36f4678e5dfe938ddc82f SYSTEM "file:///C:/Program Files/scilab-6.0.2/contrib/libsvm/help/en_US/libsvm/libsvm_svmtrain.xml">
+<!ENTITY a877c4beb41b8bc7a4e5158b46af68e32 SYSTEM "file:///C:/Program Files/scilab-6.0.2/contrib/libsvm/help/en_US/utilities/libsvm_confmat.xml">
+<!ENTITY aece9b95c04697d024d829f5ad5ee9e7f SYSTEM "file:///C:/Program Files/scilab-6.0.2/contrib/libsvm/help/en_US/utilities/libsvm_getpath.xml">
+<!ENTITY a48b512699b329cdbe0c7e2e16402103f SYSTEM "file:///C:/Program Files/scilab-6.0.2/contrib/libsvm/help/en_US/utilities/libsvm_grid.xml">
+<!ENTITY a4c04004d35bb47bd6e584c442ce043e1 SYSTEM "file:///C:/Program Files/scilab-6.0.2/contrib/libsvm/help/en_US/utilities/libsvm_gridlinear.xml">
+<!ENTITY ad977fb1dade4d8ff9c689bf42f22290c SYSTEM "file:///C:/Program Files/scilab-6.0.2/contrib/libsvm/help/en_US/utilities/libsvm_loadmodel.xml">
+<!ENTITY ab7c00c319d743d9410c38502ef2c4ec4 SYSTEM "file:///C:/Program Files/scilab-6.0.2/contrib/libsvm/help/en_US/utilities/libsvm_normalize.xml">
+<!ENTITY ab8625cf53e6e91d23187978f3c728a62 SYSTEM "file:///C:/Program Files/scilab-6.0.2/contrib/libsvm/help/en_US/utilities/libsvm_partest.xml">
+<!ENTITY a6b83cfac611a138cd94f8d2f0d7ec7b3 SYSTEM "file:///C:/Program Files/scilab-6.0.2/contrib/libsvm/help/en_US/utilities/libsvm_rocplot.xml">
+<!ENTITY a8098469280e1e4a6575669d973bc9897 SYSTEM "file:///C:/Program Files/scilab-6.0.2/contrib/libsvm/help/en_US/utilities/libsvm_savemodel.xml">
+<!ENTITY ad2f24677448886a09d1251229fdf1e94 SYSTEM "file:///C:/Program Files/scilab-6.0.2/contrib/libsvm/help/en_US/utilities/libsvm_scale.xml">
+<!ENTITY af4fa579d64c8843e49c9cbcea788ec5c SYSTEM "file:///C:/Program Files/scilab-6.0.2/contrib/libsvm/help/en_US/utilities/libsvm_toy.xml">
+<!ENTITY a1c31ebe5f5478002fd0b554f4685344e SYSTEM "file:///C:/Program Files/scilab-6.0.2/contrib/libsvm/help/en_US/utilities/libsvmread.xml">
+<!ENTITY a9bf92dd90bbcb74a981e183285e008b1 SYSTEM "file:///C:/Program Files/scilab-6.0.2/contrib/libsvm/help/en_US/utilities/libsvmwrite.xml">
+<!--End Entities-->
+]>
+<book version="5.0-subset Scilab" xml:lang="en_US"
+      xmlns="http://docbook.org/ns/docbook"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      xmlns:svg="http://www.w3.org/2000/svg"
+      xmlns:mml="http://www.w3.org/1998/Math/MathML"
+      xmlns:html="http://www.w3.org/1999/xhtml"
+      xmlns:db="http://docbook.org/ns/docbook">
+  <info xml:id='libsvm_manual'>
+    <title>libsvm</title>
+  </info>
+
+<part xml:id='section_734eb98749fee3f2c6cfeb87bb842b9e'>
+<title>liblinear</title>
+&a482cace9c9e71a016570d18cce55d875;
+&acdb6c22a5206e00b844b34692bef9428;
+</part>
+<part xml:id='section_55ddec68de65093495d0be4c9ff008b4'>
+<title>libsvm</title>
+&aa482e7e63c6835ac16a5c8cd7839b4c1;
+&a0e288c200ba36f4678e5dfe938ddc82f;
+</part>
+<part xml:id='section_1010ae11fc7218968624430e76845204'>
+<title>utilities</title>
+&a877c4beb41b8bc7a4e5158b46af68e32;
+&aece9b95c04697d024d829f5ad5ee9e7f;
+&a48b512699b329cdbe0c7e2e16402103f;
+&a4c04004d35bb47bd6e584c442ce043e1;
+&ad977fb1dade4d8ff9c689bf42f22290c;
+&ab7c00c319d743d9410c38502ef2c4ec4;
+&ab8625cf53e6e91d23187978f3c728a62;
+&a6b83cfac611a138cd94f8d2f0d7ec7b3;
+&a8098469280e1e4a6575669d973bc9897;
+&ad2f24677448886a09d1251229fdf1e94;
+&af4fa579d64c8843e49c9cbcea788ec5c;
+&a1c31ebe5f5478002fd0b554f4685344e;
+&a9bf92dd90bbcb74a981e183285e008b1;
+</part>
+</book>

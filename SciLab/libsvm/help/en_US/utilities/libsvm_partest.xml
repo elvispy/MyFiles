@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from libsvm_partest.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="libsvm_partest" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>libsvm_partest</refname>
+    <refpurpose>This function calculate the performance, based on Bayes theorem, of a clinical test.</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   libsvm_partest(X)
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>X :</term>
+      <listitem><para>is a  2x2 matrix</para></listitem></varlistentry>
+   <varlistentry><term>Outputs:</term>
+      <listitem><para> </para></listitem></varlistentry>
+   <varlistentry><term>:</term>
+      <listitem><para>- Prevalence of disease</para></listitem></varlistentry>
+   <varlistentry><term>:</term>
+      <listitem><para>- Test Sensibility with 95% confidence interval</para></listitem></varlistentry>
+   <varlistentry><term>:</term>
+      <listitem><para>- Test Specificity with 95% confidence interval</para></listitem></varlistentry>
+   <varlistentry><term>:</term>
+      <listitem><para>- False positive and negative proportions</para></listitem></varlistentry>
+   <varlistentry><term>:</term>
+      <listitem><para>- Youden's Index</para></listitem></varlistentry>
+   <varlistentry><term>:</term>
+      <listitem><para>- Test Accuracy</para></listitem></varlistentry>
+   <varlistentry><term>:</term>
+      <listitem><para>- Mis-classification Rate</para></listitem></varlistentry>
+   <varlistentry><term>:</term>
+      <listitem><para>- Positive predictivity with 95% confidence interval</para></listitem></varlistentry>
+   <varlistentry><term>:</term>
+      <listitem><para>- Positive Likelihood Ratio</para></listitem></varlistentry>
+   <varlistentry><term>:</term>
+      <listitem><para>- Negative predictivity with 95% confidence interval</para></listitem></varlistentry>
+   <varlistentry><term>:</term>
+      <listitem><para>- Negative Likelihood Ratio</para></listitem></varlistentry>
+   <varlistentry><term>:</term>
+      <listitem><para>- Error odds ratio</para></listitem></varlistentry>
+   <varlistentry><term>:</term>
+      <listitem><para>- Diagnostic odds ratio</para></listitem></varlistentry>
+   <varlistentry><term>:</term>
+      <listitem><para>- Discriminant Power</para></listitem></varlistentry>
+   <varlistentry><term>:</term>
+      <listitem><para>- Test bias</para></listitem></varlistentry>
+   <varlistentry><term>:</term>
+      <listitem><para>- Number needed to Diagnose (NDD)</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+X is the following 2x2 matrix.
+<para>  <informaltable border="1">
+<tr>
+<td> </td>
+<td>Affected(D+)</td>
+<td>Healthy(D-)</td>
+</tr>
+<tr>
+<td>Positive Test(T+)</td>
+<td>True  positives</td>
+<td>False positive</td>
+</tr>
+<tr>
+<td>Negative Test(T-)</td>
+<td>False negative</td>
+<td>True  negatives</td>
+</tr>
+</informaltable>
+</para>
+   </para>
+   <para>
+Sensitivity and Specificity
+   </para>
+   <para>
+The Sensitivity is the probability that the test is positive on sick subjects: P(T+|D+)
+The Specificity is the probability that the test is negative on healthy subjects: P(T-|D-)
+   </para>
+   <para>
+Positive and Negative predictivity
+   </para>
+   <para>
+Positive predictivity is the probability that a subject is sick when test is positive: P(D+|T+)
+Negative predictivity is the probability that a subject is healthy when test is negative: P(D-|T-)
+Positive predictivity=Precision
+   </para>
+   <para>
+Youden's Index
+   </para>
+   <para>
+Youden's J statistics (also called Youden's index) is a single statistic that
+captures the performance of a diagnostic test. The use of such a single index
+is "not generally to be recommended". It is equal to the risk difference for a
+dichotomous test and it defined as: J = Sensitivity + Specificity - 1.
+A perfect test has J=1.
+   </para>
+   <para>
+Positive and Negative Likelihood Ratio
+   </para>
+   <para>
+When we decide to order a diagnostic test, we want to know which test (or
+tests) will best help us rule-in or rule-out disease in our patient.  In the
+language of clinical epidemiology, we take our initial assessment of the
+likelihood of disease (“pre-test probability”), do a test to help us shift our
+suspicion one way or the other, and then determine a final assessment of the
+likelihood of disease (“post-test probability”).
+Likelihood ratios tell us how much we should shift our suspicion for a
+particular test result. Because tests can be positive or negative, there are at
+least two likelihood ratios for each test.  The “positive likelihood ratio”
+(LR+) tells us how much to increase the probability of disease if the test is
+positive, while the “negative likelihood ratio” (LR-) tells us how much to
+decrease it if the test is negative.
+You can also define the LR+ and LR- in terms of sensitivity and specificity:
+LR+ = sensitivity / (1-specificity)
+LR- = (1-sensitivity) / specificity
+   </para>
+   <para>
+Accuracy and Mis-classification rate
+   </para>
+   <para>
+The Accuracy (or Power) is the probability that the test correctly classifies
+the subjects; the Mis-classification rate is its complement to 1.
+In statistics, the F1 score (also F-score or F-measure) is a measure of a
+test's accuracy. It considers both the Precision (positive predictivity)
+and the Sensitivity of the test to compute the score:
+P is the number of correct results divided by the number of all returned results
+S is the number of correct results divided by the number of results that should
+have been returned.
+The F1 score can be interpreted as a weighted average of the Precision and
+Sensitivity, where an F1 score reaches its best value at 1 and worst score at 0.
+   </para>
+   <para>
+Test Bias (TB)
+   </para>
+   <para>
+A test which shows provable and systematic differences in the results of people
+based on group membership. For example, a test might be considered biased if
+members of one particular gender or race consistently and systematic have
+statistically different results from the rest of the testing population.
+It is defined as (T+)/(D+)=(TP+FP)/(TP+FN)
+A perfect test has a TB=1;
+If TB&lt;1 the test underestimates the disease because there are more affected than positive test
+If TB&gt;1 the test overestimates the disease because there are more positive test than affected
+   </para>
+   <para>
+Error Odds Ratio.
+   </para>
+   <para>
+Indicates if the probability of being wrongly classified is highest in the
+diseased or in the non-diseased group. If the error odds is higher than one the
+probability is highest in the diseased group (and the specificity of the test
+is better than the sensitivity), if the value is lower than one the probability
+of an incorrect classification is highest in the non-diseased group (and the
+sensitivity of the test is better than the specificity).
+It is defined as (Sensitivity/(1-Sensitivity))/(Specificity/(1-Specificity));
+   </para>
+   <para>
+Diagnostic Odds Ratio.
+   </para>
+   <para>
+Often used as a measure of the discriminative power of the test. Has the value
+one if the test does not discriminate between diseased and not diseased. Very
+high values above one means that a test discriminates well. Values lower than
+one mean that there is something wrong in the application of the test.
+It is defined as (Sensitivity/(1-Sensitivity))/((1-Specificity)/Specificity);
+   </para>
+   <para>
+Discriminant power
+   </para>
+   <para>
+The discriminant power for a test, also termed the test effectiveness, is a
+measure of how well a test distinguishes between affected and unaffected
+persons. It is the sum of logs of Sensivity and Specificity over own false
+proportion, scaled by the standard deviation of the logistic normal
+distribution curve (square root of 3 divided by π). Test effectiveness is
+interpreted as the standardized distance between the means for both populations.
+A test with a discriminant value of 1 is not effective in discriminating between affected and unaffected individuals.
+A test with a discriminant value of 3 is effective in discriminating between affected and unaffected individuals.
+   </para>
+   <para>
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+
+X=[80 3; 5 20];
+libsvm_partest(X)
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>See also</title>
+   <simplelist type="inline">
+   <member><link linkend="libsvm_rocplot">libsvm_rocplot</link></member>
+   <member><link linkend="libsvm_confmat">libsvm_confmat</link></member>
+   </simplelist>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Created by Giuseppe Cardillo           giuseppe.cardillo-edta@poste.it</member>
+   <member>H. Nahrstaedt - 2012</member>
+   </simplelist>
+</refsection>
+</refentry>

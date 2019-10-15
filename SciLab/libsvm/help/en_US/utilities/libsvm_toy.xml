@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from libsvm_toy.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="libsvm_toy" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>libsvm_toy</refname>
+    <refpurpose>shows the two-class classification boundary of the 2-D data</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   libsvm_toy(label_vector, instance_matrix, options, contour_level)
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>label_vector:</term>
+      <listitem><para> N by 1, has to be two-class</para></listitem></varlistentry>
+   <varlistentry><term>instance_matrix:</term>
+      <listitem><para> N by 2</para></listitem></varlistentry>
+   <varlistentry><term>options:</term>
+      <listitem><para> default '',  see svmtrain, has to be a classification formulation (e.g."-c 1000 -g 0.5") .</para></listitem></varlistentry>
+   <varlistentry><term>contour_level:</term>
+      <listitem><para> default [0 0],    change to [-1 0 1] for showing the +/- 1 margin.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+libsvm_toy shows the two-class classification boundary of the 2-D data
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+instance_matrix = [rand(20,2); -1*rand(20,2)];
+label_vector=[zeros(20,1);ones(20,1)];
+libsvm_toy(label_vector, instance_matrix)
+
+libsvm_toy(label_vector, instance_matrix,"-c 1000 -g 0.5",[-1 0 1])
+
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Holger Nahrstaedt</member>
+   <member>Hsuan-Tien Lin, htlin at caltech.edu, 2006/04/07</member>
+   </simplelist>
+</refsection>
+</refentry>

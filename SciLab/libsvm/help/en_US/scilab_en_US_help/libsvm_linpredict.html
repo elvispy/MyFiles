@@ -1,0 +1,110 @@
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>libsvm_linpredict</title>
+    <style type="text/css" media="all">
+      @import url("scilab_code.css");
+      @import url("xml_code.css");
+      @import url("c_code.css");
+      @import url("style.css");
+    </style>
+  </head>
+  <body>
+    <div class="manualnavbar">
+    <table width="100%"><tr>
+      <td width="30%">
+    	<span class="previous"><a href="section_734eb98749fee3f2c6cfeb87bb842b9e.html">&lt;&lt; liblinear</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_734eb98749fee3f2c6cfeb87bb842b9e.html">liblinear</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="libsvm_lintrain.html">libsvm_lintrain &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+
+
+
+    <span class="path" dir="ltr"><a href="index.html">libsvm</a> &gt;&gt; <a href="section_734eb98749fee3f2c6cfeb87bb842b9e.html">liblinear</a> &gt; libsvm_linpredict</span>
+
+    <br /><br />
+    <div class="refnamediv"><h1 class="refname">libsvm_linpredict</h1>
+    <p class="refpurpose">Does prediction for a calculated svm model</p></div>
+
+
+<div class="refsynopsisdiv"><h3 class="title">Calling Sequence</h3>
+   <div class="synopsis"><pre><span class="default">[</span><span class="default">predicted_label</span><span class="default">, </span><span class="default">accuracy</span><span class="default">, </span><span class="default">decision_values</span><span class="default">/</span><span class="default">prob_estimates</span><span class="default">] = </span><span class="functionid">libsvm_linpredict</span><span class="default">(</span><span class="default">testing_label_vector</span><span class="default">, </span><span class="default">testing_instance_matrix</span><span class="default">, </span><span class="default">model</span><span class="default">)</span>
+<span class="default">[</span><span class="default">predicted_label</span><span class="default">, </span><span class="default">accuracy</span><span class="default">, </span><span class="default">decision_values</span><span class="default">/</span><span class="default">prob_estimates</span><span class="default">] = </span><span class="functionid">libsvm_linpredict</span><span class="default">(</span><span class="default">testing_label_vector</span><span class="default">, </span><span class="default">testing_instance_matrix</span><span class="default">, </span><span class="default">model</span><span class="default">,</span>&#0039;<span class="default">liblinear_options</span>&#0039;<span class="default">)</span>
+<span class="default">[</span><span class="default">predicted_label</span><span class="default">, </span><span class="default">accuracy</span><span class="default">, </span><span class="default">decision_values</span><span class="default">/</span><span class="default">prob_estimates</span><span class="default">] = </span><span class="functionid">libsvm_linpredict</span><span class="default">(</span><span class="default">testing_label_vector</span><span class="default">, </span><span class="default">testing_instance_matrix</span><span class="default">, </span><span class="default">model</span><span class="default">, </span>&#0039;<span class="default">liblinear_options</span>&#0039;<span class="default">,</span>&#0039;<span class="default">col</span>&#0039;<span class="default">)</span></pre></div></div>
+
+<div class="refsection"><h3 class="title">Parameters</h3>
+   <dl><dt><span class="term">liblinear_options:</span>
+      <dd><p class="para">-b probability_estimates: whether to predict probability estimates, 0 or 1 (default 0)</p></dd></dt>
+   <dt><span class="term">col:</span>
+      <dd><p class="para">if &#0039;col&#0039; is setted testing_instance_matrix is parsed in column format, otherwise is in row format</p></dd></dt>
+   <dt><span class="term">predicted_label:</span>
+      <dd><p class="para">a vector of predicted labels</p></dd></dt>
+   <dt><span class="term">accuracy:</span>
+      <dd><p class="para">a vector with accuracy, mean squared error, squared correlation coefficient</p></dd></dt>
+   <dt><span class="term">decision_values/prob_estimates:</span>
+      <dd><p class="para">a matrix containing decision values or probability estimates (if &#0039;-b 1&#0039; is specified).</p></dd></dt></dl></div>
+
+<div class="refsection"><h3 class="title">Description</h3>
+   <p class="para"></p>
+   <p class="para">The third output is a matrix containing decision values or probability
+estimates (if &#0039;-b 1&#0039; is specified). If k is the number of classes
+and k&#0039; is the number of classifiers (k&#0039;=1 if k=2, otherwise k&#0039;=k), for decision values,
+each row includes results of k&#0039; binary linear classifiers. For probabilities,
+each row contains k values indicating the probability that the testing instance is in
+each class. Note that the order of classes here is the same as &#0039;Label&#0039;
+field in the model structure.</p>
+   <p class="para"></p></div>
+
+<div class="refsection"><h3 class="title">Examples</h3>
+   <div class="programlisting"><table border="0" width="100%"><tr><td width="98%"><pre class="scilabcode"><span class="scilabid">label_vector</span><span class="scilaboperator">=</span><span class="scilabopenclose">[</span><a class="scilabcommand" href="scilab://zeros">zeros</a><span class="scilabopenclose">(</span><span class="scilabnumber">20</span><span class="scilabdefault">,</span><span class="scilabnumber">1</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span><a class="scilabcommand" href="scilab://ones">ones</a><span class="scilabopenclose">(</span><span class="scilabnumber">20</span><span class="scilabdefault">,</span><span class="scilabnumber">1</span><span class="scilabopenclose">)</span><span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
+<span class="scilabid">instance_matrix</span> <span class="scilaboperator">=</span> <a class="scilabcommand" href="scilab://sparse">sparse</a><span class="scilabopenclose">(</span><span class="scilabopenclose">[</span><a class="scilabcommand" href="scilab://rand">rand</a><span class="scilabopenclose">(</span><span class="scilabnumber">20</span><span class="scilabdefault">,</span><span class="scilabnumber">2</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span> <span class="scilaboperator">-</span><span class="scilabnumber">1</span><span class="scilaboperator">*</span><a class="scilabcommand" href="scilab://rand">rand</a><span class="scilabopenclose">(</span><span class="scilabnumber">20</span><span class="scilabdefault">,</span><span class="scilabnumber">2</span><span class="scilabopenclose">)</span><span class="scilabopenclose">]</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabid">model</span><span class="scilaboperator">=</span><span class="scilabid">libsvm_lintrain</span><span class="scilabopenclose">(</span><span class="scilabid">label_vector</span><span class="scilabdefault">,</span><span class="scilabid">instance_matrix</span><span class="scilabdefault">,</span><span class="scilabstring">&#0034;</span><span class="scilabstring">-q</span><span class="scilabstring">&#0034;</span><span class="scilabopenclose">)</span>
+<span class="scilabopenclose">[</span><span class="scilabid">pred_label</span><span class="scilabdefault">,</span> <span class="scilabid">accuracy</span><span class="scilabdefault">,</span> <span class="scilabid">dec_values</span><span class="scilabopenclose">]</span><span class="scilaboperator">=</span><span class="scilabid">libsvm_linpredict</span><span class="scilabopenclose">(</span><span class="scilabid">label_vector</span><span class="scilabdefault">,</span><span class="scilabid">instance_matrix</span><span class="scilabdefault">,</span><span class="scilabid">model</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<a class="scilabcommand" href="scilab://disp">disp</a><span class="scilabopenclose">(</span><span class="scilabstring">&#0034;</span><span class="scilabstring">accuracy: </span><span class="scilabstring">&#0034;</span><span class="scilaboperator">+</span><a class="scilabcommand" href="scilab://string">string</a><span class="scilabopenclose">(</span><span class="scilabid">accuracy</span><span class="scilabopenclose">(</span><span class="scilabnumber">1</span><span class="scilabopenclose">)</span><span class="scilabopenclose">)</span><span class="scilaboperator">+</span><span class="scilabstring">&#0034;</span><span class="scilabstring"> %</span><span class="scilabstring">&#0034;</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+
+<span class="scilabcomment">//---------------------</span>
+<span class="scilabcomment">// heart scale demo</span>
+<span class="scilabopenclose">[</span><span class="scilabid">heart_scale_label</span><span class="scilabdefault">,</span> <span class="scilabid">heart_scale_inst</span><span class="scilabopenclose">]</span> <span class="scilaboperator">=</span> <span class="scilabid">libsvmread</span><span class="scilabopenclose">(</span><a class="scilabmacro" href="scilab://fullfile">fullfile</a><span class="scilabopenclose">(</span><span class="scilabid">libsvm_getpath</span><span class="scilabopenclose">(</span><span class="scilabopenclose">)</span><span class="scilabdefault">,</span><span class="scilabstring">&#0034;</span><span class="scilabstring">demos</span><span class="scilabstring">&#0034;</span><span class="scilabdefault">,</span><span class="scilabstring">&#0034;</span><span class="scilabstring">heart_scale</span><span class="scilabstring">&#0034;</span><span class="scilabopenclose">)</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabid">model</span> <span class="scilaboperator">=</span> <span class="scilabid">libsvm_lintrain</span><span class="scilabopenclose">(</span><span class="scilabid">heart_scale_label</span><span class="scilabdefault">,</span> <span class="scilabid">heart_scale_inst</span><span class="scilabdefault">,</span> <span class="scilabstring">&#0039;</span><span class="scilabstring">-c 1</span><span class="scilabstring">&#0039;</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabopenclose">[</span><span class="scilabid">predict_label</span><span class="scilabdefault">,</span> <span class="scilabid">accuracy</span><span class="scilabdefault">,</span> <span class="scilabid">dec_values</span><span class="scilabopenclose">]</span> <span class="scilaboperator">=</span> <span class="scilabid">libsvm_linpredict</span><span class="scilabopenclose">(</span><span class="scilabid">heart_scale_label</span><span class="scilabdefault">,</span> <span class="scilabid">heart_scale_inst</span><span class="scilabdefault">,</span> <span class="scilabid">model</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span> <span class="scilabcomment">// test the training data</span>
+<a class="scilabcommand" href="scilab://disp">disp</a><span class="scilabopenclose">(</span><span class="scilabstring">&#0034;</span><span class="scilabstring">accuracy: </span><span class="scilabstring">&#0034;</span><span class="scilaboperator">+</span><a class="scilabcommand" href="scilab://string">string</a><span class="scilabopenclose">(</span><span class="scilabid">accuracy</span><span class="scilabopenclose">(</span><span class="scilabnumber">1</span><span class="scilabopenclose">)</span><span class="scilabopenclose">)</span><span class="scilaboperator">+</span><span class="scilabstring">&#0034;</span><span class="scilabstring"> %</span><span class="scilabstring">&#0034;</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span></pre></td><td valign="top"><a href="scilab://scilab.execexample/"><img src="ScilabExecute.png" border="0"/></a></td><td valign="top"><a href="scilab://scilab.editexample/"><img src="ScilabEdit.png" border="0"/></a></td><td></td></tr></table></div></div>
+
+<div class="refsection"><h3 class="title">See also</h3>
+   <ul class="itemizedlist"><li class="member"><a href="libsvm_lintrain.html" class="link">libsvm_lintrain</a></li></ul></div>
+
+<div class="refsection"><h3 class="title">Authors</h3>
+   <ul class="itemizedlist"><li class="member">Chih-Chung Chang</li>
+   <li class="member">Chih-Jen Lin</li>
+   <li class="member">Holger Nahrstaedt</li></ul></div>
+    <br />
+
+    <div class="manualnavbar">
+    <table width="100%">
+    <tr><td colspan="3" class="next"><a href="http://bugzilla.scilab.org/enter_bug.cgi?product=Scilab%20software&component=Documentation%20pages" class="ulink">Report an issue</a></td></tr>
+<tr>
+      <td width="30%">
+    	<span class="previous"><a href="section_734eb98749fee3f2c6cfeb87bb842b9e.html">&lt;&lt; liblinear</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_734eb98749fee3f2c6cfeb87bb842b9e.html">liblinear</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="libsvm_lintrain.html">libsvm_lintrain &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+  </body>
+</html>

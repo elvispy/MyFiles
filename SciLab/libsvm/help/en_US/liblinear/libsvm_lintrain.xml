@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from libsvm_lintrain.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="libsvm_lintrain" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>libsvm_lintrain</refname>
+    <refpurpose>trains a linear model</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   model = libsvm_lintrain(training_label_vector, training_instance_matrix)
+   model = libsvm_lintrain(training_label_vector, training_instance_matrix, 'liblinear_options')
+   model = libsvm_lintrain(training_label_vector, training_instance_matrix, 'liblinear_options', 'col')
+   model = libsvm_lintrain(weight_vector, training_label_vector, training_instance_matrix, ['liblinear_options', 'col'])
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>liblinear_options:</term>
+      <listitem><para> </para></listitem></varlistentry>
+   <varlistentry><term>-s type :</term>
+      <listitem><para> set type of solver (default 1)</para></listitem></varlistentry>
+   <varlistentry><term>0:</term>
+      <listitem><para>  L2-regularized logistic regression (primal)</para></listitem></varlistentry>
+   <varlistentry><term>1:</term>
+      <listitem><para> L2-regularized L2-loss support vector classification (dual)</para></listitem></varlistentry>
+   <varlistentry><term>2:</term>
+      <listitem><para> L2-regularized L2-loss support vector classification (primal)</para></listitem></varlistentry>
+   <varlistentry><term>3:</term>
+      <listitem><para> L2-regularized L1-loss support vector classification (dual)</para></listitem></varlistentry>
+   <varlistentry><term>4:</term>
+      <listitem><para> multi-class support vector classification by Crammer and Singer</para></listitem></varlistentry>
+   <varlistentry><term>5:</term>
+      <listitem><para> L1-regularized L2-loss support vector classification</para></listitem></varlistentry>
+   <varlistentry><term>6:</term>
+      <listitem><para> L1-regularized logistic regression</para></listitem></varlistentry>
+   <varlistentry><term>7:</term>
+      <listitem><para> L2-regularized logistic regression (dual)</para></listitem></varlistentry>
+   <varlistentry><term>11:</term>
+      <listitem><para> L2-regularized L2-loss epsilon support vector regression (primal)</para></listitem></varlistentry>
+   <varlistentry><term>12:</term>
+      <listitem><para> L2-regularized L2-loss epsilon support vector regression (dual)</para></listitem></varlistentry>
+   <varlistentry><term>13:</term>
+      <listitem><para> L2-regularized L1-loss epsilon support vector regression (dual)</para></listitem></varlistentry>
+   <varlistentry><term>-c cost :</term>
+      <listitem><para> set the parameter C (default 1)</para></listitem></varlistentry>
+   <varlistentry><term>-p epsilon :</term>
+      <listitem><para> set the epsilon in loss function of epsilon-SVR (default 0.1)</para></listitem></varlistentry>
+   <varlistentry><term>-e epsilon :</term>
+      <listitem><para> set tolerance of termination criterion</para></listitem></varlistentry>
+   <varlistentry><term>-s 0 and 2:</term>
+      <listitem><para>  |f'(w)|_2 &lt;= eps*min(pos,neg)/l*|f'(w0)|_2</para></listitem></varlistentry>
+   <varlistentry><term>-s 11:</term>
+      <listitem><para> |f'(w)|_2 &lt;= eps*|f'(w0)|_2 (default 0.001)</para></listitem></varlistentry>
+   <varlistentry><term>-s 1, 3, 4 and 7:</term>
+      <listitem><para> Dual maximal violation &lt;= eps; similar to libsvm (default 0.1)</para></listitem></varlistentry>
+   <varlistentry><term>-s 5 and 6:</term>
+      <listitem><para> |f'(w)|_inf &lt;= eps*min(pos,neg)/l*|f'(w0)|_inf, where f is the primal function (default 0.01)</para></listitem></varlistentry>
+   <varlistentry><term>-s 12 and 13:</term>
+      <listitem><para> |f'(alpha)|_1 &lt;= eps |f'(alpha0)|,where f is the dual function (default 0.1)</para></listitem></varlistentry>
+   <varlistentry><term>-B bias :</term>
+      <listitem><para> if bias &gt;= 0, instance x becomes [x; bias]; if &lt; 0, no bias term added (default -1)</para></listitem></varlistentry>
+   <varlistentry><term>-wi weight:</term>
+      <listitem><para> weights adjust the parameter C of different classes (see README for details)</para></listitem></varlistentry>
+   <varlistentry><term>-v n:</term>
+      <listitem><para> n-fold cross validation mode</para></listitem></varlistentry>
+   <varlistentry><term>-q :</term>
+      <listitem><para> quiet mode (no outputs)</para></listitem></varlistentry>
+   <varlistentry><term>col:</term>
+      <listitem><para> if 'col' is setted, training_instance_matrix is parsed in column format, otherwise is in row format</para></listitem></varlistentry>
+   <varlistentry><term>model Structure:</term>
+      <listitem><para> </para></listitem></varlistentry>
+   <varlistentry><term>model.Parameters:</term>
+      <listitem><para> Parameters</para></listitem></varlistentry>
+   <varlistentry><term>model.nr_class:</term>
+      <listitem><para> number of classes, is 2 for regression</para></listitem></varlistentry>
+   <varlistentry><term>model.nr_feature:</term>
+      <listitem><para> number of features in training data (without including the bias term)</para></listitem></varlistentry>
+   <varlistentry><term>model.bias:</term>
+      <listitem><para> If &gt;= 0, we assume one additional feature is added to the end         of each data instance.</para></listitem></varlistentry>
+   <varlistentry><term>model.Label:</term>
+      <listitem><para> label of each class; is empty for regression</para></listitem></varlistentry>
+   <varlistentry><term>model.w:</term>
+      <listitem><para> a nr_w-by-n matrix for the weights, where n is nr_feature      or nr_feature+1 depending on the existence of the bias term.          nr_w is 1 if nr_class=2 and -s is not 4 (i.e., not         multi-class svm by Crammer and Singer). It is          nr_class otherwise.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+The 'libsvm_lintrain' function returns a model which can be used for future prediction.  It is a structure and is organized as [Parameters, nr_class, nr_feature, bias, Label, w]
+   </para>
+   <para>
+If the '-v' option is specified, cross validation is conducted and the returned model is just a scalar: cross-validation accuracy.
+   </para>
+   <para>
+For a large data set train may be faster then svmtrain. Normally,if the data sets are not large, svmtrain should be the first choice.
+   </para>
+   <para>
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+label_vector=[zeros(20,1);ones(20,1)];
+instance_matrix = sparse([rand(20,2); -1*rand(20,2)]);
+model=libsvm_lintrain(label_vector,instance_matrix,"-q")
+[pred_label, accuracy, dec_values]=libsvm_linpredict(label_vector,instance_matrix,model);
+disp("accuracy: "+string(accuracy(1)));
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>See also</title>
+   <simplelist type="inline">
+   <member><link linkend="libsvm_linpredict">libsvm_linpredict</link></member>
+   </simplelist>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Chih-Chung Chang</member>
+   <member>Chih-Jen Lin</member>
+   <member>Holger Nahrstaedt</member>
+   </simplelist>
+</refsection>
+</refentry>

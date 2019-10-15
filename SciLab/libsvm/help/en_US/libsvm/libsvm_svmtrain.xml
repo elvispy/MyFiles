@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from libsvm_svmtrain.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="libsvm_svmtrain" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>libsvm_svmtrain</refname>
+    <refpurpose>trains a svm model</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   model = libsvm_svmtrain(training_label_vector, training_instance_matrix);
+   model = libsvm_svmtrain(training_label_vector, training_instance_matrix,libsvm_options);
+   crossvalidationResult = libsvm_svmtrain(training_label_vector, training_instance_matrix,".. -v n");
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>libsvm_options:</term>
+      <listitem><para> </para></listitem></varlistentry>
+   <varlistentry><term>s svm_type :</term>
+      <listitem><para> set type of SVM (default 0)</para></listitem></varlistentry>
+   <varlistentry><term>0 :</term>
+      <listitem><para> C-SVC (class seperation)</para></listitem></varlistentry>
+   <varlistentry><term>1 :</term>
+      <listitem><para> nu-SVC (nu - classification)</para></listitem></varlistentry>
+   <varlistentry><term>2 :</term>
+      <listitem><para> one-class SVM (one-class-classification)</para></listitem></varlistentry>
+   <varlistentry><term>3 :</term>
+      <listitem><para> epsilon-SVR (epsilon - regression)</para></listitem></varlistentry>
+   <varlistentry><term>4 :</term>
+      <listitem><para> nu-SVR (nu - regression)</para></listitem></varlistentry>
+   <varlistentry><term>-t kernel_type :</term>
+      <listitem><para> set type of kernel function (default 2)</para></listitem></varlistentry>
+   <varlistentry><term>0 -- linear:</term>
+      <listitem><para> u'*v</para></listitem></varlistentry>
+   <varlistentry><term>1 -- polynomial:</term>
+      <listitem><para> (gamma*u'*v + coef0)^degree</para></listitem></varlistentry>
+   <varlistentry><term>2 -- radial basis function:</term>
+      <listitem><para> exp(-gamma*|u-v|^2)</para></listitem></varlistentry>
+   <varlistentry><term>3 -- sigmoid:</term>
+      <listitem><para> tanh(gamma*u'*v + coef0)</para></listitem></varlistentry>
+   <varlistentry><term>4 -- precomputed kernel:</term>
+      <listitem><para> (kernel values in training_instance_matrix)</para></listitem></varlistentry>
+   <varlistentry><term>-d degree :</term>
+      <listitem><para> set degree in kernel function (default 3)</para></listitem></varlistentry>
+   <varlistentry><term>-g gamma :</term>
+      <listitem><para> set gamma in kernel function (default 1/num_features)</para></listitem></varlistentry>
+   <varlistentry><term>-r coef0 :</term>
+      <listitem><para> set coef0 in kernel function (default 0)</para></listitem></varlistentry>
+   <varlistentry><term>-c cost :</term>
+      <listitem><para> set the parameter C of C-SVC, epsilon-SVR, and nu-SVR (default 1)</para></listitem></varlistentry>
+   <varlistentry><term>-n nu :</term>
+      <listitem><para> set the parameter nu of nu-SVC, one-class SVM, and nu-SVR (default 0.5)</para></listitem></varlistentry>
+   <varlistentry><term>-p epsilon :</term>
+      <listitem><para> set the epsilon in loss function of epsilon-SVR (default 0.1)</para></listitem></varlistentry>
+   <varlistentry><term>-m cachesize :</term>
+      <listitem><para> set cache memory size in MB (default 100)</para></listitem></varlistentry>
+   <varlistentry><term>-e epsilon :</term>
+      <listitem><para> set tolerance of termination criterion (default 0.001)</para></listitem></varlistentry>
+   <varlistentry><term>-h shrinking :</term>
+      <listitem><para> whether to use the shrinking heuristics, 0 or 1 (default 1)</para></listitem></varlistentry>
+   <varlistentry><term>-b probability_estimates :</term>
+      <listitem><para> whether to train a SVC or SVR model for probability estimates, 0 or 1 (default 0)</para></listitem></varlistentry>
+   <varlistentry><term>-wi weight :</term>
+      <listitem><para> set the parameter C of class i to weight*C, for C-SVC and nu-SVC (default 1)</para></listitem></varlistentry>
+   <varlistentry><term>-v n :</term>
+      <listitem><para> n-fold cross validation mode</para></listitem></varlistentry>
+   <varlistentry><term>-q :</term>
+      <listitem><para> quiet mode (no outputs)</para></listitem></varlistentry>
+   <varlistentry><term>model structure:</term>
+      <listitem><para> </para></listitem></varlistentry>
+   <varlistentry><term>model.Parameters:</term>
+      <listitem><para> parameters</para></listitem></varlistentry>
+   <varlistentry><term>model.nr_class:</term>
+      <listitem><para> number of classes; = 2 for regression/one-class svm</para></listitem></varlistentry>
+   <varlistentry><term>model.totalSV:</term>
+      <listitem><para> total #SV</para></listitem></varlistentry>
+   <varlistentry><term>model.rho:</term>
+      <listitem><para> -b of the decision function(s) wx+b</para></listitem></varlistentry>
+   <varlistentry><term>model.Label:</term>
+      <listitem><para> label of each class; empty for regression/one-class SVM</para></listitem></varlistentry>
+   <varlistentry><term>model.sv_indices:</term>
+      <listitem><para> sv_indices[0,...,nSV-1] are values in [1,...,num_traning_data] to indicate SVs in the training set</para></listitem></varlistentry>
+   <varlistentry><term>model.ProbA:</term>
+      <listitem><para> pairwise probability information; empty if -b 0 or in one-class SVM</para></listitem></varlistentry>
+   <varlistentry><term>model.ProbB:</term>
+      <listitem><para> pairwise probability information; empty if -b 0 or in one-class SVM</para></listitem></varlistentry>
+   <varlistentry><term>model.nSV:</term>
+      <listitem><para> number of SVs for each class; empty for regression/one-class SVM</para></listitem></varlistentry>
+   <varlistentry><term>model.sv_coef:</term>
+      <listitem><para> coefficients for SVs in decision functions</para></listitem></varlistentry>
+   <varlistentry><term>model.SVs:</term>
+      <listitem><para> support vectors</para></listitem></varlistentry>
+   <varlistentry><term>Cross validation results:</term>
+      <listitem><para> </para></listitem></varlistentry>
+   <varlistentry><term>crossvalidationResult:</term>
+      <listitem><para> [Cross Validation Accuracy, Positive Cross Validation Accuracy, Negative Cross Validation Accuracy]</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+svm types:
+   </para>
+   <para>
+Class separation (-s 0): optimal separating hyperplane between the two classes by maximizing the margin between the classes’ closest points
+the points lying on the boundaries are called support vectors, and the middle of the margin is our optimal separating hyperplane
+   </para>
+   <para>
+nu-Classification (-s 1): this model allows for more control over the number of support vectors by specifying an additional parameter (-n nu) which approximates the fraction of support vectors.
+   </para>
+   <para>
+one-class-classification ( -s 2): this model tries to ﬁnd the support of a distribution and thus allows for outlier/novelty detection
+   </para>
+   <para>
+epsilon-regression ( -s 3): here, the data points lie in between the two borders of the margin which is maximized under suitable conditions to avoid outlier inclusion.
+   </para>
+   <para>
+nu-regression ( -s 4): With one additional parameter (-n nu)  which approximates the fraction of support vectors
+   </para>
+   <para>
+   </para>
+   <para>
+Crossvalidation:
+   </para>
+   <para>
+to assess the quality of the training result, a k-fold cross-classiﬁcation on the training data can be performed by setting the parameter
+(-v ) to n (default: 0). This option -v randomly splits the data into n parts and calculates crossvalidation accuracy/mean squared error on them.
+The returned model is just a vector: [Cross Validation Accuracy, Positive Cross Validation Accuracy, Negative Cross Validation Accuracy].
+   </para>
+   <para>
+Scaling:
+   </para>
+   <para>
+Scale your data. For example, scale each column of the instance matrix to [0,1] or [-1,+1].
+   </para>
+   <para>
+Output:
+   </para>
+   <para>
+The 'svmtrain' function returns a model which can be used for future
+prediction.  It is a structure and is organized as [Parameters, nr_class,
+totalSV, rho, Label, ProbA, ProbB, nSV, sv_coef, SVs]:
+   </para>
+   <para>
+If you do not use the option '-b 1', ProbA and ProbB are empty
+matrices
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+label_vector=[zeros(20,1);ones(20,1)];
+instance_matrix = [rand(20,2); -1*rand(20,2)];
+model=libsvm_svmtrain(label_vector,instance_matrix);
+
+[pred,acc,dec]=libsvm_svmpredict(label_vector,instance_matrix,model);
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>See also</title>
+   <simplelist type="inline">
+   <member><link linkend="libsvm_svmpredict">libsvm_svmpredict</link></member>
+   </simplelist>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Chih-Chung Chang</member>
+   <member>Chih-Jen Lin</member>
+   <member>Holger Nahrstaedt</member>
+   </simplelist>
+</refsection>
+</refentry>

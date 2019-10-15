@@ -1,0 +1,99 @@
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>libsvm_gridlinear</title>
+    <style type="text/css" media="all">
+      @import url("scilab_code.css");
+      @import url("xml_code.css");
+      @import url("c_code.css");
+      @import url("style.css");
+    </style>
+  </head>
+  <body>
+    <div class="manualnavbar">
+    <table width="100%"><tr>
+      <td width="30%">
+    	<span class="previous"><a href="libsvm_grid.html">&lt;&lt; libsvm_grid</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_1010ae11fc7218968624430e76845204.html">utilities</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="libsvm_loadmodel.html">libsvm_loadmodel &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+
+
+
+    <span class="path" dir="ltr"><a href="index.html">libsvm</a> &gt;&gt; <a href="section_1010ae11fc7218968624430e76845204.html">utilities</a> &gt; libsvm_gridlinear</span>
+
+    <br /><br />
+    <div class="refnamediv"><h1 class="refname">libsvm_gridlinear</h1>
+    <p class="refpurpose">parameter selection tool for linear classification</p></div>
+
+
+<div class="refsynopsisdiv"><h3 class="title">Calling Sequence</h3>
+   <div class="synopsis"><pre><span class="default">[</span><span class="default">best_rate</span><span class="default">,</span><span class="default">best_c</span><span class="default">,</span><span class="default">best_s</span><span class="default">] = </span><span class="functionid">libsvm_gridlinear</span><span class="default">(</span><span class="default">label</span><span class="default">,</span><span class="default">instance</span><span class="default">)</span>
+<span class="default">[</span><span class="default">best_rate</span><span class="default">,</span><span class="default">best_c</span><span class="default">,</span><span class="default">best_s</span><span class="default">] = </span><span class="functionid">libsvm_gridlinear</span><span class="default">(</span><span class="default">label</span><span class="default">,</span><span class="default">instance</span><span class="default">,</span><span class="default">log2c</span><span class="default">)</span>
+<span class="default">[</span><span class="default">best_rate</span><span class="default">,</span><span class="default">best_c</span><span class="default">,</span><span class="default">best_s</span><span class="default">] = </span><span class="functionid">libsvm_gridlinear</span><span class="default">(</span><span class="default">label</span><span class="default">,</span><span class="default">instance</span><span class="default">,</span><span class="default">log2c</span><span class="default">,</span><span class="default">s_seq</span><span class="default">)</span>
+<span class="default">[</span><span class="default">best_rate</span><span class="default">,</span><span class="default">best_c</span><span class="default">,</span><span class="default">best_s</span><span class="default">] = </span><span class="functionid">libsvm_gridlinear</span><span class="default">(</span><span class="default">label</span><span class="default">,</span><span class="default">instance</span><span class="default">,</span><span class="default">log2c</span><span class="default">,</span><span class="default">s_seq</span><span class="default">,</span><span class="default">v</span><span class="default">)</span>
+<span class="default">[</span><span class="default">best_rate</span><span class="default">,</span><span class="default">best_c</span><span class="default">,</span><span class="default">best_s</span><span class="default">] = </span><span class="functionid">libsvm_gridlinear</span><span class="default">(</span><span class="default">label</span><span class="default">,</span><span class="default">instance</span><span class="default">,</span><span class="default">log2c</span><span class="default">,</span><span class="default">s_seq</span><span class="default">,</span><span class="default">v</span><span class="default">,</span><span class="default">option_string</span><span class="default">)</span></pre></div></div>
+
+<div class="refsection"><h3 class="title">Parameters</h3>
+   <dl><dt><span class="term">log2c :</span>
+      <dd><p class="para">[begin,end,step]</p></dd></dt>
+   <dt><span class="term">s_seq :</span>
+      <dd><p class="para">linear kernels (0 - 7, 11 - 13), e.g. [0 1 4]</p></dd></dt>
+   <dt><span class="term">v :</span>
+      <dd><p class="para">fold</p></dd></dt>
+   <dt><span class="term">option_string:</span>
+      <dd><p class="para">additional parameters for svmtrain</p></dd></dt>
+   <dt><span class="term">best_rate :</span>
+      <dd><p class="para">cross validation accuracy for the best parameter combination</p></dd></dt>
+   <dt><span class="term">best_c :</span>
+      <dd><p class="para">best parameter c</p></dd></dt>
+   <dt><span class="term">best_s :</span>
+      <dd><p class="para">best linear kernel</p></dd></dt></dl></div>
+
+<div class="refsection"><h3 class="title">Description</h3>
+   <p class="para">libsvm_gridlinear is a parameter selection tool for linear classification. It uses cross validation (CV)
+technique to estimate the accuracy of each parameter combination in
+the specified range and helps you to decide the best parameters for
+your problem.</p></div>
+
+<div class="refsection"><h3 class="title">Examples</h3>
+   <div class="programlisting"><table border="0" width="100%"><tr><td width="98%"><pre class="scilabcode"><span class="scilabopenclose">[</span><span class="scilabid">label</span><span class="scilabdefault">,</span><span class="scilabid">instance</span><span class="scilabopenclose">]</span><span class="scilaboperator">=</span><span class="scilabid">libsvmread</span><span class="scilabopenclose">(</span><a class="scilabmacro" href="scilab://fullfile">fullfile</a><span class="scilabopenclose">(</span><span class="scilabid">libsvm_getpath</span><span class="scilabopenclose">(</span><span class="scilabopenclose">)</span><span class="scilabdefault">,</span><span class="scilabstring">&#0034;</span><span class="scilabstring">demos</span><span class="scilabstring">&#0034;</span><span class="scilabdefault">,</span><span class="scilabstring">&#0034;</span><span class="scilabstring">heart_scale</span><span class="scilabstring">&#0034;</span><span class="scilabopenclose">)</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabopenclose">[</span><span class="scilabid">best_rate</span><span class="scilabdefault">,</span><span class="scilabid">best_c</span><span class="scilabdefault">,</span><span class="scilabid">best_s</span><span class="scilabopenclose">]</span> <span class="scilaboperator">=</span> <span class="scilabid">libsvm_gridlinear</span><span class="scilabopenclose">(</span><span class="scilabid">label</span><span class="scilabdefault">,</span><span class="scilabid">instance</span><span class="scilabopenclose">)</span></pre></td><td valign="top"><a href="scilab://scilab.execexample/"><img src="ScilabExecute.png" border="0"/></a></td><td valign="top"><a href="scilab://scilab.editexample/"><img src="ScilabEdit.png" border="0"/></a></td><td></td></tr></table></div></div>
+
+<div class="refsection"><h3 class="title">See also</h3>
+   <ul class="itemizedlist"><li class="member"><a href="libsvm_grid.html" class="link">libsvm_grid</a></li></ul></div>
+
+<div class="refsection"><h3 class="title">Authors</h3>
+   <ul class="itemizedlist"><li class="member">Holger Nahrstaedt</li></ul></div>
+    <br />
+
+    <div class="manualnavbar">
+    <table width="100%">
+    <tr><td colspan="3" class="next"><a href="http://bugzilla.scilab.org/enter_bug.cgi?product=Scilab%20software&component=Documentation%20pages" class="ulink">Report an issue</a></td></tr>
+<tr>
+      <td width="30%">
+    	<span class="previous"><a href="libsvm_grid.html">&lt;&lt; libsvm_grid</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_1010ae11fc7218968624430e76845204.html">utilities</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="libsvm_loadmodel.html">libsvm_loadmodel &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+  </body>
+</html>

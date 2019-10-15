@@ -1,0 +1,156 @@
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>libsvm_lintrain</title>
+    <style type="text/css" media="all">
+      @import url("scilab_code.css");
+      @import url("xml_code.css");
+      @import url("c_code.css");
+      @import url("style.css");
+    </style>
+  </head>
+  <body>
+    <div class="manualnavbar">
+    <table width="100%"><tr>
+      <td width="30%">
+    	<span class="previous"><a href="libsvm_linpredict.html">&lt;&lt; libsvm_linpredict</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_734eb98749fee3f2c6cfeb87bb842b9e.html">liblinear</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="section_55ddec68de65093495d0be4c9ff008b4.html">libsvm &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+
+
+
+    <span class="path" dir="ltr"><a href="index.html">libsvm</a> &gt;&gt; <a href="section_734eb98749fee3f2c6cfeb87bb842b9e.html">liblinear</a> &gt; libsvm_lintrain</span>
+
+    <br /><br />
+    <div class="refnamediv"><h1 class="refname">libsvm_lintrain</h1>
+    <p class="refpurpose">trains a linear model</p></div>
+
+
+<div class="refsynopsisdiv"><h3 class="title">Calling Sequence</h3>
+   <div class="synopsis"><pre><span class="default">model</span><span class="default"> = </span><span class="functionid">libsvm_lintrain</span><span class="default">(</span><span class="default">training_label_vector</span><span class="default">, </span><span class="default">training_instance_matrix</span><span class="default">)</span>
+<span class="default">model</span><span class="default"> = </span><span class="functionid">libsvm_lintrain</span><span class="default">(</span><span class="default">training_label_vector</span><span class="default">, </span><span class="default">training_instance_matrix</span><span class="default">, </span>&#0039;<span class="default">liblinear_options</span>&#0039;<span class="default">)</span>
+<span class="default">model</span><span class="default"> = </span><span class="functionid">libsvm_lintrain</span><span class="default">(</span><span class="default">training_label_vector</span><span class="default">, </span><span class="default">training_instance_matrix</span><span class="default">, </span>&#0039;<span class="default">liblinear_options</span>&#0039;<span class="default">, </span>&#0039;<span class="default">col</span>&#0039;<span class="default">)</span>
+<span class="default">model</span><span class="default"> = </span><span class="functionid">libsvm_lintrain</span><span class="default">(</span><span class="default">weight_vector</span><span class="default">, </span><span class="default">training_label_vector</span><span class="default">, </span><span class="default">training_instance_matrix</span><span class="default">, [</span>&#0039;<span class="default">liblinear_options</span>&#0039;<span class="default">, </span>&#0039;<span class="default">col</span>&#0039;<span class="default">])</span></pre></div></div>
+
+<div class="refsection"><h3 class="title">Parameters</h3>
+   <dl><dt><span class="term">liblinear_options:</span>
+      <dd><p class="para"></p></dd></dt>
+   <dt><span class="term">-s type :</span>
+      <dd><p class="para">set type of solver (default 1)</p></dd></dt>
+   <dt><span class="term">0:</span>
+      <dd><p class="para">L2-regularized logistic regression (primal)</p></dd></dt>
+   <dt><span class="term">1:</span>
+      <dd><p class="para">L2-regularized L2-loss support vector classification (dual)</p></dd></dt>
+   <dt><span class="term">2:</span>
+      <dd><p class="para">L2-regularized L2-loss support vector classification (primal)</p></dd></dt>
+   <dt><span class="term">3:</span>
+      <dd><p class="para">L2-regularized L1-loss support vector classification (dual)</p></dd></dt>
+   <dt><span class="term">4:</span>
+      <dd><p class="para">multi-class support vector classification by Crammer and Singer</p></dd></dt>
+   <dt><span class="term">5:</span>
+      <dd><p class="para">L1-regularized L2-loss support vector classification</p></dd></dt>
+   <dt><span class="term">6:</span>
+      <dd><p class="para">L1-regularized logistic regression</p></dd></dt>
+   <dt><span class="term">7:</span>
+      <dd><p class="para">L2-regularized logistic regression (dual)</p></dd></dt>
+   <dt><span class="term">11:</span>
+      <dd><p class="para">L2-regularized L2-loss epsilon support vector regression (primal)</p></dd></dt>
+   <dt><span class="term">12:</span>
+      <dd><p class="para">L2-regularized L2-loss epsilon support vector regression (dual)</p></dd></dt>
+   <dt><span class="term">13:</span>
+      <dd><p class="para">L2-regularized L1-loss epsilon support vector regression (dual)</p></dd></dt>
+   <dt><span class="term">-c cost :</span>
+      <dd><p class="para">set the parameter C (default 1)</p></dd></dt>
+   <dt><span class="term">-p epsilon :</span>
+      <dd><p class="para">set the epsilon in loss function of epsilon-SVR (default 0.1)</p></dd></dt>
+   <dt><span class="term">-e epsilon :</span>
+      <dd><p class="para">set tolerance of termination criterion</p></dd></dt>
+   <dt><span class="term">-s 0 and 2:</span>
+      <dd><p class="para">|f&#0039;(w)|_2 &lt;= eps*min(pos,neg)/l*|f&#0039;(w0)|_2</p></dd></dt>
+   <dt><span class="term">-s 11:</span>
+      <dd><p class="para">|f&#0039;(w)|_2 &lt;= eps*|f&#0039;(w0)|_2 (default 0.001)</p></dd></dt>
+   <dt><span class="term">-s 1, 3, 4 and 7:</span>
+      <dd><p class="para">Dual maximal violation &lt;= eps; similar to libsvm (default 0.1)</p></dd></dt>
+   <dt><span class="term">-s 5 and 6:</span>
+      <dd><p class="para">|f&#0039;(w)|_inf &lt;= eps*min(pos,neg)/l*|f&#0039;(w0)|_inf, where f is the primal function (default 0.01)</p></dd></dt>
+   <dt><span class="term">-s 12 and 13:</span>
+      <dd><p class="para">|f&#0039;(alpha)|_1 &lt;= eps |f&#0039;(alpha0)|,where f is the dual function (default 0.1)</p></dd></dt>
+   <dt><span class="term">-B bias :</span>
+      <dd><p class="para">if bias &gt;= 0, instance x becomes [x; bias]; if &lt; 0, no bias term added (default -1)</p></dd></dt>
+   <dt><span class="term">-wi weight:</span>
+      <dd><p class="para">weights adjust the parameter C of different classes (see README for details)</p></dd></dt>
+   <dt><span class="term">-v n:</span>
+      <dd><p class="para">n-fold cross validation mode</p></dd></dt>
+   <dt><span class="term">-q :</span>
+      <dd><p class="para">quiet mode (no outputs)</p></dd></dt>
+   <dt><span class="term">col:</span>
+      <dd><p class="para">if &#0039;col&#0039; is setted, training_instance_matrix is parsed in column format, otherwise is in row format</p></dd></dt>
+   <dt><span class="term">model Structure:</span>
+      <dd><p class="para"></p></dd></dt>
+   <dt><span class="term">model.Parameters:</span>
+      <dd><p class="para">Parameters</p></dd></dt>
+   <dt><span class="term">model.nr_class:</span>
+      <dd><p class="para">number of classes, is 2 for regression</p></dd></dt>
+   <dt><span class="term">model.nr_feature:</span>
+      <dd><p class="para">number of features in training data (without including the bias term)</p></dd></dt>
+   <dt><span class="term">model.bias:</span>
+      <dd><p class="para">If &gt;= 0, we assume one additional feature is added to the end         of each data instance.</p></dd></dt>
+   <dt><span class="term">model.Label:</span>
+      <dd><p class="para">label of each class; is empty for regression</p></dd></dt>
+   <dt><span class="term">model.w:</span>
+      <dd><p class="para">a nr_w-by-n matrix for the weights, where n is nr_feature      or nr_feature+1 depending on the existence of the bias term.          nr_w is 1 if nr_class=2 and -s is not 4 (i.e., not         multi-class svm by Crammer and Singer). It is          nr_class otherwise.</p></dd></dt></dl></div>
+
+<div class="refsection"><h3 class="title">Description</h3>
+   <p class="para">The &#0039;libsvm_lintrain&#0039; function returns a model which can be used for future prediction.  It is a structure and is organized as [Parameters, nr_class, nr_feature, bias, Label, w]</p>
+   <p class="para">If the &#0039;-v&#0039; option is specified, cross validation is conducted and the returned model is just a scalar: cross-validation accuracy.</p>
+   <p class="para">For a large data set train may be faster then svmtrain. Normally,if the data sets are not large, svmtrain should be the first choice.</p>
+   <p class="para"></p>
+   <p class="para"></p></div>
+
+<div class="refsection"><h3 class="title">Examples</h3>
+   <div class="programlisting"><table border="0" width="100%"><tr><td width="98%"><pre class="scilabcode"><span class="scilabid">label_vector</span><span class="scilaboperator">=</span><span class="scilabopenclose">[</span><a class="scilabcommand" href="scilab://zeros">zeros</a><span class="scilabopenclose">(</span><span class="scilabnumber">20</span><span class="scilabdefault">,</span><span class="scilabnumber">1</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span><a class="scilabcommand" href="scilab://ones">ones</a><span class="scilabopenclose">(</span><span class="scilabnumber">20</span><span class="scilabdefault">,</span><span class="scilabnumber">1</span><span class="scilabopenclose">)</span><span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
+<span class="scilabid">instance_matrix</span> <span class="scilaboperator">=</span> <a class="scilabcommand" href="scilab://sparse">sparse</a><span class="scilabopenclose">(</span><span class="scilabopenclose">[</span><a class="scilabcommand" href="scilab://rand">rand</a><span class="scilabopenclose">(</span><span class="scilabnumber">20</span><span class="scilabdefault">,</span><span class="scilabnumber">2</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span> <span class="scilaboperator">-</span><span class="scilabnumber">1</span><span class="scilaboperator">*</span><a class="scilabcommand" href="scilab://rand">rand</a><span class="scilabopenclose">(</span><span class="scilabnumber">20</span><span class="scilabdefault">,</span><span class="scilabnumber">2</span><span class="scilabopenclose">)</span><span class="scilabopenclose">]</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabid">model</span><span class="scilaboperator">=</span><span class="scilabid">libsvm_lintrain</span><span class="scilabopenclose">(</span><span class="scilabid">label_vector</span><span class="scilabdefault">,</span><span class="scilabid">instance_matrix</span><span class="scilabdefault">,</span><span class="scilabstring">&#0034;</span><span class="scilabstring">-q</span><span class="scilabstring">&#0034;</span><span class="scilabopenclose">)</span>
+<span class="scilabopenclose">[</span><span class="scilabid">pred_label</span><span class="scilabdefault">,</span> <span class="scilabid">accuracy</span><span class="scilabdefault">,</span> <span class="scilabid">dec_values</span><span class="scilabopenclose">]</span><span class="scilaboperator">=</span><span class="scilabid">libsvm_linpredict</span><span class="scilabopenclose">(</span><span class="scilabid">label_vector</span><span class="scilabdefault">,</span><span class="scilabid">instance_matrix</span><span class="scilabdefault">,</span><span class="scilabid">model</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<a class="scilabcommand" href="scilab://disp">disp</a><span class="scilabopenclose">(</span><span class="scilabstring">&#0034;</span><span class="scilabstring">accuracy: </span><span class="scilabstring">&#0034;</span><span class="scilaboperator">+</span><a class="scilabcommand" href="scilab://string">string</a><span class="scilabopenclose">(</span><span class="scilabid">accuracy</span><span class="scilabopenclose">(</span><span class="scilabnumber">1</span><span class="scilabopenclose">)</span><span class="scilabopenclose">)</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span></pre></td><td valign="top"><a href="scilab://scilab.execexample/"><img src="ScilabExecute.png" border="0"/></a></td><td valign="top"><a href="scilab://scilab.editexample/"><img src="ScilabEdit.png" border="0"/></a></td><td></td></tr></table></div></div>
+
+<div class="refsection"><h3 class="title">See also</h3>
+   <ul class="itemizedlist"><li class="member"><a href="libsvm_linpredict.html" class="link">libsvm_linpredict</a></li></ul></div>
+
+<div class="refsection"><h3 class="title">Authors</h3>
+   <ul class="itemizedlist"><li class="member">Chih-Chung Chang</li>
+   <li class="member">Chih-Jen Lin</li>
+   <li class="member">Holger Nahrstaedt</li></ul></div>
+    <br />
+
+    <div class="manualnavbar">
+    <table width="100%">
+    <tr><td colspan="3" class="next"><a href="http://bugzilla.scilab.org/enter_bug.cgi?product=Scilab%20software&component=Documentation%20pages" class="ulink">Report an issue</a></td></tr>
+<tr>
+      <td width="30%">
+    	<span class="previous"><a href="libsvm_linpredict.html">&lt;&lt; libsvm_linpredict</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_734eb98749fee3f2c6cfeb87bb842b9e.html">liblinear</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="section_55ddec68de65093495d0be4c9ff008b4.html">libsvm &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+  </body>
+</html>

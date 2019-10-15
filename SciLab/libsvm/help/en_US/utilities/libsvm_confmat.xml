@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from libsvm_confmat.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="libsvm_confmat" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>libsvm_confmat</refname>
+    <refpurpose>Confusion matrix for classification algorithms.</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   cm = libsvm_confmat(g, ghat)
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>g:</term>
+      <listitem><para> known group labels</para></listitem></varlistentry>
+   <varlistentry><term>ghat:</term>
+      <listitem><para> predicted group labels</para></listitem></varlistentry>
+   <varlistentry><term>cm :</term>
+      <listitem><para> confusion matrix determined   by the known group labels g and the predicted group labels ghat</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+The confusion matrix CM(I,J) represents the count of instances
+whose known group labels are group J and whose predicted group labels
+are group I.
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+[label,instance]=libsvmread(fullfile(libsvm_getpath(),"demos","heart_scale"));
+cc = libsvm_svmtrain(label,instance);
+[predicted_label]=libsvm_svmpredict(label,instance,cc);
+cm = libsvm_confmat(label,  predicted_label)
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Holger Nahrstaedt</member>
+   </simplelist>
+</refsection>
+</refentry>

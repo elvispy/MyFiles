@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE map PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp Map Version 1.0//EN" "http://java.sun.com/products/javahelp/map_1_0.dtd">
+<map version="1.0">
+<mapID target="index" url="index.html"/>
+<mapID target="section_734eb98749fee3f2c6cfeb87bb842b9e" url="section_734eb98749fee3f2c6cfeb87bb842b9e.html"/>
+<mapID target="libsvm_linpredict" url="libsvm_linpredict.html"/>
+<mapID target="libsvm_lintrain" url="libsvm_lintrain.html"/>
+<mapID target="section_55ddec68de65093495d0be4c9ff008b4" url="section_55ddec68de65093495d0be4c9ff008b4.html"/>
+<mapID target="libsvm_svmpredict" url="libsvm_svmpredict.html"/>
+<mapID target="libsvm_svmtrain" url="libsvm_svmtrain.html"/>
+<mapID target="section_1010ae11fc7218968624430e76845204" url="section_1010ae11fc7218968624430e76845204.html"/>
+<mapID target="libsvm_confmat" url="libsvm_confmat.html"/>
+<mapID target="libsvm_getpath" url="libsvm_getpath.html"/>
+<mapID target="libsvm_grid" url="libsvm_grid.html"/>
+<mapID target="libsvm_gridlinear" url="libsvm_gridlinear.html"/>
+<mapID target="libsvm_loadmodel" url="libsvm_loadmodel.html"/>
+<mapID target="libsvm_normalize" url="libsvm_normalize.html"/>
+<mapID target="libsvm_partest" url="libsvm_partest.html"/>
+<mapID target="libsvm_rocplot" url="libsvm_rocplot.html"/>
+<mapID target="libsvm_savemodel" url="libsvm_savemodel.html"/>
+<mapID target="libsvm_scale" url="libsvm_scale.html"/>
+<mapID target="libsvm_toy" url="libsvm_toy.html"/>
+<mapID target="libsvmread" url="libsvmread.html"/>
+<mapID target="libsvmwrite" url="libsvmwrite.html"/>
+</map>

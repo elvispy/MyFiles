@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from libsvm_rocplot.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="libsvm_rocplot" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>libsvm_rocplot</refname>
+    <refpurpose>plotroc draws the recevier operating characteristic(ROC) curve for an svm-model</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   auc = libsvm_rocplot(training_label, training_instance)
+   auc = libsvm_rocplot(training_label, training_instance , model)
+   auc = libsvm_rocplot(training_label, training_instance , libsvm_options)
+   auc = libsvm_rocplot(training_label, training_instance , libsvm_options, uselinear)
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Use cross-validation on training data to get decision values and plot ROC curve.
+   </para>
+   <para>
+Use the given model to predict testing data and obtain decision values  for ROC
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+
+[label,instance]=libsvmread(fullfile(libsvm_getpath(),"demos","heart_scale"));
+// 5-fold cross-classiﬁcation, training of svm is done inside of libsvm_rocplot
+libsvm_rocplot(label, instance,'-v 5');
+
+// training using libsvm_svmtrain
+model = libsvm_svmtrain(label,instance);
+libsvm_rocplot(label,instance,model);
+
+//--------------------------
+//libsvm_rocplot for linear models
+[label,instance]=libsvmread(fullfile(libsvm_getpath(),"demos","heart_scale"));
+// 5-fold cross-classiﬁcation, training of svm is done inside of libsvm_rocplot
+libsvm_rocplot(label, instance,'-v 5',%t);
+
+// training using train
+model = libsvm_lintrain(label,instance);
+libsvm_rocplot(label,instance,model);
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>See also</title>
+   <simplelist type="inline">
+   <member><link linkend="libsvm_confmat">libsvm_confmat</link></member>
+   <member><link linkend="libsvm_partest">libsvm_partest</link></member>
+   </simplelist>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Holger Nahrstaedt</member>
+   </simplelist>
+</refsection>
+</refentry>
