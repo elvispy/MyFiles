@@ -1,83 +1,52 @@
 #include<iostream>
-#include<string>
-#include<cctype>
 
 using namespace std;
 
-char circ(char aux, int hm, bool isup);
-int guess(string line);
-
 int main()
 {
-   cout << circ('D', 104, false) << "\n";
-   int nPages;
-   cin >> nPages;
-   cin.ignore();
-   for(int i = 0; i< nPages; i++)
+   int N;
+   cin >> N;
+   int table[N][N];
+   for(int i = 0; i< N; i++)
    {
-      
-      if(i>0)
+      for(int j = 0; j< N; j++)
       {
-         string linea;
-         getline(cin, linea);
-         int chiffre = guess(string line);
-         //cout << chiffre << "\n";
-         for(char aux: linea)
-         {
-            if(isalpha(aux))
-            {
-               cout << circ(aux, chiffre, isupper(aux));
-            }else
-            {
-               cout << aux;
-            }//end inner if
-         }//end for
-         cout << "\n";
-      }//end if
-   
+         cin >> table[i][j];
+      } //end inner for
+      cin.ignore();
    }//end for
+   int aux = 0;
+   int aux2 = 0;
+   for(int l = 0; l < N; l++)
+   {
+      aux += table[l][l];
+      aux2 += table[N-1-l][l];
+   }//end for
+   if(aux != aux2)
+   {
+      cout << "no";
+      return 0;
+   }
+   
+   aux2 = 0;
+   int aux3 = 0;
+   
+   for(int i = 0; i < N; i++)
+   {
+      aux2 = 0;
+      aux3 = 0;
+      
+      for(int j = 0; j < N; j++)
+      {
+         aux2 += table[i][j];
+         aux3 += table[j][i];
+      }//end for
+      if(aux2 != aux || aux3 != aux)
+      {
+         cout << "no";
+         return 0;
+      }
+   }//end for
+   cout << "yes";
    return 0;
 }//end main
-
-char circ(char aux, int hm, bool isup)
-{
-   hm = hm % 26;
-   aux = tolower(aux);
-   int alph;
-   if((int)(aux + hm) > 122)
-      alph = aux + hm -26;
-   else if ( (int)(aux + hm) < 97)
-      alph = aux + hm + 26;
-   else
-      alph = aux + hm;
-   return isup ? (char)toupper((char)alph) : (char)(alph);
-}//end functino definition
-
-int guess(string line)
-{
-	bool mybool = true;
-	bool mybool2 = true;
-	bool mybool3 = true;
-	char ant = line[0];
-	char aux2 = line[1];
-	char aux3 = line[2];
-	int cont = 0;
-	char guesses[26];
-	for(int i = 0; i < line.length(); i++)
-	{
-		if(i>2)
-		{
-			if(ant == ' ' && aux == ' ')
-			{
-				
-				
-			}//end if
-			ant = aux2;
-			aux2 = aux3;
-			aux3 = aux;
-		}//end if
-		
-		
-	}//end for
-}//end function definition
-
