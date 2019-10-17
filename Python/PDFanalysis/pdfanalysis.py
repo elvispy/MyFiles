@@ -1,34 +1,56 @@
-import PyPDF2
-
 import os
+import csv
+
+import PyPDF2
+import gender_guesser.detector as gender
+d = gender.Detector(case_sensitive = False)
+
+forb = ['Nº', 'NOMBRES Y APELLIDOS', 'INSTITUCIÓN', 'NIVEL',
+        'DPTO', 'CIUDAD', 'DISTINCIÓN', 'MEDALLERO NACIONAL 2.019',
+        'OLIMPIADA NACIONAL JUVENIL DE MATEMÁTICA', '']
 
 pdffile = open(os.getcwd() + "\\MEDALLERO 2019.pdf", "rb")
 
 pdfObject = PyPDF2.PdfFileReader(pdffile)
 
-
-count = 1
+alumnos = []
 i = 0
-mydict = dict()
-while (count%34 and count < 371):
+while True:
     try:
         pdfPage = pdfObject.getPage(i).extractText()
 
     except Exception as e:
         print(e)
         break
-    content = [pdfPage.split("\n{}".format(count), maxsplit = 1)[-1]]
-    break
-    if i == 0 and count == 1:
-        content = content[:-2] + content[-1].split("PLATA", maxsplit = 1)
-        count + = 1
-        #trabajarle al primero
-    print(content)
-    while True:
-        count += 1
-        content = content[:-2] + content[-1].split("\n{}".format(count), maxsplit = 1)
+    
+    pdfPage = pdfPage.split("\n")
+    for lol in forb:
+        pdfPage.remove(lol)
+
+    if len(pdfPage)%7 != 0:
+        raise Exception
+
+    aux = int(len(pdfPage)/7)
+    for i2 in range(aux):
+        index = 7 * i2
+        if pdfPage[index + 2].lower() == "alumna independiente":
+            pdfPage[index + 2] = "Alumno Independiente"
+        sex = d.get_gender(pdfPage[index + 1].split(" ", maxsplit = 1)[0])
+        sex = "F" if sex == "female" else "M"
+        alumnos.append([pdfPage[index + 1],
+                        sex,
+                        pdfPage[index + 2],
+                        pdfPage[index + 4],
+                        pdfPage[index + 6]])
         
+
 
     i = i+1    
 
-pdffile.close()
+
+with open('medallas.csv', 'w') as ncsv:
+    csv_file = csv.writer(ncsv)
+    csv_file.writerow(['ALUMNO', 'SEXO', 'INSTITUCION', 'DEPARTAMENTO', 'MEDALLA'])
+    
+    for alumno in alumnos:
+        csv_file.writerow(alumno)

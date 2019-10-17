@@ -46,43 +46,45 @@ def perms(s):
                 res.append(val[:i] + a + val[i:])
         return list(set([int(j)  for j in res ]))
         
+def main():
+    a = [False if i< 999 else (is_prime(i)) for i in range(0, 10000)]
+    #a[1487] = False
 
-a = [False if i< 999 else (is_prime(i)) for i in range(0, 10000)]
-#a[1487] = False
 
-
-for k in range(1000, 10000):
-    if a[k]:
-        tentativas = perms(str(k))
-        tentativas.sort()
-        tent2 = []
-        for l in tentativas:
-            if a[l]:
-                tent2.append(l)
-        tent2.sort()
-        if len(tent2) > 2:
-            #print("probanding")
-            val1 = 0
-            val2 = 1
-            val3 = 2
-            while val1 <= len(tent2)-3:
-                #print("hum", tent2)
-                if ( abs(tent2[val1]-tent2[val2]) ==
-                     abs(tent2[val2]-tent2[val3])):
-                    print(tent2[val1], tent2[val2], tent2[val3])
-                    a[tent2[val1]] = False
-                    a[tent2[val2]] = False
-                    a[tent2[val3]] = False
+    for k in range(1000, 10000):
+        if a[k]:
+            tentativas = perms(str(k))
+            tentativas.sort()
+            tent2 = []
+            for l in tentativas:
+                if a[l]:
+                    tent2.append(l)
+            tent2.sort()
+            if len(tent2) > 2:
+                #print("probanding")
+                val1 = 0
+                val2 = 1
+                val3 = 2
+                while val1 <= len(tent2)-3:
+                    #print("hum", tent2)
+                    if ( abs(tent2[val1]-tent2[val2]) ==
+                         abs(tent2[val2]-tent2[val3])):
+                        print(tent2[val1], tent2[val2], tent2[val3])
+                        a[tent2[val1]] = False
+                        a[tent2[val2]] = False
+                        a[tent2[val3]] = False
+                        
+                    val3 +=1
+                    if val3 == len(tent2):
+                        val2+=1
+                        val3 = val2 + 1
+                    if val2 == len(tent2) - 1:
+                        val1 += 1
+                        val2 = val1 + 1
+                        val3 = val2 + 1
                     
-                val3 +=1
-                if val3 == len(tent2):
-                    val2+=1
-                    val3 = val2 + 1
-                if val2 == len(tent2) - 1:
-                    val1 += 1
-                    val2 = val1 + 1
-                    val3 = val2 + 1
-                
-    #print(k)
+        #print(k)
                     
-                
+      
+if __name__ == '__main__':
+    main()

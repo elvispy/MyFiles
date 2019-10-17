@@ -8,6 +8,7 @@ with open('SacramentocrimeJanuary2006.csv', 'r') as csv_file:
         csv_file = csv.writer(new_file, delimiter = '\t')
         for line in csv_reader:
             print(line)
+            print(type(line))
             csv_file.writerow(line[:3] + line[4:])
 
 #The last one was the normal reader
