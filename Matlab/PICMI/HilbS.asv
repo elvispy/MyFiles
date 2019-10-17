@@ -78,7 +78,7 @@ function [HMS, rango, HMSEE] = HilbS(u, inter, prec)
             [~, ii] = min(abs(omega_vec - omega_k(k, j)));
             %ii = floor((omeg_k(k, j) - minn)/prec + 1);
             %omega = minn + (ii-1)*prec;
-            HMS(ii, k) = HMS(ii, k) + A_k(k, j) * step;
+            HMS(ii, k) = HMS(ii, k) + A_k(k, j);
 %             if abs(omega - omeg_k(k, j)) < prec
 %                 HMS(ii, k) = HMS(ii, k) + A_k(k,j)* prec;
 %             end %end first if
@@ -94,8 +94,9 @@ function [HMS, rango, HMSEE] = HilbS(u, inter, prec)
 %                 omega = minn + ii * prec;
 %                 if abs(omega - omeg_k(k, j)) < prec
 %                     HMS(ii+1, k) = HMS(ii+1, k) + A_k(k,j)* prec;
-%                 end    
-%            end %end third if
+%                 end
+                
+            %end %end third if
         end %end inner for
     end %end outer for
 

@@ -4,7 +4,7 @@ clearvars;
 %close all;
 clc;
 %Put your working directory here
-chdir("C:\Users\USUARIO CIAC\Documents\GITRepos\MyFiles\SciLab")
+%chdir("C:\Users\USUARIO CIAC\Documents\GITRepos\MyFiles\SciLab")
 
 % Time Domain 0 to T
 T = 3000;
@@ -26,7 +26,7 @@ v_3 = 1/16*(cos(2*pi*f_3*t));
 
 
 % composite signal, including noise
-f = v_1 + v_2 + v_3; %+ 0.1*rand(1, 'normal');
+f = v_1 + v_2 + v_3 + 0.1*rand(1, 'normal');
 f_hat = fftshift((fft(f)));
 
 % some sample parameters for VMD
@@ -61,5 +61,5 @@ save('u2.sod', 'u2');
 disp("Running time  of  calculating HMS and HMSEE")
 disp("-------------");
 tic();
-[HMS, rango, HMSEE] = hilbertVMD(u2, prec, inter);
+[HMS, rango, HMSEE] = HilbS(u2, prec, inter);
 disp(toc());
