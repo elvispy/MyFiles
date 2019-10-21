@@ -1,4 +1,4 @@
-function [HMS, rango, HMSEE] = HilbS(u, inter, prec)
+function [HMS, rango, HMSEE, omeg_k, A_k, teta_k] = HilbS(u, inter, prec)
     
     %This functions calculates the Hilbert Spectrum and
     %Hilbert Marginal spectrum of the signal decomposition
@@ -24,39 +24,28 @@ function [HMS, rango, HMSEE] = HilbS(u, inter, prec)
     
     omeg_k = zeros(aux); % instantenous angle frequency
     
-    teta_k = zeros(aux); %angle of the analytic signal
-    
     step = inter/time; %step of the grid
     
     %interval = linspace(0, inter, time); 
-    
-    AS = zeros(aux); %analytic signal
-    
-    A_k = zeros(aux);
 
+    AS = hilbert(u.').'; %analytic signal
+    teta_k = angle(AS); %angle of analytic signal
+    A_k = abs(AS); %amplitude of signal
     
-
-
-    
+    fs = (time-1)/inter;
     for k = 1:K
+        omeg_k(k,1:end-1) = fs/(2*pi)*diff(unwrap(teta_k(k,:)));
         
-        AS(k, :) = hilbert(u(k, :)); %calculating the analytical signal of every mode
-       
-        teta_k(k, :) = atan(imag(AS(k,:))./real(AS(k, :))); %instantaneous phase
-        
-        omeg_k(k,1:end-1) = diff(teta_k(k,:))/step; %instantaneous frequency
+        %omeg_k(k,1:end-1) = diff(teta_k(k,:))/step; %instantaneous frequency
         
         omeg_k(k, end) = omeg_k(k, end-1); % checked!
         
-        A_k(k, :) = sqrt(imag(AS(k, :)).^2 + real(AS(k, :)).^2); %instantaneous amplitude
-        
     end
     
-    %teta_k = exp(%i*teta_k);
+    %teta_k = exp(1i*teta_k);
     %disp(norm(imag(AS./teta_k))); //to check whether teta_k is well defined
-    % disp(norm(reHS-u)); to check whether the analytical signal is ok
-    
-    
+    %reHS = real(A_k .* teta_k);
+    %disp(norm(reHS-u)); %to check whether the analytical signal is ok
     
     minn = min(omeg_k(:)); %minimum in omega
     
@@ -64,10 +53,11 @@ function [HMS, rango, HMSEE] = HilbS(u, inter, prec)
 
     rank = floor(rank/prec)+1;
 
-    omega_vec = [minn:prec:(minn+rank)];
+    omega_vec = minn:prec:(minn+rank);
+    
     rango = [minn, max(omeg_k(:))];
     
-    HMS = zeros(rank,K);
+    HMS = zeros(size(omega_vec, 2),K);
     
     %Calculating HMS
     
@@ -75,7 +65,7 @@ function [HMS, rango, HMSEE] = HilbS(u, inter, prec)
         %calculating the integral for all k
         for j = 1:time
             %adding the integral
-            [~, ii] = min(abs(omega_vec - omega_k(k, j)));
+            [~, ii] = min(abs(omega_vec - omeg_k(k, j)));
             %ii = floor((omeg_k(k, j) - minn)/prec + 1);
             %omega = minn + (ii-1)*prec;
             HMS(ii, k) = HMS(ii, k) + A_k(k, j) * step;
@@ -103,18 +93,16 @@ function [HMS, rango, HMSEE] = HilbS(u, inter, prec)
     
     Tot_energy = zeros(K, 1);
     
-    E_k = zeros(floor((rank-1)/100)+1, K);
+    E_k = zeros(floor((size(HMS, 1)-1)/100)+1, K);
     %Calculating the energy
     
     
     for  k = 1:K
-        for ii = 0:floor((rank-1)/100)
+        for ii = 0:floor((size(HMS, 1)-1)/100)
             try
-                
                 E_k(ii+1, k) = norm(HMS((ii*100+1):((ii+1)*100),k), 2)^2 * prec;
-                
             catch
-                E_k(ii+1, k) = norm(HMS((ii*100+1):end, 2))^2 * prec;
+                E_k(ii+1, k) = norm(HMS((ii*100+1):end, k))^2 * prec;
             end
             
             Tot_energy(k) = Tot_energy(k) + E_k(ii+1, k);
