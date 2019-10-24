@@ -2,7 +2,7 @@
 %--------------- Preparation
 clearvars;
 %close all;
-clc;
+%clc;
 %Put your working directory here
 %chdir("C:\Users\USUARIO CIAC\Documents\GITRepos\MyFiles\SciLab")
 
@@ -26,7 +26,7 @@ v_3 = 1/16*(cos(2*pi*f_3*t));
 
 
 % composite signal, including noise
-f = v_1 + v_2 + v_3 + 0.1*randn(1);
+f = v_1 + v_2 + v_3;% + 0.1*randn(1);
 f_hat = fftshift((fft(f)));
 
 % some sample parameters for VMD
@@ -40,6 +40,7 @@ N = 1200;            %Number of iterations before getting out
 %inter = 1.D-3;
 inter = pi;    %Interval of definition of the data
 prec = 1e-1;        %precision in the Hilbert Marginal Spectrum decomposition
+entropy = 15;
 
 
 
@@ -54,18 +55,18 @@ disp("Running time  of  finding of IMFs")
 disp(toc());
 disp("-------------")
 tic();
-[u, u_hat, omega, test] = VMD(f, alpha, tau, K, DC, init2, tol, N, inter);
+[u, u_hat, omega, test] = VMD(f, alpha, tau, K, DC, init2, tol, N);
 disp(toc());
 
 %save('u.sod', 'u');
 % disp("Running time  of  calculating HMS and HMSEE")
 % disp("-------------");
 % tic();
-% [HMS, rango, HMSEE, omeg_k, A_k, teta_k] = HilbS(u, prec, inter);
+%[HMS, rango, HMSEE, omeg_k, A_k, teta_k] = HilbS(u, prec, inter);
 % disp(toc());
 disp("Running time of calculating HMS and HMSEE via matlab functions")
 disp("------------------");
 tic();
 
-[HMSf, f, HMSEEf] = H2(u, inter);
+[HMSf, f, HMSEEf] = H2(u, inter, entropy);
 disp(toc());
