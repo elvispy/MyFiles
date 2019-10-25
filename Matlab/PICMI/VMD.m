@@ -1,4 +1,4 @@
-function [u, u_hat, omega, test] = VMD(signal, alpha, tau, K, DC , init2, tol, N, inter)
+function [u, u_hat, omega] = VMD(signal, alpha, tau, K, DC , init2, tol, N)
    
     %    Variational Mode Decomposition
     %    
@@ -19,6 +19,7 @@ function [u, u_hat, omega, test] = VMD(signal, alpha, tau, K, DC , init2, tol, N
     %    Outputs:
     %    --------
     %    u       - The collection of decomposed modes
+    %   Matrix of type double in which each row corresponds to one IMF
     %    u_hat   - spectra of the modes
     %    omega   - estimated mode center frequencies
     
@@ -158,7 +159,7 @@ function [u, u_hat, omega, test] = VMD(signal, alpha, tau, K, DC , init2, tol, N
     
     %signal reconstruction
     u_hat = zeros(T, K);
-    test= squeeze(u_hat_plus(1, (T/2+1):T, :));
+    %test= squeeze(u_hat_plus(1, (T/2+1):T, :));
     u_hat((T/2+1):T, :) = squeeze(u_hat_plus(1, (T/2+1):T, :));
     u_hat((T/2+1):-1:2, :) = squeeze(conj(u_hat_plus(1, (T/2+1):T, :)));
     u_hat(1, :) = conj(u_hat(end, :));
