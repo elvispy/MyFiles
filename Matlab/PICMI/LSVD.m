@@ -3,11 +3,12 @@ function [lsvd] = LSVD(imfs, N)
     
     %Parameters:
     % imfs --- Is the matrix of IMF's that make the original signal
-    % N    --- THe number of elements in the local singular value
+    %Every Row is expected to be one IMF
+    % N    --- The number of elements in the local singular value
     % decomposition
-    %One signal per row is expected
     
-    % LSVD --- A vector of local singular Value decomposition values
+    %Outputs:
+    % lsvd --- A vector of length N and the local singular Value decomposition values
     
     
     [~, T] = size(imfs);

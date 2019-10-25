@@ -4,18 +4,25 @@ function [HMS, HMSf, HMSEE, SE] = H2(u, inter, N)
     
     %Inputs and parameters
     %u      - VMD decomposition signals
+    
     %inter  - Interval from which t will range [0, inter]
+    %N      - Scalar, representing the number of partitions in the Entropy
+    %distribution (equal for both
     %---------------------------
-    %HS     - Hilbert Spectrum
-    %HMS    - Hilbert Marginal Spectrum
-    %HMSEE  - Hilbert Marginal Spectrum Energy N
-    %SE     - Shannon N
+    %HMS    - Hilbert Marginal Spectrum, a matrix in which every column
+    % is a diferent mode
+    %HMSf   - A vector representing the frequencies of the Hilbert Spectrum
+    %HMSEE  - Hilbert Marginal Spectrum Energy a vector of size equal to 
+    %the number of modes in the matrix.
+    %SE     - Shannon Entropy due to Huang Et al 2011, a vector of size
+    %equal to the number of modes in the matrix
+    %Link to the paper 
+    %https://www.dropbox.com/home/Elvis-CGR/Referencias%20bibliograficas-HVCB?preview=huang2011.pdf
 prec = 0.5;
 
 aux = size(u);
 %number of modes
 K = aux(1); 
-
 %number of points in the time grid
 time = aux(2); 
 

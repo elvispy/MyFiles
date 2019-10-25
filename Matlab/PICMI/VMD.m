@@ -19,6 +19,7 @@ function [u, u_hat, omega] = VMD(signal, alpha, tau, K, DC , init2, tol, N)
     %    Outputs:
     %    --------
     %    u       - The collection of decomposed modes
+    %   Matrix of type double in which each row corresponds to one IMF
     %    u_hat   - spectra of the modes
     %    omega   - estimated mode center frequencies
     

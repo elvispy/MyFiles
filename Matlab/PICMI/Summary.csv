@@ -1,0 +1,5 @@
+Archive,status,ScoreLSVD,ConfirmedLSVD,ScoreHE,ConfirmedHE,ScoreSE,ConfirmedSE,N_IMF
+My_archive,Normal,3,4,5,6,7,8,6
+Lolazo,Fault Type 1,11,12,13,14,15,16,6
+Hum,,NaN,NaN,NaN,NaN,NaN,NaN,4
+,OK,0,0,0,0,0,0,0
