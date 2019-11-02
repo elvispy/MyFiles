@@ -25,7 +25,7 @@ K = 6;              % 3 modes
 DC = 0;             % no DC part imposed 
 init = 1;           % initialize omegas uniformly
 tol = 1e-10;        %Tolerance of the method in VMD
-N = 1200;            %Number of iterations before getting out
+N = 1200;            %Number of iterations before quitting.
 
 [imfs, ~, ~] = VMD(signal, alpha, tau, K, DC, init, tol, N);
 
@@ -46,8 +46,8 @@ epartition = 30;
 %Now we need to use the train model in order to predict results
 
 %Something is missing here
-[labelHE, scoreHE] = predict(ModeloHE, HMSEE);
-[labelSE, scoreSE] = predict(ModeloSE, SE);
+%[labelHE, scoreHE] = predict(ModeloHE, HMSEE);
+%[labelSE, scoreSE] = predict(ModeloSE, SE);
 
 
 %Now using LSVD (in fact, we will focus on this one.
@@ -55,7 +55,7 @@ load('ModeloLSVD-1.mat');
 load('ModeloLSVD-2.mat');
 load('ModeloLSVD-3.mat');
 [~, scoreLSVD1] = predict(ModeloLSVD1, lsvd);
-if scoreLSVD1 < 0 %check if <0 fault condition
+if scoreLSVD1 < 0 %check if <0 means fault condition
     [~, scoreLSVD2] = predict(ModeloLSVD2, lsvd);
     
     if scoreLSVD2 >0 %check if >0 means that the fault condition is known
