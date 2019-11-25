@@ -3,7 +3,7 @@
 #define MY_CONST (3) //always put parenthesis!!
 #define y && //replacing key words
 
-//marcos can be used to define some formules that are type independent!
+//macros can be used to define some formules that are type independent!
 #define abs(nb) ((nb) < 0 ? -(nb) : (nb))
 #define minn(a,b) ((a) < (b) ? (a) : (b))
 //they resemble lambda expressions from python
@@ -25,10 +25,13 @@ int main()
 	
 		cout << minn(1, 2);
 		//we can undefine macros!
-		#undef y
+		//#undef y
 	}//end if
 	
 	//next line wil give an error
-	if (true y false) cout << "Hola mundo";
+	if (true y true)
+	{
+	  cout << "Hola mundo";
+	} 
 		
 }
