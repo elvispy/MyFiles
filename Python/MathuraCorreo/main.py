@@ -53,8 +53,10 @@ try:
     if True:
         with open("email.key", "rb") as f:
             correo = F.decrypt(f.read()).decode()
+            correo = "mathura3.py@gmail.com"
         with open("masterkey.key", "rb") as f:
             passs = F.decrypt(f.read()).decode()
+            passs = "mathurax100pre"
  
     s.login(correo, passs)
     s.sendmail(correo, senders, msg.as_string())
