@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 with open("p079_keylog.txt", "r") as f:
     content = f.read()
 logs = content.split("\n")
@@ -47,3 +48,9 @@ for log in logs:
                 except:
                     #None of them are present
     pos = newpos
+=======
+a = None
+with open("p079_keylog.txt") as f:
+    data = f.read()
+data = data.split("\n")[:-1]
+>>>>>>> 873e116bc2b8facd3ca6576cb7ceac81448520e2

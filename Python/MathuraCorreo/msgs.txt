@@ -1,5 +1,0 @@
-Querido {name},
-
-Este es un mensaje de color {color}
-
-Atte, Mathura Team 2019.

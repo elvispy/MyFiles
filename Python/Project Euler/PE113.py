@@ -16,4 +16,4 @@ def myf(n):
     #are ascending and descending at the same time
 
 
-print(sum([myf(i) for i in range(1, 101)]))
+#print(sum([myf(i) for i in range(1, 101)]))
