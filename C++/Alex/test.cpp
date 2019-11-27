@@ -1,44 +1,35 @@
 #include<iostream>
-
+#include<cmath>
 using namespace std;
-
-int max(int arr[], int size);
-
+long long int converser(long long int i);
 int main()
 {
-   int N;
-   int M;
-   cin >> N;
-   cin >> M;
-   cin.ignore();
-   int dgr[N];
-   for(int i = 0; i< N; i++)
-   {
-      cin >> dgr[i];
-   }//end for
-   
-   int idx = 0;
-   for(int j = 0; j<M; j++)
-   {
-   		idx = max(dgr, N);
-   		cout << dgr[idx] << " ";
-   		dgr[idx] = -1;
-   }//end for
-   
+	long long int c = 1020304050607080900;
+	int i = 0;
+	while(true)
+	{
+		long long int a = converser(i) + c;
+		long long int b = (long long int) sqrt(a);
+		if(b*b == a)
+		{
+			cout << a;
+			break;
+		}//end if
+		i++;
+	}//end while
+	
+	return 0;
 }//end main
 
-int max(int arr[], int size)
+long long int converser(long long int i)
 {
-	int m = arr[0];
-	int inx = 0;
-	for(int j = 0; j< size; j++)
+	long long int res = 0;
+	for(int j = 0; j< floor(log(i))+1;j++)
 	{
-		if(arr[j] > m)
-		{
-			inx = j;
-			m = arr[inx];
-		}//end if
+		long long int aux = (long long int) i/pow(10,j);
+		aux = aux%10;
+		res += aux * pow(10, 3+2*j);
 	}//end for
-	
-	return inx;
+	return res;
 }//end function definition
+
