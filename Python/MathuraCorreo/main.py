@@ -14,9 +14,9 @@ if not filenm in [1, 2, 3]:
 if filenm == 1:
     wb = load_workbook(filename = "Salas de Área 1.xlsx")
     sheets = [name for name in wb.sheetnames if not ("rea 1" in name)]
-    place = "el Colegio Nacional Atanasio Riera -Area 1-"
+    place = "el Colegio Nacional Atanasio Riera Area 1"
     times = ["7:30AM", "8:00AM", "12:00PM"]
-    
+
 elif filenm == 2:
     wb = load_workbook(filename = "Salas de Hernandarias.xlsx")
     sheets = [name for name in wb.sheetnames if not ("Tacur" in name)]
@@ -31,7 +31,7 @@ elif filenm == 3:
 
 with open("E:\\.Trashes\\hola\\mnk.bin", "rb") as f:
     F = Fernet(f.read())
-    
+
 if True:
     with open("email.key", "rb") as f:
         correo = F.decrypt(f.read()).decode()
@@ -47,7 +47,7 @@ s.login(correo, passs)
 
 for name in sheets:
     sheet = wb[name]
-    
+
 
     senders = []
     c = 2
@@ -56,7 +56,7 @@ for name in sheets:
     while sheet['D{}'.format(c)].value :
         senders.append(sheet['D{}'.format(c)].value)
         c+=1
-    
+
     try:
 
         from email.mime.multipart import MIMEMultipart as mimu
@@ -89,19 +89,21 @@ for name in sheets:
         msg.attach(teext)
 
 
-        
 
-        
+
+
         s.sendmail(correo, senders, msg.as_string())
-        
-    
+
+
         #here the email has been already sent
-        
-        
+
+
     except FileNotFoundError as e:
         print(e)
         print("Hubo un error con el archivo decodificador")
 s.quit()
+
+
 del passs, correo, s
 '''
 if __name__ == "__main__":
