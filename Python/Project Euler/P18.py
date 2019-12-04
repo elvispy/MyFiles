@@ -1,12 +1,14 @@
+import os
+print(os.getcwd())
 with open("p067_triangle.txt", "r") as file:
     content = file.read()
 content = content.split("\n")
 for i in range(len(content)):
     if i in [[], ['']]:
         continue
-    
+
     content[i] = content[i].split(" ")
-    
+
     for j in range(len(content[i])):
         if content[i][j] in [[], '', ['']]:
             continue
@@ -41,5 +43,3 @@ for i in range(len(P18)-1):
 for i in range(len(P67)-1):
     for j in range(len(P67[i])-1):
         P67[i+1][j] += max([P67[i][j], P67[i][j+1]])
-
-

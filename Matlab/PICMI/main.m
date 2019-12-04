@@ -41,6 +41,11 @@ lsvd = LSVD(imfs, N_);
 epartition = 30;
 [HMS, HMSf, HMSEE, SE] = H2(imfs, inter, epartition);
 
+%A third element: Feature Extraction via S-Transform
+
+ST = Stransform(signal);
+
+Z = SEntropy(ST);
 
 %%
 %Now we need to use the train model in order to predict results
@@ -50,10 +55,10 @@ epartition = 30;
 %[labelSE, scoreSE] = predict(ModeloSE, SE);
 
 
-%Now using LSVD (in fact, we will focus on this one.
-load('ModeloLSVD-1.mat');
-load('ModeloLSVD-2.mat');
-load('ModeloLSVD-3.mat');
+%Now using LSVD (in fact, we will focus on this one).
+load('ModeloLSVD-1.mat'); %to check whether the condition is fault
+load('ModeloLSVD-2.mat'); %to check wheter it is known
+load('ModeloLSVD-3.mat');%to classify fault
 [~, scoreLSVD1] = predict(ModeloLSVD1, lsvd);
 if scoreLSVD1 < 0 %check if <0 means fault condition
     [~, scoreLSVD2] = predict(ModeloLSVD2, lsvd);
