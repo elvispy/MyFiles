@@ -27,8 +27,10 @@ eapp = [2, 1] + [int(2*i/3) if not i%3 else 1 for i in range(3, n_a+1)]
 
 frac = rationale(eapp.pop(), 1)
 
-for j in eapp[::-1]:
-    frac = rationale(j, 1) + frac.inverse()
-print(frac)
+
+if __name__ == '__main__':
+    for j in eapp[::-1]:
+        frac = rationale(j, 1) + frac.inverse()
+    print(sum([int(i) for i in str(int(frac.num))]))
     
 

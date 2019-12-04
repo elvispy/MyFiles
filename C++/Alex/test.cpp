@@ -4,6 +4,7 @@ using namespace std;
 long long int converser(long long int i);
 int main()
 {
+  cin.tie(0);
 	long long int c = 1020304050607080900;
 	int i = 0;
 	while(true)
@@ -17,7 +18,7 @@ int main()
 		}//end if
 		i++;
 	}//end while
-	
+
 	return 0;
 }//end main
 
@@ -32,4 +33,3 @@ long long int converser(long long int i)
 	}//end for
 	return res;
 }//end function definition
-
