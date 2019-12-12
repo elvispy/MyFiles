@@ -1,35 +1,42 @@
-#include<iostream>
-#include<cmath>
+#include<bits/stdc++.h>
+
 using namespace std;
-long long int converser(long long int i);
-int main()
-{
-  cin.tie(0);
-	long long int c = 1020304050607080900;
-	int i = 0;
-	while(true)
+int * substract(int prod[], int nb, int aux);
+
+int main(){
+	ios::sync_with_stdio(0);
+	cin.tie(0);
+	int P;
+	cin >> P;
+	int *dates[P];
+	int *prod[P];
+	int aux = 0;
+	for(int i = 0; i< P; i++)
 	{
-		long long int a = converser(i) + c;
-		long long int b = (long long int) sqrt(a);
-		if(b*b == a)
+		int nb, dat;
+		cin >> nb >> dat;
+		if (nb >0)
 		{
-			cout << a;
-			break;
+			dates[aux+1] = dat;
+			prod[aux+1] += nb;
+			aux++;
+		}else{
+			substract(prod, nb, aux);
 		}//end if
-		i++;
-	}//end while
-
+	}//end  for
+	
 	return 0;
-}//end main
+}
 
-long long int converser(long long int i)
-{
-	long long int res = 0;
-	for(int j = 0; j< floor(log(i))+1;j++)
+int * substract(int prod[], int nb, int aux){
+	while(nb < 0)
 	{
-		long long int aux = (long long int) i/pow(10,j);
-		aux = aux%10;
-		res += aux * pow(10, 3+2*j);
-	}//end for
-	return res;
+		while(prod[aux]>0)
+		{
+			prod[aux]--;
+			bn++;
+		}//end inner while
+		aux--;
+	}//end outer while
+	return prod;
 }//end function definition
