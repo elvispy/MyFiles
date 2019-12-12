@@ -4,8 +4,8 @@
 let myvar = "Hola gente";
 
 function example(){
-  let var = "Another String";
-  console.log("This is " + var);
+  let myvar = "Another String";
+  console.log("This is " + myvar);
 }
 
 example(); //should input This is Another String
