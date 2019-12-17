@@ -4,14 +4,16 @@
 
 using namespace std;
 
-int  ret(int a){
-	a++;
-	return a;
-}
+void ret(int a[]);
 
 int main(void)
 {
-	int a = 42;
-	int b = ret(a);
-	cout << a << b;
+	int a[2] = {};
+	ret(a);
+	cout << a[1];// << b;
 }//end main
+
+void  ret(int a[]){
+	a[1]++;
+	//return a;
+}
