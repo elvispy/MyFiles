@@ -4,15 +4,14 @@
 
 using namespace std;
 
-int * ret(int my[]){
-	return my;
+int  ret(int a){
+	a++;
+	return a;
 }
 
 int main(void)
 {
-	int lol[6] = {13, 9, 20, 0, 101, 2019};
-	
-	int* res = {};
-	cin >> res[0];
-	return 0;
+	int a = 42;
+	int b = ret(a);
+	cout << a << b;
 }//end main

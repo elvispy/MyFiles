@@ -1,47 +1,28 @@
 #include<bits/stdc++.h>
 
 using namespace std;
-int * substract(int prod[], int nb, int aux);
+
 
 int main(){
-	ios::sync_with_stdio(0);
+	cin.sync_with_stdio(false);
 	cin.tie(0);
+	int nb[1000] = {};
+	int dates[1000] = {};
+	int idx1 = 0;
+	int idx2 = 0;
 	int P;
 	cin >> P;
-	int dates[P];
-	int prod[P];
-	int aux = 0;
-	for(int i = 0; i< P; i++)
+	for(int i = 0; i<P; i++)
 	{
-		int nb, dat;
-		cin >> nb >> dat;
-		if (nb >0)
+		int num, dat;
+		cin >> num >> dat;
+		if(num > 0)
 		{
-			dates[aux+1] = dat;
-			prod[aux+1] += nb;
-			aux++;
+			myPile = put(myPile, num, dat);
 		}else{
-			substract(prod, nb, aux);
+			myPile = quit(myPile, -num);
 		}//end if
-	}//end  for
-	
-	for(int i = aux; i>=0; i--){
-		if(prod[i]>0){
-			cout << dates[i];
-			break;
-		}
-	}
+	}//end for
+	cout << myPile.dates[myPile.idx1];
 	return 0;
 }
-
-void substract(int prod[], int nb, int aux){
-	while(nb < 0)
-	{
-		while(prod[aux]>0)
-		{
-			prod[aux]--;
-			nb++;
-		}//end inner while
-		aux--;
-	}//end outer while
-}//end function definition
