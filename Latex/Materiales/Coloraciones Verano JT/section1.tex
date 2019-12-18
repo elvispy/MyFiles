@@ -1,0 +1,68 @@
+\section{El tablero de Ajedrez}
+
+En 1961, un F\'isico Te\'orico Brit\'anico llamado M. Fischer resolvi\'o un problema de tableros famoso de la \'epoca: ¿De cu\'antas formas es posible colocar $32$ domin\'os de $2\times 1$ en un tablero de ajedrez de $8\times 8$?. La respuesta que obtuvo es $12,988,816$ formas. 
+Ahora, ¿Que sucede que cortamos dos casillas de esquinas opuestas?
+
+\begin{ejem}
+	 ¿De cu\'antas formas podemos poner $31$ domin\'os en el nuevo tablero?
+\end{ejem}
+\begin{proof}
+	Este problema parece considerablemente m\'as dif\'icil, a simple vista. Sin embargo, ese no es el caso. Consideremos el tablero de Ajedrez, pintado en blanco y negro de manera alternada. Las dos casillas recortadas son del mismo color (pueden ser negras o blancas, pero siempre del mismo color). Por lo tanto de las $64$ casillas, hay $32$ de un color y $30$ de otro color. 
+	
+	Primero observemos que cada domin\'o cubre exactamente una casilla negra y una blanca. Suponiendo que el tablero pueda cubrirse con esas $31$ piezas, entonces deber\'ia haber $31$ casillas de cada color. Pero eso no ocurre. Concluimos entonces que es imposible cubrir el nuevo tablero con $31$ piezas de domin\'o. 
+\end{proof}
+ 
+
+Existen dos observaciones importantes que se pueden rescatar de \'esta prueba. 
+\begin{enumerate}
+	\item Podemos encontrarnos en dos situaciones diferentes en problemas de colocar piezas en tableros: O es posible cubrir el tablero o no. En el primer caso, es suficiente con encontrar una configuraci\'on para concluir que es posible, pero notemos que para concluir que es \textbf{imposible} cubrir el tablero, deber\'iamos mostrar que \textbf{ninguna} configuraci\'on funciona. Esto \'ultimo generalmente no es el camino correcto. Se necesita de una idea inteligente para atacar el problema. Una idea posible es la coloraci\'on.
+	\item Existe una receta que ayuda\footnote{¡Ninguna t\'ecnica solucionar\'a todos los problemas!} a resolver muchos problemas de \'este tipo:
+	\begin{enumerate}[a.]
+		\item Colore\'a el tablero de una forma que te parezca \'util (Ajedrez). %Porque es util?
+		\item Encontr\'a una propiedad que te d\'e la coloraci\'on (Cada domin\'o cubre exactamente una casilla de cada color). 
+		\item Supon\'e que la hip\'otesis es falsa, y lleg\'a a una contradicci\'on (Deber\'ia haber $31$ casillas de cada color, pero eso no pasa).
+	\end{enumerate}
+
+	
+	
+\end{enumerate}
+
+Veamos esta receta en acci\'on
+
+\begin{ejem} \label{ejemplotetramino}
+	Decidir si es posible cubrir completamente\footnote{A menos  que se especifique lo contrario, no se est\'a permitido de superponer las piezas ni salirse del tablero, pero podemos rotar y girar las piezas.} un tablero de $10 \times 10 $ con piezas iguales al de la figura.
+\end{ejem}
+\begin{proof}
+	Lo primero es lo primero: intentar cubrir el tablero con las piezas indicadas. Luego de unos intentos fallidos, nuestra intuici\'on probablemente nos diga que no es posible cumplir el cometido. Es ah\'i cuando empezamos a poner las manos en la masa:
+	
+	\begin{enumerate}[a.]
+		
+		\item \textit{Colore\'a el tablero}
+		
+		El segundo ejemplo no puede ser diferente al primero, necesitamos empaparnos de esta nueva t\'ecnica: Coloreamos el tablero como un tablero de ajedrez. Esta parte ya la conocemos.
+		
+		\item \textit{Encontrar una propiedad en la coloraci\'on.}
+		
+		Podemos observar que, no importa donde se coloque la pieza, siempre estar\'a sobre tres casillas del mismo color y una casilla del color diferente. Es decir, cualquier pieza que se coloque sobre el tablero ocupar\'a una cantidad impar de casillas blancas. Adem\'as, $50$ de las $100$ casillas del tablero son blancas.
+		
+		\item \textit{Supongamos que la hip\'otesis es falsa}
+		
+		Es decir, es posible cubrir el tablero completamente, para lo cual necesitaremos $\frac{100}{4} = 25$ piezas. La observaci\'on clave es combinar los dos \'ultimos datos. Estas $25$ piezas cubrir\'an indefectiblemente una cantidad impar (suma de una cantidad impar de n\'umeros impares) de casillas blancas, pero hay $50$ casillas blancas, el cual es un n\'umero par. Luego, es imposible cubrir el tablero.
+	\end{enumerate}
+\end{proof}
+
+\subsection{Problemas}
+
+\begin{enumerate}
+	\item En un sal\'on de clase est\'an sentados los alumnos formando un arreglo rectangular de 5  7. La maestra
+	que quiere hacer una din\'amica, les pide a todos los alumnos que intercambien de lugar con un compañero
+	vecino, movi\'endose un lugar ya sea a la izquierda, a la derecha, adelante o atr\'as de su lugar. Pepito, que
+	sabe de matem\'aticas, le dice a la maestra que esto es imposible. ¿Por qu\'e tiene raz\'on Pepito?
+	\item Un rat\'on se quiere comer una pila de cubitos de queso de $5\times5\times5$ y quiere ir comiendo cada cubito iniciando por un cubito de la orilla y
+	terminando en el cubito central. Adem\'as, cada que come un cubito, el siguiente cubito que se come es uno
+	de los adyacentes (no en diagonal). ¿Podr\'a el rat\'on comerse el queso de esta manera?
+	
+	\item El ejemplo \ref{ejemplotetramino} muestra el problema de cubrir un tablero de $10\times 10$ con un tetramin\'o (una pieza que se compone de cuatro casillas). Existen otros cuatro tipos de tetramin\'os (Si, esos que aparecen en el tetris). Analice cada caso: ¿Es posible cubrir el tablero $10\times 10$
+	
+	\item Una tripleta ordenada de n\'umeros enteros positivos $(a, b, n)$ es dicha \textit{veraniega} si es posible cubrir un cuadrado de $n \times n$ con piezas de tamaño $a\times b$. Halle la cantidad de tripletas \textit{veraniegas} de la forma $(a, b, n)$, donde $n$ equivale al año en el cual nos encontramos.
+\end{enumerate}
