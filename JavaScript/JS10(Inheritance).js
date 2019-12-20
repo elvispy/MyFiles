@@ -26,7 +26,7 @@ class HospitalEmployee {
 
 class Nurse extends HospitalEmployee {
   constructor(name, certifications) {
-    super(name);
+    super(name); //to use the constructor of the parent class
     this._certifications = certifications;
   }
 
@@ -44,3 +44,8 @@ nurseOlynyk.takeVacationDays(5);
 console.log(nurseOlynyk.remainingVacationDays);
 nurseOlynyk.addCertification('Genetics');
 console.log(nurseOlynyk.certifications);
+
+
+
+//For using in the next script
+module.exports = nurseOlynyk;

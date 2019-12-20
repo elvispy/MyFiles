@@ -1,0 +1,83 @@
+\documentclass{article} 
+\usepackage[spanish, activeacute]{babel} %activeacute permite que podamos hacer los acentos asi nomas ''sin tener que agregarle \
+
+%encabezado con imagen
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{vmargin}
+\usepackage{amsmath, amsthm, amsfonts}
+\usepackage{enumerate}
+\usepackage{multicol}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{float}
+
+% Teoremas (el estilo por defecto es plain rotulos en negrita y letra italica)
+%--------------------------------------------------------------------------
+\newtheorem{thm}{Teorema}[section]
+\newtheorem{cor}{Corolario}[section]
+\newtheorem{lem}{Lema}
+\newtheorem{p}{Proposici\'on}[section]
+\newtheorem{solution}{Soluci\'on}[section]
+
+%\newtheorem{prop}[thm]{Proposici�n}
+\newtheorem{prop}{Proposici\'on}[section]
+%\theoremstyle{definition} %rotulo en negrita pero texto normal
+\newtheorem{defn}[thm]{Definici�n}
+%\theoremstyle{remark} %rotulo italica y texto normal
+%\newtheorem{rem}[thm]{Observaci�n}
+\newtheorem{ejem}{Ejemplo}[section]
+\newtheorem{ejer}{Problema}[section]
+
+\title{
+\begin{center}
+\includegraphics[width=120px, height=40px]{omapa.jpg}\\
+\end{center}
+}
+%\author{Alberto$^1$, Mar\'ia$^2$ \\ $^1$ Universidad don bosco, $^2$ Universidad Una}
+\date{}
+
+\lhead{\begin{picture}(0,0) \put(0,0){\includegraphics[width=20mm]{omapa.jpg}} \end{picture}}
+\rhead{Nivel Pre-Avanzado}
+\chead{Teor\'ia de n\'umeros}
+%%\chead{\vspace{-0.3cm} Teor\'ia de n\'umeros \vspace{0.3cm}}
+\renewcommand{\headrulewidth}{0.5pt}
+
+\pagestyle{fancy}
+
+\begin{document}
+\maketitle
+\begin{center}
+\bfseries{Curso de Iniciaci'on Cient'ifica para J'ovenes Talentos\\
+Nivel Pre-Avanzado \\
+}
+\end{center}
+
+\begin{center}
+	{\bfseries {\Large Coloraciones en Olimpiadas}}
+\end{center}
+
+La coloraci\'on en las Matem\'aticas es un tema de relevancia considerable. La idea es clasificar una colecci\'on de objetos en conjuntos con caracter\'isticas parecidas, vali\'endonos de la facilidad que tiene nuestro cerebro para identificar colores. 
+
+Generalmente se colorean tableros, aunque eventualmente planos o puntos pueden ser susceptibles al m\'etodo.
+
+
+
+\input{section1.tex}
+%\input{seccion2.tex}
+%\input{seccion3.tex}
+%\input{seccion4.tex}
+%\input{seccion5.tex}
+
+\begin{thebibliography}{99}
+
+
+
+\bibitem{Saucedo} Saucedo, Mat\'ias. \emph{Coloracionnes en Tableros}, Folleto de Entrenamiento Cono Sur 2015 para el equipo Argentino (2015).
+\bibitem{Favela} Favela, \emph{Coloraci\'on I $\&$ II}, Olimpiada Mexicana de Matem\'aticas en Baja California (2016).
+\bibitem{Engel} Engel, Arthur. \emph{Problem-Solving Strategies}, Problem books in mathematics, Springer (1998).
+
+\end{thebibliography}
+
+
+
+\end{document}
