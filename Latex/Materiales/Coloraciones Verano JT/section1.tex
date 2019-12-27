@@ -3,7 +3,7 @@
 En 1961, un F\'isico Te\'orico Brit\'anico llamado M. Fischer resolvi\'o un problema de tableros famoso de la \'epoca: ¿De cu\'antas formas es posible colocar $32$ domin\'os de $2\times 1$ en un tablero de ajedrez de $8\times 8$?. La respuesta que obtuvo es $12,988,816$ formas. 
 Ahora, ¿Que sucede que cortamos dos casillas de esquinas opuestas?
 
-\begin{ejem}
+\begin{ejem} \label{primerejemplo}
 	 ¿De cu\'antas formas podemos poner $31$ domin\'os en el nuevo tablero?
 \end{ejem}
 \begin{proof}
@@ -15,22 +15,27 @@ Ahora, ¿Que sucede que cortamos dos casillas de esquinas opuestas?
 
 Existen dos observaciones importantes que se pueden rescatar de \'esta prueba. 
 \begin{enumerate}
-	\item Podemos encontrarnos en dos situaciones diferentes en problemas de colocar piezas en tableros: O es posible cubrir el tablero o no. En el primer caso, es suficiente con encontrar una configuraci\'on para concluir que es posible, pero notemos que para concluir que es \textbf{imposible} cubrir el tablero, deber\'iamos mostrar que \textbf{ninguna} configuraci\'on funciona. Esto \'ultimo generalmente no es el camino correcto. Se necesita de una idea inteligente para atacar el problema. Una idea posible es la coloraci\'on.
+	\item Podemos encontrarnos en dos situaciones diferentes en problemas de colocar piezas en tableros: O es posible cubrir el tablero o no. En el primer caso, es suficiente con encontrar una configuraci\'on para concluir que es posible, pero notemos que para concluir que es \textbf{imposible} cubrir el tablero, deber\'iamos mostrar que \textbf{ninguna} configuraci\'on funciona. Es un error com\'un del ol\'impico inexperiente el intentar much\'isimas combinaciones diferentes, e identificar "el peor caso posible", argumentando que si no se puede en el peor caso, no se podr\'a en el resto de los casos. \'Esta idea no es err\'onea de por si, pero el problema est\'a en que es generalmente dif\'icil probar que el peor caso es realmente el peor caso. Aunque intuitivamente parezca que es as\'i, nuestro papel como matem\'aticos es demostrar rigurosamente nuestras afirmaciones, sin pecar de guiarnos \'unicamente de la intuici\'on. En general, necesita de una idea inteligente para atacar el problema. Siendo una idea posible la coloraci\'on del tablero.
 	\item Existe una receta que ayuda\footnote{¡Ninguna t\'ecnica solucionar\'a todos los problemas!} a resolver muchos problemas de \'este tipo:
 	\begin{enumerate}[a.]
 		\item Colore\'a el tablero de una forma que te parezca \'util (Ajedrez). %Porque es util?
 		\item Encontr\'a una propiedad que te d\'e la coloraci\'on (Cada domin\'o cubre exactamente una casilla de cada color). 
-		\item Supon\'e que la hip\'otesis es falsa, y lleg\'a a una contradicci\'on (Deber\'ia haber $31$ casillas de cada color, pero eso no pasa).
+		\item Supon\'e que la hip\'otesis es falsa, y lleg\'a a una contradicci\'on (Si fuese posible cubrir el tablero, eber\'ia haber $31$ casillas de cada color, pero eso no pasa).
 	\end{enumerate}
 
 	
 	
 \end{enumerate}
 
-Veamos esta receta en acci\'on
+Veamos esta receta en acci\'on, en otro ejemplo:
 
 \begin{ejem} \label{ejemplotetramino}
-	Decidir si es posible cubrir completamente\footnote{A menos  que se especifique lo contrario, no se est\'a permitido de superponer las piezas ni salirse del tablero, pero podemos rotar y girar las piezas.} un tablero de $10 \times 10 $ con piezas iguales al de la figura.
+	Decidir si es posible cubrir completamente\footnote{A menos  que se especifique lo contrario, no se est\'a permitido superponer las piezas ni salirse del tablero, pero podemos rotar y girar las piezas.} un tablero de $10 \times 10 $ con piezas iguales al de la figura.
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[scale=.8]{imgs/color3.png}
+	\end{figure}
 \end{ejem}
 \begin{proof}
 	Lo primero es lo primero: intentar cubrir el tablero con las piezas indicadas. Luego de unos intentos fallidos, nuestra intuici\'on probablemente nos diga que no es posible cumplir el cometido. Es ah\'i cuando empezamos a poner las manos en la masa:
@@ -54,7 +59,7 @@ Veamos esta receta en acci\'on
 \subsection{Problemas}
 
 \begin{enumerate}
-	\item En un sal\'on de clase est\'an sentados los alumnos formando un arreglo rectangular de 5  7. La maestra
+	\item En un sal\'on de clase est\'an sentados los alumnos formando un arreglo rectangular de 5 $\times$ 7. La maestra
 	que quiere hacer una din\'amica, les pide a todos los alumnos que intercambien de lugar con un compañero
 	vecino, movi\'endose un lugar ya sea a la izquierda, a la derecha, adelante o atr\'as de su lugar. Pepito, que
 	sabe de matem\'aticas, le dice a la maestra que esto es imposible. ¿Por qu\'e tiene raz\'on Pepito?
@@ -62,7 +67,28 @@ Veamos esta receta en acci\'on
 	terminando en el cubito central. Adem\'as, cada que come un cubito, el siguiente cubito que se come es uno
 	de los adyacentes (no en diagonal). ¿Podr\'a el rat\'on comerse el queso de esta manera?
 	
-	\item El ejemplo \ref{ejemplotetramino} muestra el problema de cubrir un tablero de $10\times 10$ con un tetramin\'o (una pieza que se compone de cuatro casillas). Existen otros cuatro tipos de tetramin\'os (Si, esos que aparecen en el tetris). Analice cada caso: ¿Es posible cubrir el tablero $10\times 10$
+	\item El ejemplo \ref{ejemplotetramino} muestra el problema de cubrir un tablero de $10\times 10$ con un tetramin\'o (una pieza que se compone de cuatro casillas). Existen otros cuatro tipos de tetramin\'os (Si, esos que aparecen en el tetris). Analice el caso del T-tetramin\'o: ¿Es posible cubrir el tablero de  $10\times 10$?.
 	
-	\item Una tripleta ordenada de n\'umeros enteros positivos $(a, b, n)$ es dicha \textit{veraniega} si es posible cubrir un cuadrado de $n \times n$ con piezas de tamaño $a\times b$. Halle la cantidad de tripletas \textit{veraniegas} de la forma $(a, b, n)$, donde $n$ equivale al año en el cual nos encontramos.
+	\item Hemos visto que hay cinco tetramin\'os diferentes. ¿Es posible formar un rect\'angulo con exactamente una pieza de cada tipo?
+	
+	\item ¿Es posible cubrir un tablero de $12\times 12$ con un tetramin\'o cuadrado y con 35 tetramin\'os en forma de T?
+	
+	\item Se tiene el siguiente tablero conformado por 260 tri\'angulos:
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[scale=.7]{imgs/color1.png}
+	\end{figure}
+	Decidir si es posible cubrirlo con piezas del siguiente tipo:
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[scale=.7]{imgs/color2.png}
+	\end{figure}
+
+	\item Tenemos un tablero de $6 \times 6$ en el cual en cada casilla se encuentra una luci\'ernaga. Una movida permitida es escoger tres luci\'ernagas en fila, y cambiar el estado de \'estas (si est\'an encendidas, se apagan, y si est\'an apagadas, se encienden). Inicialmente hay una sola luci\'ernaga encendida. Muestre que es imposible encender todas las luci\'ernagas.
+
+	\item Una tripleta ordenada de n\'umeros enteros positivos $(n,a, b)$ es dicha \textit{veraniega} si es posible cubrir un cuadrado de $a \times b$ con piezas de tamaño $1\times n$. Halle la cantidad de tripletas \textit{veraniegas} de la forma $(n, n^{2019}+7, n^{2020}+11)$
+
+	
 \end{enumerate}
