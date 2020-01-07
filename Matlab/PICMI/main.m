@@ -1,4 +1,4 @@
-%% This file is the main file to control all parts 
+%% This file is the main file to control all parts
 clc;
 
 %First we set a dictionary of faults
@@ -22,7 +22,7 @@ archive_name = cell2mat(archive_name);
 alpha = 2000;        % moderate bandwidth constraint
 tau = 0;            % noise-tolerance (no strict fidelity enforcement)
 K = 6;              % 3 modes
-DC = 0;             % no DC part imposed 
+DC = 0;             % no DC part imposed
 init = 1;           % initialize omegas uniformly
 tol = 1e-10;        %Tolerance of the method in VMD
 N = 1200;            %Number of iterations before quitting.
@@ -30,9 +30,9 @@ N = 1200;            %Number of iterations before quitting.
 [imfs, ~, ~] = VMD(signal, alpha, tau, K, DC, init, tol, N);
 
 
-%%Now Let's procede to the feature extraction via LSVD
+%%Now Lets procede to the feature extraction via LSVD
 %Number of partitions in the LSVD Method
-N_ = 30; 
+N_ = 30;
 lsvd = LSVD(imfs, N_);
 
 %%Now Feature Extraction via Entropy Methods
@@ -62,11 +62,11 @@ load('ModeloLSVD-3.mat');%to classify fault
 [~, scoreLSVD1] = predict(ModeloLSVD1, lsvd);
 if scoreLSVD1 < 0 %check if <0 means fault condition
     [~, scoreLSVD2] = predict(ModeloLSVD2, lsvd);
-    
+
     if scoreLSVD2 >0 %check if >0 means that the fault condition is known
-        
+
         [labelLSVD3, scoreLSVD3] = predict(ModeloLSVD3, lsvd);
-        
+
         status = faults(labelLSVD3);
         scoreLSVD = scoreLSVD3;
     else
@@ -108,10 +108,7 @@ csvHMS = table('Size', [size(HMS, 1), K+1], 'VariableNames',...
     headers(1:(K+1)), 'VariableTypes', varTypes(1:(K+1)));
 csvHMS(:, 1) = table(HMSf(:));
 for i = 1:K
-    csvHMS(:, i+1) =  table(HMS(:, i));  
+    csvHMS(:, i+1) =  table(HMS(:, i));
 end
 
 writetable(csvHMS, archive_name + ".csv");
-    
-
-
