@@ -33,7 +33,7 @@ No todos los problemas se resuelven colorando como tablero de ajedrez. Veamos un
 
 El ojo experto seguro habr\'a notado que \'esta soluci\'on se parece mucho a la del ejemplo \ref{primerejemplo}. No es coincidencia: La virtud de un buen matem\'atico es el saber adaptar soluciones ya vistas a los nuevos desaf\'ios que se le presentan.
 
-\begin{ejem}
+\begin{ejem}\label{ejemplo88}
 	A un tablero de $8 \times 8$ se le ha recortado una casilla de una de las esquinas. Decidir si es posible cubrirlo completamente con fichas de tamaño $3 \times 1$.
 \end{ejem}
 
@@ -46,11 +46,12 @@ El ojo experto seguro habr\'a notado que \'esta soluci\'on se parece mucho a la 
 		
 		\item \textit{Colore\'a el tablero}
 		
-		Observemos la siguiente coloraci\'on:
+		Coloreamos el tablero igual al tablero de la figura \ref{figura88}
 		
 		\begin{figure}[h!]
 			\centering
-			\includegraphics[scale=.85]{imgs/color5.png}
+			\includegraphics[scale=.65]{imgs/color5.png}
+			\caption{Coloraci\'on empleada para el ejemplo \ref{ejemplo88}\label{figura88}}
 		\end{figure}
 		
 		\item \textit{Encontrar una propiedad en la coloraci\'on.}
@@ -64,18 +65,25 @@ El ojo experto seguro habr\'a notado que \'esta soluci\'on se parece mucho a la 
 \end{proof}
 
 
-Desde luego, las coloraciones que hemos visto no resolver\'an todos los problemas, siempre debemos dejar fluir nuestra imaginaci\'on.
+Es importante recordar que las coloraciones que hemos visto no resolver\'an todos los problemas, siempre debemos dejar fluir nuestra imaginaci\'on.
 
 \subsection{Problemas}
 
 \begin{enumerate}
 	\item Tenemos un tablero de $7 \times 7$ del cual le hemos recortado una esquina. ¿Es posible cubrirlo con 12 domin\'os verticales y 12 domin\'os horizontales?
 	
+	\item ¿Y qu\'e ocurre si en el problema anterior, el tablero original era de dimensiones $2019 \times 2019$?.
+	
 	\item ¿Cu\'al es la mayor cantidad de casillas que se pueden colorear en un tablero de $7 \times 7 $ de manera que cada subtablero de $2 \times 2$ tiene a lo m\'aximo dos casillas pintadas?
 	
-	\item Decidir si es posible cubrir completamente un tablero de $10 \times 10$, sin huecos ni superposiciones y sin salirse del tablero, con fichas rectangulares de $1 \times 4$. (Cada ficha debe cubrir exactamente cuatro casillas del tablero.)
 	
 	\item En cada casilla de un tablero de $12 \times 12$ est\'a escrito un $1$ o un $0$. Una operaci\'on permitida es elegir $5$ casillas consecutivas en direcci\'on vertical, horizontal o diagonal, y con esas $5$ casillas cambiar cada $0$ por $1$ y cada $1$ por $0$. Inicialmente todas las casillas tienen un $0$ escrito en ellas. Determinar si es posible, mediante una secuencia de operaciones permitidas, lograr que todas las casillas del tablero tengan un $1$.
+	
+	\item Una tripleta ordenada de n\'umeros enteros positivos $(n,a, b)$ es dicha \textit{veraniega} si es posible cubrir un cuadrado de $a \times b$ con piezas de tamaño $1\times n$. Halle la cantidad de tripletas \textit{veraniegas} de la forma $(n, n^{2019}+7, n^{2020}+11)$, con $n$ primo.
+	
+	\item En un tablero de $5\times 5$ tenemos $24$ casillas con un $ +1$ en ellas y una casilla con un $-1$ en ella. Una operaci\'on permitida es elegir un subcuadrado de $a\times a$ con $a>1$, y cambiar el signo de todos los n\'umeros en ese subcuadrado. Pruebe que si la casilla inicial con el $-1$ est\'a en el centro, es posible realizar una cantidad finita de operaciones permitidas de modo que todos los unos tengan el mismo signo.
+	
+	\item Pruebe que en el problema anterior, cualquier otro lugar donde empiece el $-1$, ser\'a imposible hacer que todos los unos tengan el mismo signo.
 	
 	\item Tengo un cuarto cuyo piso tiene forma rectangular y est\'a totalmente cubierto por piezas de azulejos de tamaño $2 \times 2$ y $1\times 4$. Una de las piezas de tamaño $1\times 4$ se ha roto, y solo me queda una pieza de tamaño $2\times 2$ en el dep\'osito. Decidir si es posible reorganizar las piezas que tengo para cubrir completamente mi cuarto de azulejos.
 	
@@ -83,11 +91,15 @@ Desde luego, las coloraciones que hemos visto no resolver\'an todos los problema
 	
 	\item Se tiene un tri\'angulo equil\'atero de lado 7, que est\'a dividido en 49 tri\'angulitos iguales mediante rectas paralelas a sus lados. Se van recortando paralelogramos de per\'imetro 6 formado por cuatro tri\'angulitos de la grilla. Determine la mayor cantidad de paralelogramos que se pueden recortar.
 	
-	\item Ana y Beto juegan en un tablero de $11$ filas y $9$ columnas. Primero Ana divide el tablero en $33$ zonas. Cada zona tiene la forma de una casilla de tamaño $3\times 1$. 
+	\item Ana y Beto juegan en un tablero de $11$ filas y $9$ columnas. Primero Ana divide el tablero en $33$ zonas. Cada zona tiene la forma de una pieza de tamaño $3\times 1$. 
 	
 	Luego, Beto escribe en cada casilla uno de los n\'umeros $0, 1, 2, 3, 4, 5$ de modo que la suma de los n\'umeros de cada zona sea igual a 5. Beto gana si la suma de los n\'umeros escritos en cada una de las 9 columnas del tablero es un n\'umero primo. En caso contrario, Ana gana. Demuestre que Beto tiene estrategia ganadora. 
 	
 	\item Se tiene un tablero de $10\times 4$, en el cual se tiene un caballo en la esquina inferior izquierda. Muestre que no es posible que el caballo realice un ciclo sobre el tablero. Es decir, no puede hacer un recorrido que visite cada casilla exactamente una vez y volver a la casilla de inicio.
 	
+	\item Un tablero de $6 \times 6$ est\'a cubierto completamente con domin\'os de $2\times 1$. Pruebe que existe una l\'inea que divide al tablero original en dos rect\'angulos pero que no rompe ning\'un domin\'o.
+	
 	\item A un tablero de $n\times n$ se le ha recortado las cuatro esquinas. Determine para que valores de $n$ es posible cubrirlo completamente con tetramin\'os en forma de L.
+	
+	
 \end{enumerate}
