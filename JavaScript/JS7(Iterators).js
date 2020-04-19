@@ -6,7 +6,7 @@ const mylist = [1, 2, 'tre', 'qattre', [5, 'six']];
 //First, we have the forEach method
 //the syntax is list.forEach(function)
 
-mylist.forEach(lalis => { console.log(lalis)}); //will apply the fuction to every elements
+mylist.forEach(lalis => { console.log(lalis)}); //will apply the fuction to every element
 
 //THe map function returns an Array
 
@@ -25,7 +25,7 @@ console.log(nonnumbers); //just non number
 //find index method
 const animals = ['hippo', 'tiger', 'lion', 'seal', 'cheetah', 'monkey', 'salamander', 'elephant'];
 
-const foundAnimal = animals.findIndex(arg => {return arg === 'elephant'}); //eill equal to last index
+const foundAnimal = animals.findIndex(arg => {return arg === 'elephant'}); //will be equal to last index
 
 //we also have the reduce function, which will return only one value
 

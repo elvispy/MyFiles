@@ -10,7 +10,7 @@ if (myBool) { //implicit evaluation, same as python
   myAge = 20; //you dont need to use var the second time you use a variable
 }
 
-//it is possible to use ternary operators, also, just as c++
+//it is possible to use ternary operators also, just like c++
 var mybo = myAge > 12 ? "You can drive" : "Drive not recommended.";
 
 //js also has switch cases:
