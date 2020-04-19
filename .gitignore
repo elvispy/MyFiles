@@ -20,10 +20,10 @@ Latex/**/*.docx
 R/**/.RData
 R/**/.Rhistory
 
-*/__pycache__/*
+**/__pycache__/**
 Python/MathuraCorreo/key.bin
 Python/**/mycreds.txt
 Python/**/client_secrets.json
 Python/**/Temps/
-*/*.geojson
+**/*2012*.geojson
 
