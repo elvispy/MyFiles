@@ -1,6 +1,10 @@
 #this is a comment in the gitignore file.
+
+
 C++/**/*.exe
 C++/**/*.gch
+
+
 Latex/**/*.pdf
 *.aux
 *.log
@@ -11,10 +15,15 @@ Latex/**/*.pdf
 *.toc
 *.synctex*
 Latex/**/*.docx
+
+
 R/**/.RData
 R/**/.Rhistory
+
+*/__pycache__
 Python/MathuraCorreo/key.bin
 Python/**/mycreds.txt
 Python/**/client_secrets.json
 Python/**/Temps/
+*/2012*.geojson
 
