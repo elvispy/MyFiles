@@ -10,7 +10,7 @@ int main()
 	
 	for (size_t i =0; i < c.size(); ++i)
 	{
-		c[ i ] = 0;
+		c[i] = 37;
 	}
 	
 	cout << "Element" << setw( 13 ) << "Value" << endl;

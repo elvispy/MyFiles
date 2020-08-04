@@ -8,7 +8,7 @@ class GradeBook //convention: Begin a classname with capital letter.
 {
 public: //access specifier
 
-	explicit GradeBook (string name, int num) // this is called a constructor and is the equivalent of __init__ in python
+	explicit GradeBook (string name, int num) // this is called a constructor and is the equivalent of __init__ in python (also, it can have default values)
 	:courseName( name ), difficulty(num) //initializes courseName, separated by commas
 	{
 		//empty body
@@ -25,6 +25,7 @@ public: //access specifier
 		return courseName; //gets the coursename
 	}
 private: //this is another access specifier
+	//Here you define the variables needed in the initialization
 	string courseName; //variable inside the courseName, only available inside the class
 	int difficulty;
 };
