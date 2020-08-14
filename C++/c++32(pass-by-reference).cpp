@@ -3,7 +3,7 @@ using namespace std;
 
 void  cubeByReference ( int  *); // prototype expecting an address
 
-int main()
+int main(void)
 {
 	int number = 12;
 	

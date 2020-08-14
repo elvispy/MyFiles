@@ -52,7 +52,7 @@ end
 %Now comes the plotting part
 hold off;
 for i=1:M
-
+    
     plot(linspace(0, 1, N),u(:, floor(T/M) * (i-1) + 1));
     axis([0 1 -30 30])
     pause(0.05);
