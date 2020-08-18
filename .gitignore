@@ -26,4 +26,5 @@ Python/**/mycreds.txt
 Python/**/client_secrets.json
 Python/**/Temps/
 **/*2012*.geojson
+**/access.bin
 
