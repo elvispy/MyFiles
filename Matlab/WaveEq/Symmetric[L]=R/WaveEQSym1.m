@@ -34,7 +34,7 @@ K = sparse(diag(ones(Ntot, 1) * 2) - diag(ones(Ntot-1, 1), 1) - ...
     diag(ones(Ntot-1, 1), -1));
 K(1, 2) = -2;
 
-%Now we will initial conditions (temporarily)
+%Now we will set initial conditions (temporarily)
 sup = 0.1;
 P = zeros(Ntot, time_interval);
 
