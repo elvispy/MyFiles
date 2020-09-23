@@ -5,27 +5,28 @@ function [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, errortan] = ...
     %%
     %Lets build the A matrix.
     A_1 = [eye(Ntot) -delt/2 * eye(Ntot)];
-    A_1 = [A_1; [delt/(delx*delx) * (-diag(ones(Ntot-1, 1), 1)/2 + eye(Ntot) + ...
-        -diag(ones(Ntot-1, 1), -1)/2), eye(Ntot)]];
-    A_1(Ntot + 1, 2) = -1;
-    A_2 = [1 -delt/2; 0 1];
+    C = [delt/(delx*delx) * (-diag(ones(Ntot-1, 1), 1)/2 + eye(Ntot) + ...
+        -diag(ones(Ntot-1, 1), -1)/2), eye(Ntot)];
+    C(1, 2) = 2 * C(1, 2);
+    A_1 = [A_1; C];
+    % A_2 = [1 -delt/2; 0 1];
     % A = [A_1 zeros(2* Ntot, 2); zeros(2, 2* Ntot) A_2];
     
     %%
     %Lets build the Matrix b
     B_1 = [eye(Ntot) delt/2 * eye(Ntot)];
-    B_1 = [B_1; [delt/(delx*delx) * (diag(ones(Ntot - 1, 1), 1)/2 - eye(Ntot) + ...
-        diag(ones(Ntot-1, 1), -1)/2), eye(Ntot)]];
-    B_1(Ntot + 1, 2) = 1;
+    B_1 = [B_1; -C];
+
     B_2 = [1 delt/2; 0 1];
-    % B = [B_1 zeros(2*Ntot, 2); zeros(2, 2*Ntot) B_2];
+    
         
     %%
     %Now lets define  and y
     y = [Eta_k; u_k];
     
+    %And finally solve.
     x = A_1\(B_1*y);
-    res =  B_2 * (B_2 * [z_k;v_k] + [0;c1]);
+    res =  B_2 * (B_2 * [z_k;v_k] + [0;c1 * delt]);
 
     
     %% 

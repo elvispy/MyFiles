@@ -67,7 +67,7 @@ try:
 
         print('Espere... descargando el año {}'.format(year))
         for urls, name in zip(archiveurl, names):
-            if Msgbox == 'Yes':
+            if Msgbox == 'yes':
                 obtener.urlretrieve(urls, str(name))
             else:
                 if urls[-4:] == '.pdf':
