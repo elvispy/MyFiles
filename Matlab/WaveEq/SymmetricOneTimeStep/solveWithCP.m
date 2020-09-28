@@ -1,6 +1,6 @@
 function [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, P_k_prob, errortan] = ...
     solveWithCP(newCPoints, mCPoints, Eta_k, u_k, z_k, v_k, P_k, delt, ...
-    delx, Ntot, R, C1, C2, T)
+    delx, Ntot, constants)
     % This function solves the system Ax = By + z to calculate the position
     % of the sphere and the elastic band, with pressure included
     % -newCpoints = Number of pressure contact points at time k+1
@@ -10,13 +10,17 @@ function [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, P_k_prob, errortan] = ...
     % -z_k = vertical position of the center of the ball
     % -v_k = vertical velocity of the center of the ball
     % -P_k = vector of pressures in the last time step. Only 
+    % non-trivial points are inside
     % -delt, delx = Temporal and spatial grid minimum difference,
     % respectively
     % -Ntot = Number of spatial points in half the rope
     % -R = Radius of the ball
-    % -C1 = -mu * R * g * delt/ T, constant appearing in the RHS of the PDE
-    % -C2 = -mu * R * delt * delx/ (2 * m * T), constant appearing in the
-    % LHS of the PDE
+    % -constants = a list with the constants needed for the program,
+    % containing:
+    %     -C1 = mu * R * g * delt/ T, constant appearing in the RHS of the PDE
+    %     -C2 = mu * R * delt * delx/ (2 * m * T), constant appearing in the
+    %     -C3 = R / (2 * T);
+    %LHS of the PDE
     
     %Outputs:
     
@@ -37,6 +41,7 @@ function [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, P_k_prob, errortan] = ...
         P_k_prob = 0;
     else
         %%
+        constants(2) = constants(2) * delt * delx;
         %First, lets construct the matrix A. A will have 20 parts,
         %corresponding to the 5 variables and 4 equations. I will build the
         %parts in column order, from left to right
@@ -44,7 +49,7 @@ function [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, P_k_prob, errortan] = ...
         %First Column block (Eta_k)
         C = delt/(delx * delx) * (-diag(ones(Ntot - 1, 1), 1)/2 + ...
                eye(Ntot)-diag(ones(Ntot - 1, 1), -1)/2);
-        C(1, 2) = -delt/(delx*delx);
+        C(1, 2) = 2 * C(1, 2);
         A_1 = [eye(Ntot); C; zeros(2, Ntot)];
 
         %First newCPoints columns, which should be discarded (but will be
@@ -56,13 +61,15 @@ function [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, P_k_prob, errortan] = ...
         A_2 = [-delt/2 * eye(Ntot); eye(Ntot); zeros(2, Ntot)];
 
         %Third column block (P_k)
-        aux = 2 * C2 * ones(1, newCPoints);
-        if newCPoints > 0
-            aux(1) = C2;
-            aux(end) = 3/2 * C2;
+        aux = -2 * constants(2) * ones(1, newCPoints);
+        if newCPoints > 1
+            aux(1) = -constants(2);
+            aux(end) = 3/2 * constants(2);
+        elseif newCPoints == 1
+            aux(1) = -constants(2)/2;
         end
         A_3 = [zeros(Ntot, newCPoints); ...
-               delt * R / (2 * T) * eye(newCPoints); ...
+               delt * constants(3) * eye(newCPoints); ...
                zeros(Ntot - newCPoints + 1, newCPoints); ...
                aux];
 
@@ -90,19 +97,22 @@ function [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, P_k_prob, errortan] = ...
         oldCPoints = length(P_k);
        
         if oldCPoints > 0
-            B_3 = [zeros(Ntot, oldCPoints); -delt * R / (2 * T) * eye(oldCPoints)];
+            B_3 = [zeros(Ntot, oldCPoints); -delt * constants(3) * eye(oldCPoints)];
             B_3 = [B_3; zeros(Ntot - oldCPoints + 1, oldCPoints)];
-            aux = -2 * C2 * ones(1, oldCPoints);
-            aux(1) = -C2;
-            aux(end) = - 3/2 * C2; %Check this sign flip in the equation!
+            aux = 2 * constants(2) * ones(1, oldCPoints);
+            aux(1) = constants(2);
+            if oldCPoints == 1
+                aux(end) = constants(2)/2;
+            else
+                aux(end) = 3/2 * constants(2); %Check this sign flip in the equation!
+            end
             B_3 = [B_3; aux];
             
-            assert(size(B_3, 1) == 2*Ntot+2);
+            %assert(size(B_3, 1) == 2*Ntot+2);
         else
             B_3 = zeros(2*Ntot + 2, 0);
         end
         
-
         %Fourth column-block (z_k and v_k)
         B_4 = [zeros(2*Ntot, 2); [1 delt/2; 0 1]];
         
@@ -114,50 +124,53 @@ function [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, P_k_prob, errortan] = ...
 
         %%
         %Now lets build z, the "free vector"
-        f = @(x, i) sqrt(R*R - x*x * i .* i);
+        f = @(x, i) sqrt(1 - (x*x * i .* i));
         z = f(delx, 0:(newCPoints-1))'; %it has to be a row vector!
         z = P1 * z;
-        z(end) = C1;
+        z(end) = -constants(1) * delt;
 
         %%
         %Now lets solve the system and set the outputs.
+
         x = A\(B * y + z);
         z_k_prob = x(end - 1);
         v_k_prob = x(end);
+        % Eta_k_prob = zeros(Ntot, 1);
         Eta_k_prob = z_k_prob - f(delx, 0:(newCPoints - 1))';
         Eta_k_prob = [Eta_k_prob; x(1:(Ntot - newCPoints))];
+        
         u_k_prob = x((Ntot - newCPoints + 1):(2*Ntot - newCPoints));
         P_k_prob = x((2 * Ntot - newCPoints + 1):(2*Ntot));
 
         %%
         %Finally, lets calculate the angle error of the solution. The
         %definition depends on the expression newCPoints > 0
-
+ 
         if newCPoints > 0
             % A vector from the last contact point to the center of the sphere
             % (normalized)
-            radiusVector = [z_k_prob-Eta_k_prob(newCPoints), delx * (newCPoints - 1)];
-            radiusVector = radiusVector/norm(radiusVector);
+            %radiusVector = [z_k_prob-Eta_k_prob(newCPoints), delx * (newCPoints - 1)];
+            aux = delx*(newCPoints - 1) + delx/2;
+            tanSphere = aux/sqrt(1-aux^2);
+            %radiusVector = radiusVector/norm(radiusVector);
 
             %This is a vector which approximates the tangent of the solution at the
             %last contact point (normalized
-            approximateTan = [delx, Eta_k_prob(newCPoints + 1) - Eta_k_prob(newCPoints)];
-            approximateTan = approximateTan/norm(approximateTan);
+            approximateTan = (Eta_k_prob(newCPoints + 1) - Eta_k_prob(newCPoints))/delx;
 
             %And the error is the inner product of these two vectors, note that its
             %equal to zero precisely when the approximate tangent is perpendicular
             %to the radius
-            errortan = radiusVector(1) * approximateTan(1) + radiusVector(2) * approximateTan(2);
-            errortan = 1 - errortan;
+            %errortan = radiusVector(1) * approximateTan(1) + radiusVector(2) * approximateTan(2);
+            errortan = abs(tanSphere - approximateTan);
 
         else
-
+            
             %Dist is the distance vector of every probable point to the probable 
             %center of the sphere.
             dist = (Eta_k_prob - z_k_prob).^2 + (delx * (0:(Ntot-1))').^2;
-            dist = sqrt(dist);
             %If they collide, then smth is wrong.
-            if any(dist < R)
+            if any(dist < 1)
                 errortan = Inf;
             else
                 errortan = 0;
