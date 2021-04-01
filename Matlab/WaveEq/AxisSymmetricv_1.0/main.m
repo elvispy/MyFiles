@@ -5,7 +5,7 @@ clear variables;
 %% CONSTANTS' DEFINITIONS
 
 % Loading Physical constants from .m file
-unofficialpar;
+parameters;
 Fr = (mu*R_s*g)/Tm; %Froude number
 Mr = mu*(R_s^2)/mS; %Ratio of masses
 
@@ -30,10 +30,14 @@ v_k_prob = zeros(1, 5); %derivative of zk at current time
 Eta_k_prob = zeros(Ntot, 5); %Vector of positions of the rope
 
 
-z_k = 3/Lunit; %Current position of the center of the ball (dimensionless)
-v_k = 0/Vunit; % Velocity of the center of the ball (dimensionless)
+z_k = 2.1/Lunit; %Current position of the center of the ball (dimensionless)
+v_k = -.1/Vunit; % Velocity of the center of the ball (dimensionless)
 P_k = []; %Vector of pressure. Only non-trivial points are saved
 Eta_k = zeros(Ntot, 1); %Vector of positions of the rope
+%f = @(x) exp(-2*x.^2);
+%Eta_k = f(delr*(0:(Ntot-1)))';
+
+
 u_k = zeros(Ntot, 1); %d/dt Eta_k = u_k
 
 %Initial pressures (they are all trivial!)
@@ -164,7 +168,7 @@ end % end while
 
 function plotresults(Eta_k, z_k, circleX, circleY, timeStamp, ...
     Lunit, Tunit, N, delt)
-    Fac = 3;
+    Fac = 4;
     span = Fac * Lunit; %Interval to be plotted
     dimPosition = z_k * Lunit;
     dimTime = timeStamp * Tunit;
@@ -173,7 +177,7 @@ function plotresults(Eta_k, z_k, circleX, circleY, timeStamp, ...
     hold on;
     plot(linspace(-span, span, 2 * N * Fac - 1), ...
         [Eta_k(N*Fac:-1:2);Eta_k(1:N*Fac)]);
-    s1 = sprintf("t   =%.2f ms", dimTime);
+    s1 = sprintf("t  =%.2f ms", dimTime);
     s2 = sprintf("z_k =%.2f mm", dimPosition); 
     
     title([s1, s2])%, 'Position', [-span+5 span-6]);

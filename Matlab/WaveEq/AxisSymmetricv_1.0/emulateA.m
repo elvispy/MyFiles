@@ -1,5 +1,4 @@
-function A = emulateA(delt, delr, Ntot, newCPoints, Mr)
-
+function [A, B] = emulateA(delt, delr, Ntot, newCPoints, Mr, P_k)
 
     %First column block (Eta_k)
     %Lets build A'
@@ -38,6 +37,28 @@ function A = emulateA(delt, delr, Ntot, newCPoints, Mr)
     A_4(end, 2) = 1;
 
     A = [A_1, A_2, A_3, A_4];
+    
+    %First column-block (Eta_k)
+    B_1 = [eye(Ntot); -A_prime; zeros(2, Ntot)];
+
+    %Second column block (u_k)
+    B_2 = [(delt/2) * eye(Ntot); eye(Ntot); zeros(2, Ntot)];
+
+    %third block (P_k)
+    oldCPoints = length(P_k);
+
+    B_3 = [zeros(Ntot, Ntot); delt/2 * eye(Ntot); zeros(1, Ntot)];
+
+    B_3 = B_3(:, 1:oldCPoints);
+    %Integration vector
+    S =  (delt/2) * Mr * delr^2 * int_vector(oldCPoints);
+
+    B_3 = [B_3; S];
+
+    %Fourth column-block (z_k and v_k)
+    B_4 = [zeros(2*Ntot, 2); [1 delt/2; 0 1]]; 
+
+    B = [B_1 B_2 B_3 B_4];
 end
 
 function S = int_vector(n)

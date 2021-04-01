@@ -55,7 +55,7 @@ function [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, P_k_prob, errortan] = ...
         
         A_1 = [eye(Ntot); A_prime; zeros(2, Ntot)];
         
-        P1 = A_1(:, 1:newCPoints);
+        C1 = A_1(:, 1:newCPoints);
         A_1 = A_1(:, (newCPoints+1):end); %First columns discarded
         
         %Second colum block (u_k)
@@ -71,9 +71,9 @@ function [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, P_k_prob, errortan] = ...
               zeros(Ntot-newCPoints+1, newCPoints);...
               S];
           
+          
         %Now last columns (z_k and v_k)
-       
-        A_4 = [sum(P1, 2) zeros(2*Ntot + 2, 1)];
+        A_4 = [sum(C1, 2) zeros(2*Ntot + 2, 1)];
         A_4(end-1, 1) = 1;
         A_4(end-1, 2) = -delt/2;
         A_4(end, 2) = 1;
@@ -91,7 +91,7 @@ function [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, P_k_prob, errortan] = ...
         %third block (P_k)
         oldCPoints = length(P_k);
         
-        B_3 = [zeros(Ntot, Ntot); delt/2 * eye(Ntot); zeros(1, Ntot)];
+        B_3 = [zeros(Ntot, Ntot); - delt/2 * eye(Ntot); zeros(1, Ntot)];
         
         B_3 = B_3(:, 1:oldCPoints);
         %Integration vector
@@ -114,7 +114,7 @@ function [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, P_k_prob, errortan] = ...
         
         f = @(x) sqrt(1-(delr^2 * x .* x));
         
-        R_prime = P1 * (f(0:(newCPoints-1))');
+        R_prime = C1 * (f(0:(newCPoints-1))');
         
         %% Building Wk and solving the system
         
@@ -144,13 +144,13 @@ function [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, P_k_prob, errortan] = ...
             %Distance vector of every point on the fiml to the sphere
             dist = (Eta_k_prob - z_k_prob).^2 + (delr * (0:(Ntot-1))').^2;
             
-            if any(dist<= 1)
+            if any(dist <= 1)
                 errortan = Inf;
             else
                 errortan = 0;
             end
         else
-            %tanSphere is the perfet tangent at a point near the last
+            %tanSphere is the perfect tangent at a point near the last
             %contact point
             aux = delr*(newCPoints - 1) + delr/2;
             tanSphere = aux/sqrt(1-aux^2);
@@ -158,7 +158,7 @@ function [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, P_k_prob, errortan] = ...
             %Lets calculate the approximation of the tangent
             approximateTan = (Eta_k_prob(newCPoints + 1) - Eta_k_prob(newCPoints)) / delr;
             
-            errortan = abs(tanSphere - approximateTan);
+            errortan = abs(atan(tanSphere) - atan(approximateTan));
         end
         
     end %end outer if
