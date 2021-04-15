@@ -5,6 +5,7 @@ if __name__ == '__main__':
     code = 'DNCP-SICP-CODE-306'
     name = 'MSBPS'
     MSadj = filter_MS_tenders(path, code)
+    
     ddate = '2013-08-15'
     
     print("Finished with tenders")
@@ -13,10 +14,10 @@ if __name__ == '__main__':
 
     print("Lets begin with the items")
     
-    #MS_items = list_MS_items(path, MS_cont)
+    MS_items = list_MS_items(path, MS_cont)
     
-
+    
     print("Now I rename and set everything")
 
-    renamed = rename_final(MSadj, MS_cont, None, name)
+    renamed = rename_final(MSadj, MS_cont, MS_items, name)
     

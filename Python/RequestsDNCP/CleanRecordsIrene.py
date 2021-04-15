@@ -108,7 +108,8 @@ def filter_MS_tenders(path, code):
                'compiledRelease/tender/mainProcurementCategoryDetails',
                'compiledRelease/tender/coveredBy',
                'compiledRelease/tender/tenderPeriod/endDate', 
-               'compiledRelease/tender/awardPeriod/startDate', 
+               'compiledRelease/tender/awardPeriod/startDate',
+               'compiledRelease/tender/value/amount',
                'compiledRelease/tender/statusDetails',
                'compiledRelease/buyer/id',
                
@@ -125,6 +126,7 @@ def filter_MS_tenders(path, code):
     #Filter more columns
     columns = columns[:-2]
     MSadj = MSadj[columns]
+    MSadj['Estado de la licitacion'] = 'Adjudicada'
 
     #MSadj = MSadj[MSadj[columns[2]] > '2013-08-15']
     
@@ -193,10 +195,9 @@ def filt_cont(fp, MSadj):
                 res.append(i)
                 fp.loc[i, 'contract_title'] = MSadj.loc[j, 'compiledRelease/tender/title']
                 fp.loc[i, 'Fecha de publicacion de convocatoria'] = MSadj.loc[j, 'compiledRelease/tender/datePublished']
+                fp.loc[i, 'categoria']      = MSadj.loc[j, 'compiledRelease/tender/mainProcurementCategoryDetails']
+
                 is_in_date.append(j)
-
-
-                
     is_in_date = list(set(is_in_date))
     #MSadj = MSadj.loc[is_in_date]
     #MSadj = MSadj.reset_index(drop = True)
@@ -292,7 +293,6 @@ def look_adj_pbc(MSadj, MS_url_pbc, i, maxx):
         return ""
                    
 
-
 def list_MS_contracts(path, MSadj, ddate):
     ''' This function produces a csv with all the data necessary per contract.
     The input is the path of the folders with all the data'''
@@ -318,20 +318,24 @@ def list_MS_contracts(path, MSadj, ddate):
     MS_cont = concat_csv(con_archive, columns, col_sorts)
     
     #If we are in the MSPBS research, filter from 2013 onwards
-    #Else, filter from match 2020 onwards
+    #Else, filter from march 2020 onwards 
     
-    MS_cont = MS_cont[MS_cont['compiledRelease/contracts/0/dateSigned'] > ddate]
-        
+    #MS_cont = MS_cont[MS_cont['compiledRelease/contracts/0/dateSigned'] > ddate]
+
+    
     MS_cont = MS_cont.reset_index(drop = True)
     MS_cont['contract_title'] = ''
     MS_cont['Fecha de publicacion de convocatoria'] = ''
-
-
+    MS_cont['categoria'] = ''
 
     
     is_in_date = []
     [is_in_date, MS_cont] = filt_cont(MS_cont, MSadj)
+    
     MSadj = pd.merge(MSadj[MSadj['compiledRelease/tender/datePublished'] > ddate], MSadj.loc[is_in_date], how = 'outer')
+
+    #return [MSadj, MS_cont] 
+    
     #MScont = MScont.sort_values(by = ['compiledRelease/id'], ignore_index = True)
 
     #Add link al contrato.
@@ -421,30 +425,40 @@ def list_MS_contracts(path, MSadj, ddate):
         MS_cont.loc[i, 'Fecha de adjudicacion'] = look_cont_awa_date(MS_cont, MS_awar_dates, i, maxx2)[:10]
 
 
-
+    MSadj = MSadj.sort_values(by = ['compiledRelease/planning/identifier'],
+                              ignore_index = True)
     #Now let's set who was the minister in Charge
     if irene:
-        ministry = {'Antonio Barrios':'2018-01-28',
+        ministry = {'Corresponde a antes de 2013':'2013-08-14',
+                    'Antonio Barrios':'2018-01-28',
                      'Carlos Morinigo':'2018-08-14',
                      'Julio Mazzoleni (PreCovid)':'2020-03-01',
                      'Julio Mazzoleni (PostCovid)':'2020-12-31'
                      }
         MS_cont['ministro'] = ''
-        min_cont = list(MS_cont.columns).index('ministro')
+        MSadj['ministro'] = ''
         for i in range(MS_cont.shape[0]):
+            
             for minister in ministry.keys():
-                if MS_cont[columns[2]][i] < ministry[minister]:
-                    MS_cont.iloc[i, min_cont] = minister
+                if MS_cont[columns[2]][i] == '':
+                    MS_cont.loc[i, 'ministro'] = 'No se puede determinar'
+                    
+                    break
+                elif MS_cont[columns[2]][i] < ministry[minister]:
+                    MS_cont.loc[i, 'ministro'] = minister
+                    idx = MSadj['compiledRelease/planning/identifier'].searchsorted(MS_cont.loc[i, 'compiledRelease/id'][:6])
+                    if (MSadj.loc[idx, 'ministro'] == '') or ministry[minister] < MSadj.loc[idx, 'ministro']:
+                        MSadj.loc[idx, 'ministro'] = minister
                     break
 
         #Now for the tenders
 
-        MSadj['ministro'] = ''
         for j in range(MSadj.shape[0]):
-            for minister in ministry.keys():
-                if MSadj['compiledRelease/tender/datePublished'][j] < ministry[minister]:
-                    MSadj.loc[j, 'ministro'] = minister
-                    break
+            if MSadj.loc[j, 'ministro'] == '':
+                for minister in ministry.keys():
+                    if MSadj['compiledRelease/tender/datePublished'][j] < ministry[minister]:
+                        MSadj.loc[j, 'ministro'] = minister
+                        break
 
     #Now let's fill the CC details
 
@@ -494,6 +508,7 @@ def list_MS_contracts(path, MSadj, ddate):
 
     return [MSadj, MS_cont]
 
+
 def list_MS_items(path, MS_cont):
     archive = 'awa_items.csv'
     columns = ['compiledRelease/id',
@@ -506,10 +521,10 @@ def list_MS_items(path, MS_cont):
                ]
     MS_items = concat_csv(archive, columns)
 
-    MS_cont = MS_cont[['compiledRelease/contracts/0/awardID', 'compiledRelease/contracts/0/id']]
+    MS_cont = MS_cont[['compiledRelease/contracts/0/awardID', 'compiledRelease/contracts/0/id','categoria']]
 
     MS_items["cont_id"] = ''
-
+    MS_items["categoria"] = ''
 
 
 
@@ -524,6 +539,8 @@ def list_MS_items(path, MS_cont):
 
     maxx = MS_items.shape[0]
     print("Agregando columnas al MS_items:")
+
+    #return MS_items
     
     for i in range(MS_cont.shape[0]):
         c = 'compiledRelease/contracts/0/awardID'
@@ -539,6 +556,8 @@ def list_MS_items(path, MS_cont):
             indexes_in_date.append(idx)
             
             #Now lets add the Contract ID
+            
+            MS_items.loc[idx, 'categoria'] = MS_cont['categoria'][i]
             MS_items.loc[idx, 'cont_id'] = MS_cont['compiledRelease/contracts/0/id'][i]
             idx = idx + 1
 
@@ -559,6 +578,8 @@ def rename_final(MSadj, MS_cont, MS_items, name):
     lic_cols = ["ID de Licitacion",
                 "Institucion Convocante",
                 "Tipo de Licitacion",
+                "Estado de la licitacion",
+                "Monto licitado",
                 "Fecha de Publicacion de convocatoria",
                 "Fecha de Cierre de Convocatoria",
                 "Fecha de primera Adjudicacion",
@@ -572,6 +593,8 @@ def rename_final(MSadj, MS_cont, MS_items, name):
     lic_ori = ['compiledRelease/planning/identifier',
                'compiledRelease/buyer/name',
                'compiledRelease/tender/procurementMethodDetails',
+               'Estado de la licitacion',
+               'compiledRelease/tender/value/amount',
                'compiledRelease/tender/datePublished',
                'compiledRelease/tender/tenderPeriod/endDate',
                'compiledRelease/tender/awardPeriod/startDate',
@@ -669,7 +692,7 @@ def rename_final(MSadj, MS_cont, MS_items, name):
         MS_cont = MS_cont.sort_values(by = ['ID de Licitacion'], ascending = False, ignore_index = True)
         MS_cont.to_csv(contname, index = False)
 
-    if MS_items and not MS_items.empty:
+    if (not(MS_items is None)) and not MS_items.empty:
         for i in range(MS_items.shape[0]):
             MS_items.loc[i, 'compiledRelease/id'] = MS_items.loc[i, 'compiledRelease/id'][:6]
         MS_items['total_item'] = MS_items["compiledRelease/awards/0/items/0/unit/value/amount"].astype("int64") * MS_items["compiledRelease/awards/0/items/0/quantity"].astype("int64")

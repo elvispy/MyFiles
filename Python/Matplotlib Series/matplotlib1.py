@@ -31,6 +31,6 @@ plt.grid()
 
 plt.tight_layout()
 
-plt.savefig('plot.png')
+#plt.savefig('plot.png')
 
 plt.show()

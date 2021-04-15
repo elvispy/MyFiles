@@ -168,6 +168,9 @@ def filter_MS_tenders(path, code):
 
     '''
 
+
+    
+
     if MSadj.empty:
         raise Exception("MSadj vacia!")
     return MSadj
@@ -407,6 +410,8 @@ def list_MS_contracts(path, MSadj, ddate):
                     break
 
     '''
+
+
     #Now let's fill the CC details
 
     bud_archive = 'con_imp_fin_breakdown.csv'

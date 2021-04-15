@@ -89,9 +89,6 @@ for name in sheets:
         msg.attach(teext)
 
 
-
-
-
         s.sendmail(correo, senders, msg.as_string())
 
 
