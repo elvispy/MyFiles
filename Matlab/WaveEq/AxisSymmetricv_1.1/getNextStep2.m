@@ -31,11 +31,11 @@ function [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, P_k_prob, errortan] = ...
     
     if newCPoints < 0 || newCPoints > mCPoints
         errortan = Inf;
-        Eta_k_prob = NaN * zeros(size(Eta_k));
-        u_k_prob = NaN * zeros(size(u_k));
-        z_k_prob = NaN;
-        v_k_prob = NaN;
-        P_k_prob = NaN;
+        Eta_k_prob = zeros(size(Eta_k));
+        u_k_prob = zeros(size(u_k));
+        z_k_prob = 0;
+        v_k_prob = 0;
+        P_k_prob = 0;
        
     else
         %% Building A
@@ -51,8 +51,7 @@ function [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, P_k_prob, errortan] = ...
              A_prime(i, i-1)= -(delt)/(2*delr^2) * (2*i-3)/(2*i-2);
              A_prime(i, i+1)= -(delt)/(2*delr^2) * (2*i-1)/(2*i-2);
         end
-        %A_prime(Ntot, Ntot-1) = -(delt)/(2*delr^2) * (2*Ntot-1)/(2*Ntot-2); 
-        A_prime(Ntot, Ntot - 1) = -(delt)/(2*delr^2) * (2*Ntot-3)/(2*Ntot-2);
+        A_prime(Ntot, Ntot-1) = -(delt)/(2*delr^2) * (2*Ntot-1)/(2*Ntot-2); 
         
         A_1 = [eye(Ntot); A_prime; zeros(2, Ntot)];
         
@@ -80,8 +79,7 @@ function [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, P_k_prob, errortan] = ...
         A_4(end, 2) = 1;
         
         A = [A_1, A_2, A_3, A_4];
-        %%%%%disp(A);  
-        
+            
         %% Building B
         
         %First column-block (Eta_k)
@@ -105,7 +103,7 @@ function [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, P_k_prob, errortan] = ...
         B_4 = [zeros(2*Ntot, 2); [1 delt/2; 0 1]]; 
         
         B = [B_1 B_2 B_3 B_4];
-        %%%%%disp(B);
+        
         %% Building R and R_prime
         
         %change this if your dont want to take into accoutn gravity
@@ -121,7 +119,7 @@ function [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, P_k_prob, errortan] = ...
         %% Building Wk and solving the system
         
         Wk = [Eta_k; u_k; P_k; z_k; v_k];
-        %disp(B*Wk + R + R_prime);
+        
         x = A\(B*Wk + R + R_prime);
         
         %Extracting vectors from solution

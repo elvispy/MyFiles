@@ -7,7 +7,7 @@ tstart = tic;
 tmax = 15000;
 
 load('runNumber.mat','runNumber')
-
+%VertPolarExact
 % if runNumber == 0
     U0 = 60; save('U0.mat','U0')%impact velocity in cm/s
     Ang = 180; save('Ang.mat','Ang')
@@ -32,8 +32,8 @@ load('runNumber.mat','runNumber')
     load('quant.mat')
     load('D.mat')
     load('refp.mat')
-    load(['DTNnew345nr',num2str(nr),'D',num2str(D),'refp',num2str(refp),'.mat'],'DTNnew345')
-    DTN = DTNnew345;
+    %load(['DTNnew345nr',num2str(nr),'D',num2str(D),'refp',num2str(refp),'.mat'],'DTNnew345')
+    DTN = 0;%DTNnew345;
     clear DTNnew345
     load('zs.mat','zs')
     load('xdrop.mat')
@@ -512,7 +512,7 @@ while t<tend || jj1>.5
     etao = eta1;
     phio = phi1;
     pso = ps1;
-
+    xdrop
     etaplot=[flipud(eta(2:nr));eta];
     plot(xdrop,(z(jj+1))+zdrop,'k','Linewidth',4);
     hold on

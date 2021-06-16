@@ -121,9 +121,9 @@ Dev_2 = Developer("Ana", "Rizitos", 2500, "Cmamo")
 Man_1 = Manager3("Mom", "An", 10000, [emp_2, Dev_1])
 
 
-# print(emp_1.pay)
+#print(emp_1.pay)
 emp_1.apply_raise()
-# print(emp_1.pay)
+#print(emp_1.pay)
 
 # Python has two useful builtin functions isinstance() and issubclass()
 # remember that inheritance preserves instantiation (what the hell is this?)

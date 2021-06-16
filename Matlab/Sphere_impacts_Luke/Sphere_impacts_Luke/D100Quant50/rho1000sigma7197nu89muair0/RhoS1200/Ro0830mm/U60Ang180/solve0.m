@@ -1,3 +1,4 @@
+%solve0
 function [etaprob0,phiprob0,zprob0,vzprob0,errortan]=solve0(dt,z,vz,etao,phio,nr,Re,Delta,DTN,Fr,We,zs)
 
 b = [etao;phio];
