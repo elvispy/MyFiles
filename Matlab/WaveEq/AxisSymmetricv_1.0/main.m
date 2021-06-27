@@ -31,8 +31,8 @@ u_k_prob = zeros(Ntot, 5); % Vertical derivative of the membrane
 Eta_k_prob = zeros(Ntot, 5); %Vector of positions of the rope
 
 
-z_k = 2.1/Lunit; %Current position of the center of the ball (dimensionless)
-v_k = -.15/Vunit; % Velocity of the center of the ball (dimensionless)
+z_k = 1.1/Lunit; %Current position of the center of the ball (dimensionless)
+v_k = -.25/Vunit; % Velocity of the center of the ball (dimensionless)
 P_k = []; %Vector of pressure. Only non-trivial points are saved
 Eta_k = zeros(Ntot, 1); %Vector of positions of the rope
 %f = @(x) exp(-2*x.^2);
@@ -145,8 +145,9 @@ while (curridx <= midx)
             
         end %
     end
-    if cPoints == 1
-        disp("hehe");
+    if mod(curridx,100) == 0
+        disp(errortan);
+        disp(P_k);
     end
     
     if recalculate  == false %timestep is ok

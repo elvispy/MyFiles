@@ -80,7 +80,7 @@ function [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, P_k_prob, errortan] = ...
         A_4(end, 2) = 1;
         
         A = [A_1, A_2, A_3, A_4];
-        %%%%%disp(A);  
+        
         
         %% Building B
         
@@ -105,7 +105,7 @@ function [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, P_k_prob, errortan] = ...
         B_4 = [zeros(2*Ntot, 2); [1 delt/2; 0 1]]; 
         
         B = [B_1 B_2 B_3 B_4];
-        %%%%%disp(B);
+        
         %% Building R and R_prime
         
         %change this if your dont want to take into accoutn gravity
@@ -123,7 +123,7 @@ function [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, P_k_prob, errortan] = ...
         Wk = [Eta_k; u_k; P_k; z_k; v_k];
         %disp(B*Wk + R + R_prime);
         x = A\(B*Wk + R + R_prime);
-        
+ 
         %Extracting vectors from solution
         z_k_prob = x(end - 1);
         v_k_prob = x(end);
