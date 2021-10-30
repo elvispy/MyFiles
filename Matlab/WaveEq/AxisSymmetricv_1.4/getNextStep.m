@@ -1,5 +1,5 @@
 function [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, P_k_prob, errortan] = ...
-    getNextStep(newCPoints, mCPoints, Eta_k, u_k, z_k, v_k, dt, ...
+    getNextStep(newCPoints, mCPoints, Eta_k, u_k, z_k, v_k, P_k, dt, ...
     dr, Fr, Mr, Ntot)
     
     %% Documentation
@@ -30,22 +30,23 @@ function [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, P_k_prob, errortan] = ...
     
     if newCPoints < 0 || newCPoints > mCPoints
         errortan = Inf;
-        Eta_k_prob = zeros(size(Eta_k));
-        u_k_prob = zeros(size(u_k));
-        z_k_prob = 0;
-        v_k_prob = 0;
-        P_k_prob = 0;
-       
-    else
+        Eta_k_prob = NaN * zeros(size(Eta_k));
+        u_k_prob = NaN * zeros(size(u_k));
+        z_k_prob = NaN;
+        v_k_prob = NaN;
+        P_k_prob = NaN;
+     else
         if newCPoints == 0
             [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, errortan] = ...
-            freefall(Eta_k, u_k, z_k, v_k, dt, dr, Fr, Ntot); P_k_prob = [];
+                freefall(Eta_k, u_k, z_k, v_k, dt, dr, Fr, Ntot); 
+            P_k_prob = [];
         else
             [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, ...
-                P_k_prob, errortan] = solveNcorner(newCPoints, Eta_k, u_k, ...
-                z_k, v_k, dt, dr, Fr, Mr, Ntot);
+            P_k_prob, errortan] = solveNcorner(newCPoints, Eta_k, ...
+            u_k, z_k, v_k, dt, dr, Fr, Mr, Ntot);
         end
-        
-
+%         [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, ...
+%             P_k_prob, errortan] = trapecio2(newCPoints, mCPoints, Eta_k, ...
+%             u_k, z_k, v_k, P_k, dt, dr, Fr, Mr, Ntot);
     end %end outer if
 end %end function definition

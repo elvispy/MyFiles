@@ -3,113 +3,222 @@
 join = true;
 %%%
 close;
-values = readtable('historialTm72.csv', 'PreserveVariableNames', true);
+[file, path] = uigetfile('*.*', 'Select One or More Files', 'simulations\');
+if isequal(file, 0)
+    values = readtable([pwd, '/simulations/historial.csv'], 'PreserveVariableNames', true);
+else
+    values = readtable(fullfile(path, file), 'PreserveVariableNames', true);
+end
 
-symbol = ["o", "o", "s", "s", "^", "p" "^", "x", "d", "+"];
-fsymbol = ["filled", "MarkerEdgeColor", "MarkerEdgeColor", ...
-    "MarkerEdgeColor", "filled", "MarkerEdgeColor","MarkerEdgeColor", ...
-    "MarkerEdgeColor", "filled", "MarkerEdgeColor"];
-cats = [0 0.4 0.51 0.8 1.3 1.8 2.05 2.4 2.8 3.1 3.2];
+%% Settings of radii to be plotted
+symbol = {'o'; 'o'; 's'; 's'; '^'; 'p'; '^'; 'x'; 'd'; '+'};
+fsymbol = {'filled'; 'o'; 'o'; ...
+    'o'; 'filled'; 'o';'o'; ...
+    'o'; 'filled'; 'o'};
+cats = {0.35; 0.5; 0.795; 1.25; 1.75; 2; 2.38; 2.78; 3; 3.175};
+configs = struct('radius', cats, 'symbols', symbol, 'settings', fsymbol);
+%binnedRadius = discretize(values.("radius"), cats, 'categorical', symbol);
 
-binnedRadius = discretize(values.("radius"), cats, 'categorical', symbol);
+%values.marker = binnedRadius;
+cols = values.Properties.VariableNames([2 5 6]);
 
-values.marker = binnedRadius;
-cols = values.Properties.VariableNames([2 3 4]);
-
-%% Plot settings
+%% CONTACT TIME
 if join == true
-    tiledlayout(2, 1);
-    set(gcf,'position',[500,5,500,750]);
+    tiledlayout(1, 2);
+    set(gcf,'position',[300,300,1100,400], 'Units', 'pixels');
     nexttile;
-    title('Datos obtenidos por el método vs experimentales');
+    title({'Tiempo de contacto numéricos y',  'experimentales vs velocidad de impacto'}, ...
+        'FontSize', 14, 'FontName', 'Cambria');
+    
 else
     tiledlayout(2, 2);
     set(gcf,'position',[300,5,1000,750]);
     nexttile;
-    title('Datos obtenidos por el método');
+    title('Datos numéricos', ...
+        'FontSize', 18, 'FontName', 'Cambria');
 end
-   
-hold on;
+ 
+set(gca, ...
+  'Box'         , 'off'     , ...
+  'TickDir'     , 'out'     , ...
+  'TickLength'  , [.02 .02] , ...
+  'XMinorTick'  , 'on'      , ...
+  'YMinorTick'  , 'on'      , ...
+  'YGrid'       , 'on'      , ...
+  'XColor'      , [.3 .3 .3], ...
+  'YColor'      , [.3 .3 .3], ...
+  'YTick'       , 0:5:25    , ...
+  'LineWidth'   , 1         );
+hold on; grid on;
 xlim([0, 1.5]);
-xlabel('Velocidad inicial (m/s)');
-ylim([0, 20]);
-ylabel('Tiempo de contacto (ms)');
+xlabel('Velocidad inicial (m/s)', ...
+    'FontSize', 14, 'FontWeight', 'bold', 'FontName', 'Cambria Math');
+ylim([-0.1, 25]);
+ylabel('Tiempo de contacto (ms)', ...
+    'FontSize', 14, 'FontWeight', 'bold', 'FontName', 'Cambria Math');
 
-for ii = 1:length(symbol)
-    auxtbl = values(values.marker == symbol(ii), :);
+for ii = 1:length(configs)
+    auxtbl = values(abs(values.radius - configs(ii).radius) < 0.1, :);
     auxtbl = auxtbl(:, cols);
     
-    scatter(-auxtbl{:, cols(3)}, auxtbl{:, cols(1)}, 40, ...
-        symbol(ii), fsymbol(ii), 'b');
+    if isempty(auxtbl) == 0
+        F = scatter(-auxtbl{:, cols(1)}, auxtbl{:, cols(2)}, ...
+                configs(ii).settings, 'r');   
+        set(F                               , ...
+            'LineWidth'       , 1.2         , ...
+            'SizeData'        , 50          , ...
+            'MarkerEdgeColor' , 'r'   , ...
+            'DisplayName'     , sprintf('R = %6.3g mm', configs(ii).radius) , ...
+            'Marker'          , configs(ii).symbols );        
+    end
+end
+legend('Location', 'NorthEast', 'FontSize', 10);
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Dados experimentais
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+if join == false
+    nexttile; grid on;
+    title('Datos experimentales', ...
+        'FontSize', 18, 'FontName', 'Cambria');
+    set(gca, ...
+      'Box'         , 'off'     , ...
+      'TickDir'     , 'out'     , ...
+      'TickLength'  , [.02 .02] , ...
+      'XMinorTick'  , 'on'      , ...
+      'YMinorTick'  , 'on'      , ...
+      'YGrid'       , 'on'      , ...
+      'XColor'      , [.3 .3 .3], ...
+      'YColor'      , [.3 .3 .3], ...
+      'YTick'       , 0:5:25    , ...
+      'LineWidth'   , 1         );
 end
 
-if join == false
-    nexttile;
-    title('Datos experimentales');
-end
-expCtime = readtable('cTimeExp.csv', 'PreserveVariableNames', true);
-binnedCtime = discretize(expCtime.("radius"), cats, 'categorical', symbol);
-expCtime.marker = binnedCtime;
+expCtime = readtable('datos_experimentales/cTimeExp.csv', ...
+    'PreserveVariableNames', true);
 cols = expCtime.Properties.VariableNames;
 
 %First, contact time
-hold on;
+hold on; grid on;
 xlim([0, 1.5]);
-xlabel('Velocidad inicial (m/s)');
-ylim([0, 20]);
-ylabel('Tiempo de contacto (ms)');
+xlabel('Velocidad inicial (m/s)', ...
+    'FontSize', 14, 'FontWeight', 'bold', 'FontName', 'Cambria Math');
+ylim([-0.1, 25]);
+ylabel('Tiempo de contacto (ms)', ...
+    'FontSize', 14, 'FontWeight', 'bold', 'FontName', 'Cambria Math');
 
-for ii = 1:length(symbol)
-    auxtbl = expCtime(expCtime.marker == symbol(ii), :);
+for ii = 1:length(configs)
+    auxtbl = expCtime(abs(expCtime.radius - configs(ii).radius) < 0.1, :);
     auxtbl = auxtbl(:, cols);
-    scatter(auxtbl{:, cols(2)}, auxtbl{:, cols(1)}, 50, ...
-        symbol(ii), fsymbol(ii), 'black');
+    
+    if isempty(auxtbl) == 0
+        F = scatter(auxtbl{:, cols(2)}, auxtbl{:, cols(1)}, ...
+                configs(ii).settings, 'black');   
+        set(F                            , ...
+            'LineWidth'       , 1.2      , ...
+            'SizeData'        , 50       , ...
+            'MarkerEdgeColor' , 'black'  , ...
+            'DisplayName'     , sprintf('R = %6.3g mm', configs(ii).radius) , ...
+            'Marker'          , configs(ii).symbols );        
+    end
 end
+legend('Location', 'NorthEast', 'FontSize', 10);
 
 
+%% MAXIMUM DEFLECTION
 nexttile;
-cols = values.Properties.VariableNames([2 3 4]);
-title('Datos obtenidos por el método');
-hold on;
-xlim([0, 1.5]);
-xlabel('Velocidad inicial (m/s)');
-ylim([0, 6.5]);
-ylabel('Maximum Deflection (mm)');
-for ii = 1:length(symbol)
-    auxtbl = values(values.marker == symbol(ii), :);
-    auxtbl = auxtbl(:, cols);
-    scatter(-auxtbl{:, cols(3)}, auxtbl{:, cols(2)}, 40, ...
-        symbol(ii), fsymbol(ii), 'b');
+set(gca, ...
+  'Box'         , 'off'     , ...
+  'TickDir'     , 'out'     , ...
+  'TickLength'  , [.02 .02] , ...
+  'XMinorTick'  , 'on'      , ...
+  'YMinorTick'  , 'on'      , ...
+  'YGrid'       , 'on'      , ...
+  'XColor'      , [.3 .3 .3], ...
+  'YColor'      , [.3 .3 .3], ...
+  'YTick'       , 0:1.5:6    , ...
+  'LineWidth'   , 1         );
+if join == true
+    title({'Deflexión Máxima numéricos y',  'experimentales vs velocidad de impacto'}, ...
+        'FontSize', 14, 'FontName', 'Cambria');
+
 end
 
+cols = values.Properties.VariableNames([2 5 6]);
 
-%% NOW EXPERIMENTAL DATA
 
+hold on; grid on;
+xlim([0, 1.5]);
+xlabel('Velocidad inicial (m/s)', ...
+    'FontSize', 14, 'FontWeight', 'bold', 'FontName', 'Cambria Math');
+ylim([-0.1, 6.5]);
+ylabel('Deflexión máxima (ms)', ...
+    'FontSize', 14, 'FontWeight', 'bold', 'FontName', 'Cambria Math');
+
+for ii = 1:length(configs)
+    auxtbl = values(abs(values.radius - configs(ii).radius) < 0.1, :);
+    auxtbl = auxtbl(:, cols);
+    
+    if isempty(auxtbl) == 0
+        F = scatter(-auxtbl{:, cols(1)}, auxtbl{:, cols(3)}, ...
+                configs(ii).settings, 'r');   
+        set(F                               , ...
+            'LineWidth'       , 1.2         , ...
+            'SizeData'        , 50          , ...
+            'MarkerEdgeColor' , 'r'   , ...
+            'DisplayName'     , sprintf('R = %6.3g mm', configs(ii).radius) , ...
+            'Marker'          , configs(ii).symbols );        
+    end
+end
+legend('Location', 'NorthWest', 'FontSize', 10);
+
+
+% NOW EXPERIMENTAL DATA
 %Maximum Deflection
-
-expmDef = readtable('maxDefExp.csv', 'PreserveVariableNames', true);
-binnedmDef = discretize(expmDef.("radius"), cats, 'categorical', symbol);
-expmDef.marker = binnedmDef;
+expmDef = readtable('datos_experimentales/maxDefExp.csv', 'PreserveVariableNames', true);
 cols = expmDef.Properties.VariableNames;
-
 
 %Now Maximum Deflection
 if join == false
-    nexttile;
-    title('Datos experimentales');
+    nexttile; grid on;
+    set(gca, ...
+      'Box'         , 'off'     , ...
+      'TickDir'     , 'out'     , ...
+      'TickLength'  , [.02 .02] , ...
+      'XMinorTick'  , 'on'      , ...
+      'YMinorTick'  , 'on'      , ...
+      'YGrid'       , 'on'      , ...
+      'XColor'      , [.3 .3 .3], ...
+      'YColor'      , [.3 .3 .3], ...
+      'YTick'       , 0:1.5:6    , ...
+      'LineWidth'   , 1         );
 end
-hold on;
+hold on; grid on;
 xlim([0, 1.5]);
-xlabel('Velocidad inicial (m/s)');
-ylim([0, 6.5]);
-ylabel('Maximum deflection (mm)');
+xlabel('Velocidad inicial (m/s)', ...
+    'FontSize', 14, 'FontWeight', 'bold', 'FontName', 'Cambria Math');
+ylim([-0.1, 6.5]);
+ylabel('Deflexión máxima (ms)', ...
+    'FontSize', 14, 'FontWeight', 'bold', 'FontName', 'Cambria Math');
 
-for ii = 1:length(symbol)
-    auxtbl = expmDef(expmDef.marker == symbol(ii), :);
+for ii = 1:length(configs)
+    auxtbl = expmDef(abs(expmDef.radius - configs(ii).radius) < 0.1, :);
     auxtbl = auxtbl(:, cols);
-    scatter(auxtbl{:, cols(2)}, auxtbl{:, cols(1)}, 50, ...
-        symbol(ii), fsymbol(ii), 'black');
+    
+    if isempty(auxtbl) == 0
+        F = scatter(auxtbl{:, cols(2)}, auxtbl{:, cols(1)}, ...
+                configs(ii).settings, 'black');   
+        set(F                               , ...
+            'LineWidth'       , 1.2         , ...
+            'SizeData'        , 50          , ...
+            'MarkerEdgeColor' , 'black'   , ...
+            'DisplayName'     , sprintf('R = %6.3g mm', configs(ii).radius) , ...
+            'Marker'          , configs(ii).symbols );        
+    end
 end
+legend('Location', 'NorthWest', 'FontSize', 10);
+
 
 
 

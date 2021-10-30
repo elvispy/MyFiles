@@ -31,7 +31,7 @@ A = [1   0   0 -0.5 0   0   0 0; ...
      0   0   0  0   0   0   0 1];
  
 B = -A + 2 * eye(8);
-R = [0;0;0;0;0;0;0;-Fr * dt];
+R = [0;0;0; -Fr * dt; -Fr * dt; -Fr * dt;0;-Fr * dt];
 x = [Eta_test;u_test;P_test;z_test;v_test];
 res = A\(B*x+R);
 

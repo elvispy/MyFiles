@@ -110,8 +110,8 @@ function [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, P_k_prob, errortan] = ...
         %% Building R and R_prime
         
         %change this if your dont want to take into accoutn gravity
-        %R = [zeros(Ntot, 1); -Fr * delt * ones(Ntot, 1); 0 ; -Fr * delt]; %with gravity
-        R = zeros(2*Ntot + 2, 1);
+        R = [zeros(Ntot, 1); -Fr * dt * ones(Ntot, 1); 0 ; -Fr * dt]; %with gravity
+        %R = zeros(2*Ntot + 2, 1);
         R(end) = -Fr * dt;
         
         

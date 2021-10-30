@@ -33,9 +33,9 @@ A = [A_1, A_2, A_3, A_4];
 %Previous time measurements
 x = [Eta_k;u_k; z_k;v_k];
 
-R = [zeros(2*Ntot+1, 1); -Fr*dt];
-f = @(x) sqrt(1-x.^2);
-pressedPositions = f(dr * (0:(cPoints-1)))';
+R = [zeros(Ntot, 1); ones(Ntot, 1) * (-Fr*dt); 0; -Fr*dt];
+f = @(x) sqrt(1-dr.^2 * x.^2);
+pressedPositions = f((0:(cPoints-1)))';
 
 R_prime = residual * pressedPositions;
 
@@ -57,14 +57,22 @@ exactSlope = g(ppt);
 errortan = abs(atan(approximateSlope) - atan(exactSlope));
 
 %% Test 2
-i = 0;
-while (i * dr <= 1)
-    if i*i*dr*dr + (Eta_k_prob(i+1) - z_k_prob)^2 < 1 - 1e-9
+% i = 0;
+% while (i * dr <= 1)
+%     if i*i*dr*dr + (Eta_k_prob(i+1) - z_k_prob)^2 < 1 - 1e-9
+%         errortan = Inf;
+%         break;
+%     end
+%     i = i + 1;
+% end
+ii = (cPoints + 1);
+while dr * ii <= 1
+    if Eta_k_prob(ii) > z_k_prob - f(ii-1)
         errortan = Inf;
         break;
     end
-    i = i + 1;
-end
+    ii = ii + 1;
+end % end while
 
 end
 

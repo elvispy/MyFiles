@@ -3,12 +3,14 @@
 
 %% CONSTANTS' DEFINITIONS
 
+clearvars;
+
 parameters;
 Fr = (mu*rS*g)/Tm; %Froude number
 Mr = mu*(rS^2)/mS; %Ratio of masses
 
 %Numerical constants
-N = 10; %Number of dx intervals in the spatial (radial) coordinate per unit length
+N = 15; %Number of dx intervals in the spatial (radial) coordinate per unit length
 Ntot = ceil(R_f * N); %Total number of non-trivial points in the spatial coordinate
 dr = 1/N; %Spatial step
 
@@ -75,7 +77,6 @@ plotter = true;
 %% Main Loop
 
 while (ii <= mii)
-    disp(ii);
     %Reset some parameters
     Eta_k_prob = zeros(Ntot, 5);
     u_k_prob = zeros(Ntot, 5);
@@ -182,13 +183,14 @@ while (ii <= mii)
         if plotter == true
             %PLOT RESULTS
             cla;
-            plot(circleX*Lunit,(z_k+circleY)*Lunit,'k','Linewidth',1.5);
-            %rectangle('Position', [-1, z_k-1, 2, 2], ...
-            %    'Curvature', 1, 'Linewidth', 2);
+            %plot(circleX*Lunit,(z_k+circleY)*Lunit,'k','Linewidth',1.5);
+            rectangle('Position', [-Lunit, (z_k-1)*Lunit, 2*Lunit, 2*Lunit], ...
+                'Curvature', 1, 'Linewidth', 2);
             hold on
 
-            plot([-fliplr(xplot(2:end)*Lunit),xplot*Lunit],[flipud(Eta_k(2:width)*Lunit);Eta_k(1:width)*Lunit]','LineWidth',2);
-
+            plot([-fliplr(xplot(2:end)),xplot] * Lunit,[flipud(Eta_k(2:width));Eta_k(1:width)]' * Lunit,'LineWidth',2);
+            quiver([-fliplr(xplot(2:end)), xplot] * Lunit, [flipud(Eta_k(2:width));Eta_k(1:width)]' * Lunit,...
+                zeros(1,2*width-1), [flipud(u_k(2:width));u_k(1:width)]' * Vunit);
             xlim([-width*Lunit/N, width*Lunit/N]);
             %xlim([-1, 1])
             ylim([(z_k-2)*Lunit, (z_k+2)*Lunit]);

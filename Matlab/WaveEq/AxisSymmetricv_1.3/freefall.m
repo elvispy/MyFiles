@@ -20,8 +20,10 @@ A(end-1, end-1) = 1;
 A(end-1, end) = -dt;
 %disp(A);
 
+%Without gravity
+%R = zeros(2*Ntot + 2, 1); R(end) = -Fr * dt;
+R = [zeros(Ntot, 1); ones(Ntot, 1) * (-Fr*dt); 0; -Fr*dt];
 
-R = zeros(2*Ntot + 2, 1); R(end) = -Fr * dt;
 x = [Eta_k; u_k; z_k; v_k];
 %disp(B*x+R);
 res = linsolve(A, x+R);
@@ -36,15 +38,25 @@ v_k_prob = res(end);
 
 
 %% Now errortan
-i = 0;
+% i = 0;
+% errortan = 0;
+% while (i * dr <= 1)
+%     if i*i*dr*dr + (Eta_k_prob(i+1) - z_k_prob)^2 < 1 - 1e-9
+%         errortan = Inf;
+%         break;
+%     end
+%     i = i + 1;
+% end
 errortan = 0;
-while (i * dr <= 1)
-    if i*i*dr*dr + (Eta_k_prob(i+1) - z_k_prob)^2 < 1 - 1e-9
+f = @(x) sqrt(1-dr.^2 * x.^2);
+ii = 1;
+while dr * ii <= 1
+    if Eta_k_prob(ii) > z_k_prob - f(ii-1)
         errortan = Inf;
         break;
     end
-    i = i + 1;
-end
+    ii = ii + 1;
+end % end while
 
 end
 

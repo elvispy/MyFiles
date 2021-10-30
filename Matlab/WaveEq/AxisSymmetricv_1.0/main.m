@@ -83,7 +83,7 @@ while (ii <= mii)
     %First, we try to solve with the same number of contact points
     [Eta_k_prob(:,3), u_k_prob(:, 3), z_k_prob(3), ...
         v_k_prob(3), Pk_3, errortan(3)] = getNextStep(cPoints, mCPoints, ...
-        Eta_k, u_k, z_k, v_k, P_k, dt, dr, Ntot, Fr, Mr);
+        Eta_k, u_k, z_k, v_k, P_k, dt, dr, Fr, Mr, Ntot);
     
     if errortan(3) < 1e-8 %If almost no error, we accept the solution
         Eta_k = Eta_k_prob(:, 3);
@@ -97,18 +97,18 @@ while (ii <= mii)
         %Lets try with one more point
         [Eta_k_prob(:,4), u_k_prob(:, 4), z_k_prob(4), ...
             v_k_prob(4), Pk_4, errortan(4)] = getNextStep(cPoints + 1, mCPoints, ...
-            Eta_k, u_k, z_k, v_k, P_k, dt, dr, Ntot, Fr, Mr);
+            Eta_k, u_k, z_k, v_k, P_k, dt, dr, Fr, Mr, Ntot);
         
         %Lets try with one point less
         [Eta_k_prob(:,2), u_k_prob(:, 2), z_k_prob(2), ...
             v_k_prob(2), Pk_2, errortan(2)] = getNextStep(cPoints - 1, mCPoints, ...
-            Eta_k, u_k, z_k, v_k, P_k, dt, dr, Ntot, Fr, Mr);
+            Eta_k, u_k, z_k, v_k, P_k, dt, dr, Fr, Mr, Ntot);
         
         if errortan(3) > errortan(4) || errortan(3) > errortan(2)
             if errortan(4) <= errortan(2)
                 %Now lets check with one more point to be sure
                 [~, ~, ~, ~, ~, errortan(5)] = getNextStep(cPoints + 2, mCPoints, ...
-            Eta_k, u_k, z_k, v_k, P_k, dt, dr, Ntot, Fr, Mr);
+            Eta_k, u_k, z_k, v_k, P_k, dt, dr, Fr, Mr, Ntot);
                 
                 if errortan(4) < errortan(5)
                     %Accept new data
@@ -126,7 +126,7 @@ while (ii <= mii)
                 %now lets check if errortan is good enough with one point
                 %less
                 [~, ~, ~, ~, ~, errortan(1)] = getNextStep(cPoints-2, mCPoints, ...
-            Eta_k, u_k, z_k, v_k, P_k, dt, dr, Ntot, Fr, Mr);
+            Eta_k, u_k, z_k, v_k, P_k, dt, dr, Fr, Mr, Ntot);
                 
                 if errortan(2) < errortan(1)
                     Eta_k = Eta_k_prob(:, 2);

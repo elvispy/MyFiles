@@ -1,11 +1,11 @@
 
 
 %%mainv_1.4
-%Tries to solve the kinematic match with Implicit Euler and getNextStep
+%Tries to solve the kinematic match with getNextStep
 
 %% CONSTANTS' DEFINITIONS
 
-%parameters;
+
 Fr = (mu*rS*g)/Tm; %Froude number
 Mr = mu*(rS^2)/mS; %Ratio of masses
 
@@ -16,14 +16,14 @@ Tunit = Lunit/Vunit; %Temporal unit of measurement (in ms)
 Punit = mu * Lunit / Tunit^2; %Unit of pressure (in mg/ms^2)
 
 %Numerical constants
-N = ceil(10 * rS)+5; %Number of dx intervals in the spatial (radial) coordinate per unit length
+N = 20;%(ceil(10 * rS)+5); %Number of dx intervals in the spatial (radial) coordinate per unit length
 Ntot = ceil(R_f * N); %Total number of non-trivial points in the spatial coordinate
 dr = 1/N; %Spatial step
 
-dt = 0.04/Tunit; %Time step (dimensionless)
+dt = 0.05/Tunit; %Time step (dimensionless)
 tFinal = 30/Tunit; %Maximum time (dimensionless) to be simulated.
 tInit = 0/Tunit; %Initial time (dimensionless)
-rt = max(0.1/Tunit, dt); %Interval of time to be recorded in the matrix. (1/0.25 = 4 frames per ms)
+rt = dt; %Interval of time to be recorded in the matrix. (1/0.25 = 4 frames per ms)
 ii = 1; %for saving matrix
 mii = ceil((tFinal-tInit)/rt) + 2; %maximum value of ii 
 
@@ -35,12 +35,9 @@ Eta_k_prob = zeros(Ntot, 5); %Position of the membrane at different times
 u_k_prob = zeros(Ntot, 5); %Velocities of the membrane at different times
 errortan = Inf * ones(1, 5);
 
-recordedz_k = zeros(mii, 1);
-recordedEta = zeros(mii, Ntot);
-
 %------------------------------
 if exist('z_k', 'var') == 0
-    z_k = 9/8; %Curr1ent position of the center of the ball (Dimensionless)
+    z_k = 10/8; %Curr1ent position of the center of the ball (Dimensionless)
     vi = 0.642;
     %H0 = 20; %Initial height of the center of the ball to calculate initial velocity (mm)
     v_k = -sqrt(vi^2 - 2*(z_k*Lunit - Lunit)*g)/Vunit; %Current velocity of the ball (dimensionless)
@@ -48,7 +45,7 @@ end
 %------------------------------
 P_k = []; %Current vector of pressures. Only non trivial points saved (Empty vector == membrane and ball should not be touching)
 u_k = zeros(Ntot, 1); %Initial vertical velocity of the membrane (a.k.a. d/dt Eta_k = u_k)
-Eta_k = zeros(Ntot, 1); %Initial position of the membrane
+Eta_k = initial_condition(Fr, dr, Ntot); %Initial position of the membrane
 %f = @(x) exp(-x.^2)';
 %Eta_k = f(linspace(0, 30, Ntot))/2;
 
@@ -79,26 +76,22 @@ xplot = linspace(0, width/N, width);
 
 %% For post processing
 
-vars = [str2double(datestr(now, 'yyyymmddhhMMss')), 0, 0, round(v_k*Vunit, 3), Tm, rS];
+recordedz_k = zeros(mii, 1);
+recordedEta = zeros(mii, Ntot);
+recordedPk = zeros(mii, mCPoints);
+vars = [str2double(datestr(now, 'MMss')), round(v_k*Vunit, 4), Tm, rS];
 
 
 %% Main Loop
 
 while (ii <= mii)
-    %Reset some parameters
-    Eta_k_prob = zeros(Ntot, 5);
-    u_k_prob = zeros(Ntot, 5);
-    z_k_prob = zeros(1, 5);
-    v_k_prob = zeros(1, 5);
     errortan = Inf * ones(1, 5);
-    Pk_1 = []; Pk_2 = []; Pk_3 = []; Pk_4 = []; Pk_5 = [];
     recalculate = false;
-
 
     %First, we try to solve with the same number of contact points
     [Eta_k_prob(:,3), u_k_prob(:, 3), z_k_prob(3), ...
         v_k_prob(3), Pk_3, errortan(3)] = getNextStep(cPoints, mCPoints, ...
-        Eta_k, u_k, z_k, v_k, dt, dr, Fr, Mr, Ntot);
+        Eta_k, u_k, z_k, v_k, P_k, dt, dr, Fr, Mr, Ntot);
 
     if errortan(3) < 1e-8 %If almost no error, we accept the solution
         Eta_k = Eta_k_prob(:, 3);
@@ -112,18 +105,18 @@ while (ii <= mii)
         %Lets try with one more point
         [Eta_k_prob(:,4), u_k_prob(:, 4), z_k_prob(4), ...
             v_k_prob(4), Pk_4, errortan(4)] = getNextStep(cPoints + 1, mCPoints, ...
-            Eta_k, u_k, z_k, v_k, dt, dr, Fr, Mr, Ntot);
+            Eta_k, u_k, z_k, v_k, P_k, dt, dr, Fr, Mr, Ntot);
 
         %Lets try with one point less
         [Eta_k_prob(:,2), u_k_prob(:, 2), z_k_prob(2), ...
             v_k_prob(2), Pk_2, errortan(2)] = getNextStep(cPoints - 1, mCPoints, ...
-            Eta_k, u_k, z_k, v_k, dt, dr, Fr, Mr, Ntot);
+            Eta_k, u_k, z_k, v_k, P_k, dt, dr, Fr, Mr, Ntot);
 
         if (errortan(3) > errortan(4) || errortan(3) > errortan(2))
             if errortan(4) <= errortan(2)
                 %Now lets check with one more point to be sure
                 [~, ~, ~, ~, ~, errortan(5)] = getNextStep(cPoints + 2, mCPoints, ...
-            Eta_k, u_k, z_k, v_k, dt, dr, Fr, Mr, Ntot);
+            Eta_k, u_k, z_k, v_k, P_k, dt, dr, Fr, Mr, Ntot);
 
                 if errortan(4) < errortan(5)
                     %Accept new data
@@ -141,7 +134,7 @@ while (ii <= mii)
                 %now lets check if errortan is good enough with one point
                 %less
                 [~, ~, ~, ~, ~, errortan(1)] = getNextStep(cPoints-2, mCPoints, ...
-            Eta_k, u_k, z_k, v_k, dt, dr, Fr, Mr, Ntot);
+            Eta_k, u_k, z_k, v_k, P_k, dt, dr, Fr, Mr, Ntot);
 
                 if errortan(2) < errortan(1)
                     Eta_k = Eta_k_prob(:, 2);
@@ -177,8 +170,9 @@ while (ii <= mii)
         %%%%%%%%%%%%
         %SAVE THE RESULTS INTO A MATRIX
         if mod(t, rt) < dt
-            recordedz_k(ii) = z_k;
-            recordedEta(ii, :) = Eta_k;
+            recordedz_k(ii) = z_k * Lunit;
+            recordedEta(ii, :) = Eta_k * Lunit;
+            recordedPk(ii, 1:length(P_k)) = P_k * Punit;
             ii = ii+1;
         end
         %%%%%%%%%%%%
@@ -191,25 +185,25 @@ while (ii <= mii)
         if exist('plotter', 'var') && plotter == true
             %PLOT RESULTS
             cla;
-            plot(circleX*Lunit,(z_k+circleY)*Lunit,'k','Linewidth',1.5);
-            %rectangle('Position', [-1, z_k-1, 2, 2], ...
-            %    'Curvature', 1, 'Linewidth', 2);
-            hold on
-
-            plot([-fliplr(xplot(2:end)*Lunit),xplot*Lunit],[flipud(Eta_k(2:width)*Lunit);Eta_k(1:width)*Lunit]','LineWidth',2);
-
+            %plot(circleX*Lunit,(z_k+circleY)*Lunit,'k','Linewidth',1.5);
+            rectangle('Position', [-Lunit, (z_k-1)*Lunit, 2*Lunit, 2*Lunit], ...
+                'Curvature', 1, 'Linewidth', 2);
+            hold on;
             xlim([-width*Lunit/N, width*Lunit/N]);
-            %xlim([-1, 1])
             ylim([(z_k-2)*Lunit, (z_k+2)*Lunit]);
             axis equal;
-            title(['   t = ',sprintf('%0.2f (ms)', t*Tunit),'   ','nl = ', ...
-                sprintf('%.0f', cPoints),' vz = ', sprintf('%0.5f (mm/ms)', v_k*Vunit)],'FontSize',16);
+            
+            plot([-fliplr(xplot(2:end)*Lunit),xplot*Lunit],[flipud(Eta_k(2:width)*Lunit);Eta_k(1:width)*Lunit]','LineWidth',2);
+            quiver([-fliplr(xplot(2:end)), xplot] * Lunit, [flipud(Eta_k(2:width));Eta_k(1:width)]' * Lunit,...
+                zeros(1,2*width-1), [flipud(u_k(2:width));u_k(1:width)]' * Vunit);
+            title(['   t = ',sprintf('%.5f (ms)', t*Tunit),'   ','nl = ', ...
+                sprintf('%g', cPoints),' vz = ', sprintf('%.5f (mm/ms)', v_k*Vunit)],'FontSize',16);
             drawnow;
         else
             clc;
-            disp(['   t = ',sprintf('%0.2f (ms)', t*Tunit),'   ','nl = ', ...
-                sprintf('%.0f', cPoints),' vz = ', sprintf('%0.5f (mm/ms)', v_k*Vunit)]);
-
+            disp(['   t = ',sprintf('%.5f (ms)', t*Tunit),'   ','nl = ', ...
+                sprintf('%g', cPoints),' vz = ', sprintf('%.5f (mm/ms)', v_k*Vunit)]);
+            fprintf('dt = %f\n', dt);
         end
 
         %%%%%%%%%%%%
@@ -222,38 +216,44 @@ while (ii <= mii)
         elseif (cVar == true && cPoints > 0)
             ctime = ctime + dt;
         elseif (cVar == true && cPoints == 0)
+            recordedz_k = recordedz_k(1:(ii-1));
+            recordedEta = recordedEta(1:(ii-1), :);
+            recordedPk = recordedPk(1:(ii-1), :);
             break; % end simulation if contact ended.
         end
         if (cVar == true && v_k > 0)
             if (ch == true) %If velocity has changed sign, record maximum 
                 %deflection only once
-
                 maxDef = maxDef - z_k;
                 ch = false;
             end
         end
     end     
+    
 end % END WHILE
 
 %%%%%%%%%%%%
 %POST PROCESSING
 %%%%%%%%%%%%
-
 if exist('plotter', 'var') && plotter == true
     close;
 end
 
-
-vars(2) = round(ctime * Tunit, 4);
-vars(3) = round( maxDef * Lunit, 4);
-if exist('name', 'var') == true
-    writematrix(vars, name, 'WriteMode', 'append');    
+ctime = round(ctime * Tunit, 5);
+maxDef = round(maxDef * Lunit, 5);
+v_k = vars(2);
+rt = rt * Tunit;
+save([pwd, sprintf('/simulations/simul%g_%g_%d.mat', Tm, rS ,vars(1))], 'recordedEta', 'recordedz_k', ...
+    'recordedPk', 'ctime', 'maxDef', 'Tm', 'rS', 'rt', 'v_k', 'N');
+if exist('name', 'var')
+    writematrix([vars, ctime, maxDef], name, ...
+       'WriteMode', 'append');
 else
-    writematrix(vars, 'historial.csv', 'WriteMode', 'append');
+    writematrix([vars, ctime, maxDef], [pwd, '/simulations/historial.csv'], ...
+       'WriteMode', 'append');
 end
-%save('simulation.mat', 'recordedEta', 'recordedz_k');
-fprintf('Contact time: %0.2f (ms)\n', vars(2));
-fprintf('Maximum deflection: %0.2f (mm)\n', vars(3));
+fprintf('Contact time: %0.2f (ms)\n', ctime);
+fprintf('Maximum deflection: %0.2f (mm)\n', maxDef);
 fprintf('dt: %0.2f (ms)\n', dt*Tunit);
 fprintf('dr: %0.2f (mm)\n', dr * Lunit);
 disp('-----------------------------');

@@ -52,7 +52,7 @@ function [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, P_k_prob, errortan] = ...
              A_prime(i, i-1)= -(dt)/(2*dr^2) * (2*i-3)/(2*i-2);
              A_prime(i, i+1)= -(dt)/(2*dr^2) * (2*i-1)/(2*i-2);
         end
-        %A_prime(Ntot, Ntot-1) = -(delt)/(2*delr^2) * (2*Ntot-1)/(2*Ntot-2); 
+
         A_prime(Ntot, Ntot - 1) = -(dt)/(2*dr^2) * (2*Ntot-3)/(2*Ntot-2);
         
         A_1 = [eye(Ntot); A_prime; zeros(2, Ntot)];
@@ -61,7 +61,7 @@ function [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, P_k_prob, errortan] = ...
         A_1 = A_1(:, (newCPoints+1):end); %First columns discarded
         
         %Second colum block (u_k)
-        A_2 = [-dt/2 * eye(Ntot); eye(Ntot); zeros(2, Ntot)];
+        A_2 = [-dt * eye(Ntot); eye(Ntot); zeros(2, Ntot)];
         
         %Third column block (P_k)
         %Building the integration vector
@@ -89,7 +89,7 @@ function [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, P_k_prob, errortan] = ...
         B_1 = [eye(Ntot); -A_prime; zeros(2, Ntot)];
         
         %Second column block (u_k)
-        B_2 = [(dt/2) * eye(Ntot); eye(Ntot); zeros(2, Ntot)];
+        B_2 = [zeros(Ntot); eye(Ntot); zeros(2, Ntot)];
         
         %third block (P_k)
         oldCPoints = length(P_k);
@@ -109,10 +109,10 @@ function [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, P_k_prob, errortan] = ...
         
         %% Building R and R_prime
         
-        %change this if your dont want to take into accoutn gravity
-        %R = [zeros(Ntot, 1); -Fr * delt * ones(Ntot, 1); 0 ; -Fr * delt]; %with gravity
-        R = zeros(2*Ntot + 2, 1);
-        R(end) = -Fr * dt;
+        %change this if your dont want to take into account gravity
+        R = [zeros(Ntot, 1); (-Fr * dt) * ones(Ntot, 1); 0 ; -Fr * dt]; %with gravity
+        %R = zeros(2*Ntot + 2, 1);
+        %R(end) = -Fr * dt;
         
         
         f = @(x) sqrt(1-(dr^2 * x .* x));
@@ -153,13 +153,21 @@ function [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, P_k_prob, errortan] = ...
             errortan = abs(atan(approximateSlope) - atan(exactSlope));
         end
         
-        %Distance vector of every point on the fiml to the sphere
-        idx = ceil(1/dr);
-        dist = (Eta_k_prob(1:(idx+1)) - z_k_prob).^2 + (dr * (0:idx)').^2;
-
-        if any(dist < 1 - 1e-9)
-            errortan = Inf;
+        for ii = (newCPoints + 1):mCPoints
+            if Eta_k_prob(ii) > z_k_prob - f(ii-1)
+                errortan = Inf;
+                break;
+            end
         end
+        
+        
+%         %Distance vector of every point on the fiml to the sphere
+%         idx = ceil(1/dr);
+%         dist = (Eta_k_prob(1:(idx+1)) - z_k_prob).^2 + (dr * (0:idx)').^2;
+% 
+%         if any(dist < 1 - 1e-6)
+%             errortan = Inf;
+%         end
     
     end %end outer if
 end %end function definition

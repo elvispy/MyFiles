@@ -1,6 +1,6 @@
  %Physical constants
 clear variables;
-rS = 2.78; %Radius of the sphere (in mm)
+rS = 1.75; %Radius of the sphere (in mm)
 R_f = 52.4/rS; %Number of raddi in half a length of the membrane (dimensionless)
 Tm = 72;%11.6164; %Tension of the material (in mg / ms^2)
 g = 9.80665e-3; %Gravity of earth (in mm/ms^2)
@@ -14,4 +14,5 @@ Vunit = sqrt(Tm/mu); %Velocity in mm/ms
 Tunit = Lunit/Vunit; %Temporal unit of measurement (in ms)
 Punit = mu * Lunit / Tunit^2; %Unit of pressure (in mg/ms^2)
 
+plotter = true;
 main

@@ -14,7 +14,7 @@ data = {[0.68, -0.4776, 0.35]; [5.08, -0.644, 1.75]; ...
     [8.56, -0.5582, 2.78]};
 maxError = 1e+6;
 bestPredictor = [];
-bestTm = 27;
+bestTm = 0;
 while Tm < Tmax
     fprintf('Im in %.1f \n', Tm);
     
@@ -37,7 +37,7 @@ while Tm < Tmax
         plotter = false;
         main
         
-        values = readtable('historial.csv', 'PreserveVariableNames', true);
+        values = readtable([pwd, '/simulations/historial.csv'], 'PreserveVariableNames', true);
         ext = values{size(values, 1), 'cTime'};
         error = error + (ext - data{jj}(1))^2;
         predictor(jj) = ext;   
