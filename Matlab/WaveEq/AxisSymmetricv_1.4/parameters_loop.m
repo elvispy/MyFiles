@@ -2,7 +2,7 @@ radii = [0.35, 0.795, 1.25, 1.75, 2.78, 3.175];
 for iii = 1:length(radii)
     rS = radii(iii); %Radius of the sphere (in mm)
     
-    for vi = 0.4:0.2:0.8
+    for vi = 0.4:0.3:1
         clearvars -except vi rS radii;
         %Physical constants
         R_f = 52.4/rS; %Number of raddi in half a length of the membrane (dimensionless)
@@ -13,11 +13,11 @@ for iii = 1:length(radii)
         %density in mg/mm^3)
 
         %Some initial conditions to loop through
-        z_k = 10/8; %Current position of the center of the ball (Dimensionless)
+        z_k = 1; %Current position of the center of the ball (Dimensionless)
 
-        v_k = -sqrt(vi^2 - 2*(z_k*rS - rS)*g)/sqrt(Tm/mu); %Current velocity of the ball (dimensionless)
+        %-sqrt(vi^2 - 2*(z_k*rS - rS)*g)/sqrt(Tm/mu); %Current velocity of the ball (dimensionless)
         plotter = false;
-        name = sprintf('/simulations/historialTm%g.csv', Tm);
+        name = sprintf('simulations/historialTm%g.csv', Tm);
         main
 
     end

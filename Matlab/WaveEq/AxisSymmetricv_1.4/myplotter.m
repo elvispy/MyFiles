@@ -17,9 +17,6 @@ fsymbol = {'filled'; 'o'; 'o'; ...
     'o'; 'filled'; 'o'};
 cats = {0.35; 0.5; 0.795; 1.25; 1.75; 2; 2.38; 2.78; 3; 3.175};
 configs = struct('radius', cats, 'symbols', symbol, 'settings', fsymbol);
-%binnedRadius = discretize(values.("radius"), cats, 'categorical', symbol);
-
-%values.marker = binnedRadius;
 cols = values.Properties.VariableNames([2 5 6]);
 
 %% CONTACT TIME
@@ -124,7 +121,6 @@ for ii = 1:length(configs)
     end
 end
 legend('Location', 'NorthEast', 'FontSize', 10);
-
 
 %% MAXIMUM DEFLECTION
 nexttile;

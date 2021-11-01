@@ -52,9 +52,7 @@ function [Eta_k_prob, u_k_prob, z_k_prob, v_k_prob, P_k_prob, errortan] = ...
              A_prime(i, i-1)= -(dt)/(2*dr^2) * (2*i-3)/(2*i-2);
              A_prime(i, i+1)= -(dt)/(2*dr^2) * (2*i-1)/(2*i-2);
         end
-
         A_prime(Ntot, Ntot - 1) = -(dt)/(2*dr^2) * (2*Ntot-3)/(2*Ntot-2);
-        
         A_1 = [eye(Ntot); A_prime; zeros(2, Ntot)];
         
         C1 = A_1(:, 1:newCPoints);

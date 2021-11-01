@@ -15,8 +15,8 @@ Latex/**/*.pdf
 
 Latex/**/*.docx
 
-R/**/.RData
-R/**/.Rhistory
+R/**/*.RData
+R/**/*.Rhistory
 
 **/__pycache__/**
 Python/MathuraCorreo/key.bin
@@ -27,7 +27,7 @@ Python/**/Temps/
 **/access.bin
 Python/RequestsDNCP/*.csv
 
-Matlab/**/.mat
-Matlab/**/.avi
+Matlab/**/*.mat
+Matlab/**/*.avi
 
 

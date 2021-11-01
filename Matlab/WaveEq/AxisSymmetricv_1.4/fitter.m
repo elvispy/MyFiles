@@ -6,8 +6,8 @@ mu = 1.68e-2; %Density of membrane per unit of area (mg/mm^2) (Sara Wrap membran
 
 %density in mg/mm^3)
 
-Tm = 67;
-Tmax = 77;
+Tm = 65;
+Tmax = 75;
 dTm = 1;
 
 data = {[0.68, -0.4776, 0.35]; [5.08, -0.644, 1.75]; ...
@@ -20,7 +20,7 @@ while Tm < Tmax
     
     predictor = [0, 0, 0];
     error = 0;
-    for jj = 1:size(data, 1)
+    for jj = 1:length(data)
         vi = data{jj}(2);
         rS = data{jj}(3);
         R_f = 52.4/rS; %Number of raddi in half a length of the membrane (dimensionless)
@@ -32,8 +32,9 @@ while Tm < Tmax
         Tunit = Lunit/Vunit; %Temporal unit of measurement (in ms)
         Punit = mu * Lunit / Tunit^2; %Unit of pressure (in mg/ms^2)
         
-        z_k = (Lunit + 0.1)/Lunit; %Current position of the center of the ball (Dimensionless)
-        v_k = -sqrt(vi^2 - 2*(z_k*Lunit - Lunit)*g)/Vunit; %Current velocity of the ball (dimensionless)
+        %z_k = 1;%(Lunit + 0.1)/Lunit; %Current position of the center of the ball (Dimensionless)
+        clear z_k;
+        v_k = -vi/Vunit;% -sqrt(vi^2 - 2*(z_k*Lunit - Lunit)*g)/Vunit; %Current velocity of the ball (dimensionless)
         plotter = false;
         main
         

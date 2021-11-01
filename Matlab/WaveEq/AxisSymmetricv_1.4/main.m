@@ -3,7 +3,6 @@
 %%mainv_1.4
 %Tries to solve the kinematic match with getNextStep
 
-%% CONSTANTS' DEFINITIONS
 
 
 Fr = (mu*rS*g)/Tm; %Froude number
@@ -16,11 +15,11 @@ Tunit = Lunit/Vunit; %Temporal unit of measurement (in ms)
 Punit = mu * Lunit / Tunit^2; %Unit of pressure (in mg/ms^2)
 
 %Numerical constants
-N = 20;%(ceil(10 * rS)+5); %Number of dx intervals in the spatial (radial) coordinate per unit length
+N = (ceil(10 * rS)+5); %Number of dx intervals in the spatial (radial) coordinate per unit length
 Ntot = ceil(R_f * N); %Total number of non-trivial points in the spatial coordinate
 dr = 1/N; %Spatial step
 
-dt = 0.05/Tunit; %Time step (dimensionless)
+dt = 0.04/Tunit; %Time step (dimensionless)
 tFinal = 30/Tunit; %Maximum time (dimensionless) to be simulated.
 tInit = 0/Tunit; %Initial time (dimensionless)
 rt = dt; %Interval of time to be recorded in the matrix. (1/0.25 = 4 frames per ms)
@@ -35,19 +34,18 @@ Eta_k_prob = zeros(Ntot, 5); %Position of the membrane at different times
 u_k_prob = zeros(Ntot, 5); %Velocities of the membrane at different times
 errortan = Inf * ones(1, 5);
 
-%------------------------------
-if exist('z_k', 'var') == 0
-    z_k = 10/8; %Curr1ent position of the center of the ball (Dimensionless)
-    vi = 0.642;
-    %H0 = 20; %Initial height of the center of the ball to calculate initial velocity (mm)
-    v_k = -sqrt(vi^2 - 2*(z_k*Lunit - Lunit)*g)/Vunit; %Current velocity of the ball (dimensionless)
-end
-%------------------------------
 P_k = []; %Current vector of pressures. Only non trivial points saved (Empty vector == membrane and ball should not be touching)
 u_k = zeros(Ntot, 1); %Initial vertical velocity of the membrane (a.k.a. d/dt Eta_k = u_k)
 Eta_k = initial_condition(Fr, dr, Ntot); %Initial position of the membrane
-%f = @(x) exp(-x.^2)';
-%Eta_k = f(linspace(0, 30, Ntot))/2;
+
+%------------------------------
+if exist('z_k', 'var') == 0
+    z_k = Eta_k(1) + 1; %Curr1ent position of the center of the ball (Dimensionless)
+    vi = 0.642;
+    %H0 = 20; %Initial height of the center of the ball to calculate initial velocity (mm)
+    v_k = -vi/Vunit;%-sqrt(vi^2 - 2*(z_k*Lunit - Lunit)*g)/Vunit; %Current velocity of the ball (dimensionless)
+end
+%------------------------------
 
 %%%Initial pressures (they are all trivial!)
 Pk_1 = []; %Possible pressure with two less contact points
@@ -192,7 +190,7 @@ while (ii <= mii)
             xlim([-width*Lunit/N, width*Lunit/N]);
             ylim([(z_k-2)*Lunit, (z_k+2)*Lunit]);
             axis equal;
-            
+
             plot([-fliplr(xplot(2:end)*Lunit),xplot*Lunit],[flipud(Eta_k(2:width)*Lunit);Eta_k(1:width)*Lunit]','LineWidth',2);
             quiver([-fliplr(xplot(2:end)), xplot] * Lunit, [flipud(Eta_k(2:width));Eta_k(1:width)]' * Lunit,...
                 zeros(1,2*width-1), [flipud(u_k(2:width));u_k(1:width)]' * Vunit);
@@ -213,6 +211,7 @@ while (ii <= mii)
         if (cVar == false && cPoints > 0)
             cVar = true;
             maxDef = z_k;
+            dt = rt;
         elseif (cVar == true && cPoints > 0)
             ctime = ctime + dt;
         elseif (cVar == true && cPoints == 0)
@@ -229,11 +228,11 @@ while (ii <= mii)
             end
         end
     end     
-    
+
 end % END WHILE
 
 %%%%%%%%%%%%
-%POST PROCESSING
+%% POST PROCESSING
 %%%%%%%%%%%%
 if exist('plotter', 'var') && plotter == true
     close;
@@ -243,8 +242,9 @@ ctime = round(ctime * Tunit, 5);
 maxDef = round(maxDef * Lunit, 5);
 v_k = vars(2);
 rt = rt * Tunit;
-save([pwd, sprintf('/simulations/simul%g_%g_%d.mat', Tm, rS ,vars(1))], 'recordedEta', 'recordedz_k', ...
-    'recordedPk', 'ctime', 'maxDef', 'Tm', 'rS', 'rt', 'v_k', 'N');
+save([pwd, sprintf('/simulations/simul%g_%g_%d.mat', Tm, rS ,vars(1))], ...
+    'recordedEta', 'recordedz_k', 'recordedPk', 'ctime', 'maxDef', 'Tm', ...
+    'rS', 'rt', 'v_k', 'N');
 if exist('name', 'var')
     writematrix([vars, ctime, maxDef], name, ...
        'WriteMode', 'append');
@@ -257,4 +257,3 @@ fprintf('Maximum deflection: %0.2f (mm)\n', maxDef);
 fprintf('dt: %0.2f (ms)\n', dt*Tunit);
 fprintf('dr: %0.2f (mm)\n', dr * Lunit);
 disp('-----------------------------');
-
