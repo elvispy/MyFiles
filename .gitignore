@@ -1,9 +1,7 @@
 #this is a comment in the gitignore file.
 
-
 C++/**/*.exe
 C++/**/*.gch
-
 
 Latex/**/*.pdf
 *.aux
@@ -17,7 +15,6 @@ Latex/**/*.pdf
 
 Latex/**/*.docx
 
-
 R/**/.RData
 R/**/.Rhistory
 
@@ -29,4 +26,8 @@ Python/**/Temps/
 **/*2012*.geojson
 **/access.bin
 Python/RequestsDNCP/*.csv
+
+Matlab/**/.mat
+Matlab/**/.avi
+
 
