@@ -29,5 +29,6 @@ Python/RequestsDNCP/*.csv
 
 Matlab/**/*.mat
 Matlab/**/*.avi
+Matlab/WaveEq/dep/
 
 
