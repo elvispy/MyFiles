@@ -39,9 +39,9 @@ plt.figure(figsize = (8, 6), dpi = 80)
 # Modules
 def solveMotion(rS: np.float64 = 1.0, Tm: np.float64 = 72, R_f: np.float64 = -1, \
     mu: np.float64 = 1.68e-2, mS: np.float64 = 0, g = 9.80665e-3, z_k = -1, v_k = -0.1, Eta_k = [],\
-    u_k = [], P_k = [], simulTime: np.float64 = 50.0, recordTime = 0.01, 
+    u_k = [], P_k = [], simulTime: np.float64 = 50.0, recordTime = 0.001, 
     FileName: str = "historial.csv", plotter: bool = True, method: str = 'Euler', \
-    saveAfterContactTime: bool = False) -> None:
+    saveAfterContactTime: bool = False, exportData: bool = False) -> None:
 
     '''
     Solves the full kinematic match given initial conditions. 
@@ -80,7 +80,13 @@ def solveMotion(rS: np.float64 = 1.0, Tm: np.float64 = 72, R_f: np.float64 = -1,
         Boolean indicating whether to plot real-time results
     method: str
         Indicates which method to be used. Default 'Euler'.
-        Another option currently implemented is 'Trapecio'
+        As of 25/12, its the only method implemented. BDF2 is on implementation stage
+    saveAffterContactTime: bool
+        Tells the code to save data after contact ended. Useful when trying to understand 
+        variables related to the impact only.
+    exportData: bool
+        Boolean flag which determines whether data will be exported in pkl format.
+
 
     Outputs:
     ----------
@@ -112,17 +118,20 @@ def solveMotion(rS: np.float64 = 1.0, Tm: np.float64 = 72, R_f: np.float64 = -1,
     Punit = mu * Lunit / Tunit**2 # Unit of pressure (mg/(ms^2 * mm))
 
     # A few Nmerical constants
-    N = np.int16(15) # np.int32(np.ceil(500/R_f)) # Number of dr intervals in one radial adimensional unit length (Adimensional)
+    N = np.int16(25) # np.int32(np.ceil(500/R_f)) # Number of dr intervals in one radial adimensional unit length (Adimensional)
     Ntot = np.int32(np.ceil(R_f * N)) # Total number of non-trivial points in the radial adimensional coordinate (Adimensional)
     dr = 1/N # Radial step (Adimensional)
 
-    dt = recordTime/Tunit # Initial time step (Adimensional)
-    tFinal = simulTime/Tunit # Maximum time to be simulated (Adimensional)
+    if recordTime == 0:
+        dt = 1/(5*N*Tunit)
+    else:
+        dt = recordTime/Tunit # Initial time step (Adimensional)
+    finalTime = simulTime/Tunit # Maximum time to be simulated (Adimensional)
     t = 0/Tunit # Initial time (Adimensional)
     rt = dt # Interval of time to be recorded in the output matrix
 
-    # Initial conditions
 
+    ## Initial conditions
     u_k = np.zeros((Ntot, ))
     Eta_k = initialConditions(dr, Ntot, Fr)
 
@@ -139,13 +148,17 @@ def solveMotion(rS: np.float64 = 1.0, Tm: np.float64 = 72, R_f: np.float64 = -1,
     Eta_k_prob = np.zeros((Ntot, 6)) # Position of the membrane at different times
     u_k_prob = np.zeros((Ntot, 6)) # Velocities of the membrane at different times
 
-    # Flow control variables
 
+    ## Flow control variables
     cPoints = len(P_k) # Variable to record number of contact points
     ctime = 0 # Variable to record contact Time
     maxDef = 0 # Variable to sve maximum deflection
     ch = True
-    cVar = False
+    contactFlag = False
+    maxDeflectionRecorded = False 
+    iii = 0
+    jjj = 0
+    resetter = 1
     mCPoints = N + 1 # Maximum number of allowed contact points
 
     FolderPath = Path(__file__).parent.parent / "output"
@@ -157,15 +170,26 @@ def solveMotion(rS: np.float64 = 1.0, Tm: np.float64 = 72, R_f: np.float64 = -1,
             "cTime", "maxDeflection"])
 
     
+    currentIndex = 1 # initial saving index, for saving matrix, initializes in 1 since 0 is left for initial conditions
+    numberOfExtraIndexes = 0
+    maximummIndex = np.int64(np.ceil((finalTime - t)/rt) + 4) # Maximum index 
 
-    ii = 0 # Initial saving index
-    mii = np.int64(np.ceil((tFinal - t)/rt) + 2) # Maximum index 
+    recordedz_k = np.zeros((maximummIndex, 1))
+    recordedEta = np.zeros((maximummIndex, Ntot))
+    recordedPk = np.zeros((maximummIndex, mCPoints))
+    recordedu_k = np.zeros((maximummIndex, Ntot))
+    recordedv_k = np.zeros((maximummIndex, 1))
+    recordedTimes = np.zeros((maximummIndex, 1))
 
-    recordedz_k = np.zeros((mii, 1))
-    recordedEta = np.zeros((mii, Ntot))
-    recordedPk = np.zeros((mii, mCPoints))
+    recordedz_k[0, :] = z_k * Lunit
+    recordedEta[0, :] = Eta_k * Lunit
+    #recordedu_k[0, :] = u_k * Vunit
+    recordedv_k[0, :] = v_k * Vunit
+    recordedTimes[currentIndex] = t * Tunit
+
+
     vars = [datetime.now().strftime('%M%S'), 0]
-    coefOfRestitution = 0
+    coefOfRestitution = np.nan
 
     # For plotting
     width = 3*N # Number of radii to be plotted
@@ -179,7 +203,7 @@ def solveMotion(rS: np.float64 = 1.0, Tm: np.float64 = 72, R_f: np.float64 = -1,
 
 
     # Main Loop
-    while (ii < mii):
+    while (t <= finalTime):
         errortan = np.Inf * np.ones((6,))
         recalculate = False
 
@@ -251,19 +275,37 @@ def solveMotion(rS: np.float64 = 1.0, Tm: np.float64 = 72, R_f: np.float64 = -1,
                     P_k = Pk_3.copy()
         
         if recalculate == True:
-            dt = dt/2
+            dt = dt/2 # Reduce time step
+            iii+=1 #Refine spatial grid
+            jjj*=2 # Adjust current spatial grid index
         else:
-            #---------------
-            #---------------
-            # SAVE RESULTS INTO A MATRIZ
-            if np.mod(t + dt/8, rt) < dt:
-                recordedz_k[ii, :] = z_k * Lunit
-                recordedEta[ii, :] = Eta_k * Lunit
-                recordedPk[ii, 0:len(P_k)] = P_k * Punit
-                ii = ii+1
-
-            # Add time
+            # Add time step
             t = t + dt
+            jjj += 1
+            if jjj%2 == 0 and resetter > 0:
+                jjj /=2
+                iii -=1
+                dt *=2
+                resetter -=1
+
+
+            #---------------
+            #---------------
+            # Update indexes if necessary and store results in a matrix
+            if currentIndex > maximummIndex:
+                raise Exception("We are not prepared for this!")
+            recordedz_k[currentIndex, :] = z_k * Lunit
+            recordedEta[currentIndex, :] = Eta_k * Lunit
+            recordedPk[currentIndex, 0:len(P_k)] = P_k * Punit
+            recordedv_k[currentIndex, :] = v_k * Vunit
+            recordedTimes[currentIndex] = t * Tunit
+            currentIndex += 1
+            if jjj == 2**iii:
+                jjj = 0
+                resetter = 1
+            else:
+                numberOfExtraIndexes +=1
+
 
             # Plotting
             # ----------
@@ -286,49 +328,59 @@ def solveMotion(rS: np.float64 = 1.0, Tm: np.float64 = 72, R_f: np.float64 = -1,
             # ----------
 
             # Analise contact time and maximum deflection
-            if (cVar == False and cPoints > 0):
-                cVar = True
-                maxDef = z_k
-                vars[1] = np.round(v_k * Vunit, 5)
-                Em_in = 1/2 * mS * (v_k**2) + mS*g*z_k
-            elif (cVar == True and cPoints > 0):
+            if (contactFlag == False and cPoints > 0):
+                contactFlag = True
+                maxDef = recordedz_k[currentIndex - 2, 0]
+                vars[1] = np.round(recordedv_k[currentIndex - 2, 0], 5)
+                zeroPotential = recordedEta[currentIndex - 2, 0] + rS
+                Em_in = 1/2 * mS * ((recordedv_k[currentIndex - 2])**2)
+            elif (contactFlag == True and cPoints > 0):
                 ctime += dt
-            elif (cVar == True and cPoints == 0 and \
-                saveAfterContactTime == False):
-                recordedz_k = recordedz_k[0:ii]
-                recordedEta = recordedEta[0:ii, :]
-                recordedPk = recordedPk[:ii, :]
-                Em_out = 1/2 * mS * (v_k**2) + mS*g*z_k
-                break # end simulation if contact ended.
+            elif (contactFlag == True and cPoints == 0):
+                if maxDeflectionRecorded == False:
+                    Em_out = 1/2 * mS * ((recordedv_k[currentIndex - 1])**2) \
+                        + mS*g*(recordedz_k[currentIndex - 1, 0] - zeroPotential)
+                maxDeflectionRecorded = True
+                if saveAfterContactTime == False:
+                    break # end simulation if contact ended.
 
-            if (cVar == True and v_k > 0):
+            if (contactFlag == True and v_k > 0):
                 # If velocity has changed sign, record maximum only once
                 if (ch == True): 
-                    maxDef = maxDef - z_k
+                    maxDef = maxDef - recordedz_k[currentIndex-1]
                     ch = False
-    
     # Post Processing
     if plotter == True:
         # Close Plots
         pass
 
-    ctime = np.round(ctime * Tunit, 5)
-    maxDef = np.round(maxDef * Lunit, 5)
+    ctime = np.round(ctime * Tunit, 10)
+    maxDef = np.round(maxDef, 10)
+    v_k = vars[1]
     rt = rt * Tunit
     coefOfRestitution = Em_out/Em_in
 
-    with open(FolderPath / f"simulation{vars[0]}.pkl", 'wb') as f:
-        pickle.dump([recordedEta, recordedz_k, recordedPk, \
-            ctime, maxDef, Tm, rS, rt, v_k, N, coefOfRestitution], f)
+    if exportData == True:
+        recordedz_k = recordedz_k[:currentIndex]
+        recordedEta = recordedEta[:currentIndex, :]
+        recordedPk = recordedPk[:currentIndex, :]
+        recordedv_k = recordedv_k[:currentIndex, :]
+        recordedTimes = recordedTimes[:currentIndex, :]
 
-    with open(FileName, 'a') as f:
-        writer = csv.writer(f)
-        writer.writerow(["ID", vars[1] , Tm, rS, ctime, maxDef])
+        
+        with open(FolderPath / f"simulation{vars[0]}.pkl", 'wb') as f:
+            pickle.dump([recordedEta, recordedz_k, recordedPk,  recordedv_k, recordedTimes, \
+                ctime, maxDef, Tm, rS, rt, v_k, N, coefOfRestitution], f)
+
+        with open(FileName, 'a') as f:
+            writer = csv.writer(f)
+            writer.writerow(["ID", vars[1] , Tm, rS, ctime, maxDef])
     
-    logging.info('Radius: %0.2f mm', rS)
-    logging.info('Tm: %0.2g (ms)', Tm)
+    logging.info('Radius: %0.4f mm', rS)
+    logging.info('Tm: %0.3g ', Tm)
     logging.info('Contact time: %0.5f (ms)', ctime)
     logging.info('Maximum deflection: %0.5f (mm)', maxDef)
+    logging.info('Coefficient of restitution squared: %0.3f', coefOfRestitution)
     logging.info('dt: %0.5g (ms)', dt*Tunit)
     logging.info('dr: %0.5g (mm)', dr * Lunit)
     logging.info('-----------------------------')
@@ -391,5 +443,5 @@ if __name__ == '__main__':
     mS = 7.8 * 4 * np.pi * (rS**3) / 3 # Mass of the ball (mg) (7.8 is the ball's 
     # density in mg/mm^3)
 
-    solveMotion(rS = rS, Tm = Tm, R_f = R_f, v_k = -0.59238806, \
-        plotter = True, recordTime=0.04)
+    solveMotion(rS = rS, Tm = Tm, R_f = R_f, v_k = -0.29238806, \
+        plotter = True, recordTime=0.01)

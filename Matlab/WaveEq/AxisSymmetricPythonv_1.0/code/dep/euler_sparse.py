@@ -9,11 +9,12 @@ Created: 4th November, 2021
 """
 # Imports 
 import numpy as np
+import scipy.sparse.linalg as LinAlg
 
 
 # Modules
-def euler(newCPoints, mCPoints, Eta_k, u_k, \
-    z_k, v_k, _, dt, dr, Fr, Re, Ntot):
+def euler_sparse(newCPoints, mCPoints, Eta_k, u_k, \
+    z_k, v_k, _, dt, dr, Fr, Ntot, AA):
     ''' This script will solve the equation of motion of the
     sphere-membrane coupled system. 
 
@@ -73,63 +74,28 @@ def euler(newCPoints, mCPoints, Eta_k, u_k, \
         v_k_prob = np.NaN
         P_k_prob = np.NaN
     else:
-        # Building A
-
-        ### First column block (Eta_k)
-        A_prime = 2 * np.eye(Ntot)
-        A_prime[0, 0] = 4
-        A_prime[0, 1] = -4
-        for i in range(1, Ntot):
-           A_prime[i, i-1] = -(2*i-1)/(2*i)
-           if i < Ntot-1:
-               A_prime[i, i+1] = -(2*i+1)/(2*i)
-           
-        A_prime = (dt / dr**2) * A_prime
-        A_prime[0:newCPoints, :] = np.zeros((newCPoints, Ntot))
-
-        I_M = np.eye(Ntot)
-        A_1 = np.concatenate((I_M, A_prime, np.zeros((2, Ntot))) )
-        residual_1 = A_1[:, 0:newCPoints]
-        A_1 = A_1[:, newCPoints:]
-
-        ### Seond column-block (u_k)
-        A_2 = np.concatenate((-dt * I_M, I_M, np.zeros((2, Ntot))) )
-        residual_2 = A_2[:, 0:newCPoints]
-        A_2 = A_2[:, newCPoints:]
-
-        ### Third Column Block (P_k)
-        A_3 = np.concatenate((np.zeros((Ntot, Ntot)), dt * I_M, np.zeros((1, Ntot))))
-        A_3 = np.concatenate((A_3[:, 0:newCPoints],  \
-            -(dr**2) * dt * Re * int_vector(newCPoints)))
-
-        ### Now last columns (z_k and v_k)
-
-        # Last two columns are the sum of columns retired from other blocks
-        A_4 = np.concatenate((np.sum(residual_1, axis = 1, keepdims = True), \
-            np.sum(residual_2, axis = 1, keepdims = True)), axis = 1)
-        A_4[-1, -1] = 1.0
-        A_4[-2, -2] = 1.0
-        A_4[-2, -1] = -dt
-
-        A = np.concatenate((A_1, A_2, A_3, A_4), axis = 1)
-        A = A[newCPoints:, :]
-        
+    
         # Building R and R prime
-        R = np.concatenate((np.zeros((Ntot - newCPoints, 1)), \
+        R = np.vstack((np.zeros((Ntot - newCPoints, 1)), \
              (-Fr * dt) * np.ones((Ntot, 1)), np.array([[0.0], [-Fr*dt]])))
         for ii in range(Ntot-newCPoints , Ntot):
             R[ii] = R[ii] + 2 * dt
 
-        f = lambda x:  np.sqrt(1 + 1e-8 - (dr*x) ** 2) 
+        f = lambda x: np.sqrt(1-dr**2 * (x*x))
 
+
+        residual_1 = AA[newCPoints]['residual_1']
+        if newCPoints > 0:
+            residual_1[Ntot + newCPoints, -1] *= dt
+        
         myvec = np.linspace(0, newCPoints-1, newCPoints).reshape(newCPoints, 1)
         R_prime = residual_1 @ f(myvec)
         R_prime = R_prime[newCPoints:]
 
         # Solving the system
-        x = np.concatenate((Eta_k.reshape((Ntot, 1)), u_k.reshape((Ntot, 1)),  \
+        x = np.vstack((Eta_k.reshape((Ntot, 1)), u_k.reshape((Ntot, 1)),  \
             np.array([[z_k], [v_k]]))); x = x[newCPoints:]
-        results = np.linalg.solve(A, x+R+R_prime)
+        results = LinAlg.spsolve(dt*AA[newCPoints]['A'] + AA[newCPoints]['ones'], x+R+R_prime)
 
         z_k_prob = results[-2, 0]
         v_k_prob = results[-1, 0]

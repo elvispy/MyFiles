@@ -9,7 +9,6 @@ Created: 4th November, 2021
 
 
 # Standard Library imports
-# from _typeshed import NoneType
 import pickle
 from pathlib import Path
 import csv
@@ -35,16 +34,16 @@ mpl.rcParams['ytick.major.size'] = 10
 mpl.rcParams['ytick.major.width'] = 2
 plt.figure(figsize = (8, 6), dpi = 80)
 
+from returnMatrices import returnMatrices
 
 # Modules
 def solveMotion(rS: np.float64 = 1.0, Tm: np.float64 = 72, R_f: np.float64 = -1, \
     mu: np.float64 = 1.68e-2, mS: np.float64 = 0, g = 9.80665e-3, z_k = -1, v_k = -0.1, Eta_k = [],\
     u_k = [], P_k = [], simulTime: np.float64 = 50.0, recordTime = 0.01, 
     FileName: str = "historial.csv", plotter: bool = True, method: str = 'Euler', \
-    saveAfterContactTime: bool = False) -> None:
+    saveAfterContactTime: bool = False):
 
-    '''
-    Solves the full kinematic match given initial conditions. 
+    '''Solves the full kinematic match given initial conditions. 
     
     Parameters:
     ----------
@@ -97,7 +96,7 @@ def solveMotion(rS: np.float64 = 1.0, Tm: np.float64 = 72, R_f: np.float64 = -1,
     if R_f == -1: R_f = 52.4/rS
     if mS == 0: mS = 7.8 * 4 * np.pi * (rS**3) / 3
     if method == 'Euler':
-        from euler import euler as getNextStep
+        from euler_sparse import euler_sparse as getNextStep
     else:
         pass # import trapecio as getNextStep
 
@@ -112,7 +111,7 @@ def solveMotion(rS: np.float64 = 1.0, Tm: np.float64 = 72, R_f: np.float64 = -1,
     Punit = mu * Lunit / Tunit**2 # Unit of pressure (mg/(ms^2 * mm))
 
     # A few Nmerical constants
-    N = np.int16(15) # np.int32(np.ceil(500/R_f)) # Number of dr intervals in one radial adimensional unit length (Adimensional)
+    N =  np.int32(np.ceil(500/R_f)) # Number of dr intervals in one radial adimensional unit length (Adimensional)
     Ntot = np.int32(np.ceil(R_f * N)) # Total number of non-trivial points in the radial adimensional coordinate (Adimensional)
     dr = 1/N # Radial step (Adimensional)
 
@@ -122,7 +121,6 @@ def solveMotion(rS: np.float64 = 1.0, Tm: np.float64 = 72, R_f: np.float64 = -1,
     rt = dt # Interval of time to be recorded in the output matrix
 
     # Initial conditions
-
     u_k = np.zeros((Ntot, ))
     Eta_k = initialConditions(dr, Ntot, Fr)
 
@@ -140,7 +138,6 @@ def solveMotion(rS: np.float64 = 1.0, Tm: np.float64 = 72, R_f: np.float64 = -1,
     u_k_prob = np.zeros((Ntot, 6)) # Velocities of the membrane at different times
 
     # Flow control variables
-
     cPoints = len(P_k) # Variable to record number of contact points
     ctime = 0 # Variable to record contact Time
     maxDef = 0 # Variable to sve maximum deflection
@@ -148,7 +145,7 @@ def solveMotion(rS: np.float64 = 1.0, Tm: np.float64 = 72, R_f: np.float64 = -1,
     cVar = False
     mCPoints = N + 1 # Maximum number of allowed contact points
 
-    FolderPath = Path(__file__).parent.parent / "output"
+    FolderPath = Path(__file__).parent.parent.parent / "output"
     FileName = FolderPath / FileName
     if Path.exists(FileName) == False:
         with open(FileName, 'w') as f:
@@ -157,25 +154,25 @@ def solveMotion(rS: np.float64 = 1.0, Tm: np.float64 = 72, R_f: np.float64 = -1,
             "cTime", "maxDeflection"])
 
     
-
-    ii = 0 # Initial saving index
-    mii = np.int64(np.ceil((tFinal - t)/rt) + 2) # Maximum index 
-
-    recordedz_k = np.zeros((mii, 1))
-    recordedEta = np.zeros((mii, Ntot))
-    recordedPk = np.zeros((mii, mCPoints))
-    vars = [datetime.now().strftime('%M%S'), 0]
-    coefOfRestitution = 0
-
     # For plotting
     width = 3*N # Number of radii to be plotted
     xplot = np.linspace(0, width/N, width)
     aux = np.linspace(0, 2*np.pi, 50)
-    circleX = np.cos(aux) * Lunit
-    circleY = np.sin(aux) * Lunit
-    EtaX = np.concatenate((-xplot[:0:-1], xplot)) * Lunit
-    EtaU = np.zeros((2*width-1, ))
-    step = np.int16(N/15) + 1
+    circleX = np.cos(aux)
+    circleY = np.sin(aux)
+
+    # For post-processing
+    ii = 0 # Initial saving index
+    mii = np.int64(np.ceil((tFinal - t)/rt) + 2) # Maximum index 
+    recordedz_k = np.zeros((mii, 1))
+    recordedEta = np.zeros((mii, Ntot))
+    recordedPk = np.zeros((mii, mCPoints))
+    vars = [datetime.now().strftime('%M%S'), 0]
+
+    Em_in = 0
+    Em_out = 0
+
+    AA = returnMatrices(mCPoints, Ntot, dr, Re)
 
 
     # Main Loop
@@ -186,7 +183,7 @@ def solveMotion(rS: np.float64 = 1.0, Tm: np.float64 = 72, R_f: np.float64 = -1,
         # FIrst, we try to solve with the same number of contact points
         [Eta_k_prob[:,3], u_k_prob[:, 3], z_k_prob[3], \
             v_k_prob[3], Pk_3, errortan[3]] = getNextStep(cPoints, mCPoints, \
-            Eta_k, u_k, z_k, v_k, P_k, dt, dr, Fr, Re, Ntot)
+            Eta_k, u_k, z_k, v_k, P_k, dt, dr, Fr, Ntot, AA)
 
         if errortan[3] < 1e-8:
             Eta_k = Eta_k_prob[:, 3].copy()
@@ -199,19 +196,19 @@ def solveMotion(rS: np.float64 = 1.0, Tm: np.float64 = 72, R_f: np.float64 = -1,
             # Lets try with one more point
             [Eta_k_prob[:,4], u_k_prob[:, 4], z_k_prob[4], \
                 v_k_prob[4], Pk_4, errortan[4]] = getNextStep(cPoints + 1, mCPoints, \
-                Eta_k, u_k, z_k, v_k, P_k, dt, dr, Fr, Re, Ntot)
+                Eta_k, u_k, z_k, v_k, P_k, dt, dr, Fr, Ntot, AA)
 
             # Lets try with one point less
             [Eta_k_prob[:,2], u_k_prob[:, 2], z_k_prob[2], \
                 v_k_prob[2], Pk_2, errortan[2]] = getNextStep(cPoints - 1, mCPoints, \
-                Eta_k, u_k, z_k, v_k, P_k, dt, dr, Fr, Re, Ntot)
+                Eta_k, u_k, z_k, v_k, P_k, dt, dr, Fr, Ntot, AA)
 
         
             if (errortan[3] > errortan[4] or errortan[3] > errortan[2]):
                 if errortan[4] <= errortan[2]:
                     # Now lets check with one more point to be sure
                     [_, _, _, _, _, errortan[5]] = getNextStep(cPoints + 2, mCPoints, \
-                        Eta_k, u_k, z_k, v_k, P_k, dt, dr, Fr, Re, Ntot)
+                        Eta_k, u_k, z_k, v_k, P_k, dt, dr, Fr, Ntot, AA)
                     
                     if errortan[4] < errortan[5]:
                         # Accept new data
@@ -228,7 +225,7 @@ def solveMotion(rS: np.float64 = 1.0, Tm: np.float64 = 72, R_f: np.float64 = -1,
                     # now lets check if errortan is good enough with one point
                     # less
                     [_, _, _, _, _, errortan[1]] = getNextStep(cPoints-2, mCPoints, \
-                Eta_k, u_k, z_k, v_k, P_k, dt, dr, Fr, Re, Ntot)
+                Eta_k, u_k, z_k, v_k, P_k, dt, dr, Fr, Ntot, AA)
 
                     if errortan[2] < errortan[1]:
                         Eta_k = Eta_k_prob[:, 2].copy()
@@ -269,15 +266,16 @@ def solveMotion(rS: np.float64 = 1.0, Tm: np.float64 = 72, R_f: np.float64 = -1,
             # ----------
             if plotter == True:
                 plt.cla()
-                plt.plot(circleX , (z_k * Lunit + circleY) , linewidth = 2, 
+                plt.plot(circleX * Lunit, (z_k + circleY) * Lunit, linewidth = 5, 
                         color = 'b')
                 plt.axis([-width * Lunit/N, width*Lunit/N, \
                     (z_k - 2) * Lunit, (z_k + 2) * Lunit])
+                EtaX = np.concatenate((-xplot[:0:-1], xplot)) * Lunit
                 EtaY = np.concatenate((Eta_k[(width-1):0:-1], Eta_k[:width])) * Lunit
-                plt.plot(EtaX, EtaY, linewidth = 2, color = 'black')
+                plt.plot(EtaX, EtaY, linewidth = 5, color = 'black')
+                EtaU = np.zeros((1, 2*width-1))
                 EtaV = np.concatenate((u_k[(width-1):0:-1], u_k[:width])) * Vunit
-                plt.quiver(EtaX[::step], EtaY[::step], EtaU[::step], EtaV[::step], \
-                     color  = 'orange', scale = .8, scale_units = 'x')
+                plt.quiver(EtaX[::5], EtaY[::5], EtaU[::5], EtaV[::5], color  = 'orange')
                 plt.title(f't = {t*Tunit:0.4f} (ms),  CP = {cPoints} , vz = {v_k * Vunit:0.5f}')
                 plt.pause(0.005)
 
@@ -290,7 +288,6 @@ def solveMotion(rS: np.float64 = 1.0, Tm: np.float64 = 72, R_f: np.float64 = -1,
                 cVar = True
                 maxDef = z_k
                 vars[1] = np.round(v_k * Vunit, 5)
-                Em_in = 1/2 * mS * (v_k**2) + mS*g*z_k
             elif (cVar == True and cPoints > 0):
                 ctime += dt
             elif (cVar == True and cPoints == 0 and \
@@ -298,7 +295,6 @@ def solveMotion(rS: np.float64 = 1.0, Tm: np.float64 = 72, R_f: np.float64 = -1,
                 recordedz_k = recordedz_k[0:ii]
                 recordedEta = recordedEta[0:ii, :]
                 recordedPk = recordedPk[:ii, :]
-                Em_out = 1/2 * mS * (v_k**2) + mS*g*z_k
                 break # end simulation if contact ended.
 
             if (cVar == True and v_k > 0):
@@ -315,11 +311,11 @@ def solveMotion(rS: np.float64 = 1.0, Tm: np.float64 = 72, R_f: np.float64 = -1,
     ctime = np.round(ctime * Tunit, 5)
     maxDef = np.round(maxDef * Lunit, 5)
     rt = rt * Tunit
-    coefOfRestitution = Em_out/Em_in
+
 
     with open(FolderPath / f"simulation{vars[0]}.pkl", 'wb') as f:
         pickle.dump([recordedEta, recordedz_k, recordedPk, \
-            ctime, maxDef, Tm, rS, rt, v_k, N, coefOfRestitution], f)
+            ctime, maxDef, Tm, rS, rt, v_k, N], f)
 
     with open(FileName, 'a') as f:
         writer = csv.writer(f)
@@ -379,17 +375,3 @@ def initialConditions(dr: float, Ntot: int, Fr: float) -> np.ndarray:
     eta = np.linalg.solve(A_prime, R)/2
     eta.shape = (Ntot, )
     return eta 
-
-
-if __name__ == '__main__':
-
-    rS = np.float64(0.795) # Radius of the sphere (in mm)
-    R_f = 10 # 52.4/rS # Number of raddi in half a length of the membrane (dimensionless)
-    Tm = np.float64(20) # np.float64(73) # Tesion of the membrane (mg/ms^2)
-    g = 9.80665e-3 # Gravity of earth (mm/ms^2)
-    mu = 1.68e-2 # Density of membrane per unit of area (mg/mm^2) (Sara Wrap membrane)
-    mS = 7.8 * 4 * np.pi * (rS**3) / 3 # Mass of the ball (mg) (7.8 is the ball's 
-    # density in mg/mm^3)
-
-    solveMotion(rS = rS, Tm = Tm, R_f = R_f, v_k = -0.59238806, \
-        plotter = True, recordTime=0.04)

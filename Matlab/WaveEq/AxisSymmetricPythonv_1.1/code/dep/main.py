@@ -10,6 +10,6 @@ mu = 1.68e-2 # Density of membrane per unit of area (mg/mm^2) (Sara Wrap membran
 mS = 73.8 * 4 * np.pi * (rS**3) / 3 # Mass of the ball (mg) (7.8 is the ball's 
 # density in mg/mm^3)
 
-solveMotion(rS = rS, Tm = Tm, v_k = -0.29238806, \
-    plotter = True, recordTime=0.04)
+solveMotion(rS = rS, Tm = Tm, v_k = -2.09238806, \
+    plotter = True, recordTime=0.01)
 

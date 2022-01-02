@@ -1,5 +1,22 @@
-clear;
-close all;
+
+cd ../AxisSymmetricv_1.6/simulations/
+
+simuls = dir('*.csv');
+g = 9.80665e-3;
+for ii = 1:length(simuls)
+    clearvars -except simuls i g
+    load(ii.name);
+    jj = 1;
+    contacted = false;
+    while contacted == false || nnz(recordedPk) > 0
+        if nnz(recordedPk) > 0 && contacted == false
+            mS = 7.8 * 4 * pi * (rS.^3) / 3;
+            contacted = true;
+            Em_in = 1/2 * mS * ((v_k *)^2) + mS*g*z_k * Lunit; % Mechanical Energy In;
+        end
+        jj = jj+1;
+    end
+end
 
 myFont = "Arial";
 n=8000;
