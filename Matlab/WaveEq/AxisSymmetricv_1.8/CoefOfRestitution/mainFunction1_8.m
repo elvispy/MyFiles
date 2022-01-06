@@ -1,5 +1,5 @@
 
-function mainFunction1_8(rS, Tm, R_f, mu, mS, g, options)
+function ctime = mainFunction1_8(rS, Tm, R_f, mu, mS, g, options)
     %mainv_1.4
     %Tries to solve the kinematic match between a rigid spherical object
     %and an axissymmetric membran
@@ -167,7 +167,7 @@ function mainFunction1_8(rS, Tm, R_f, mu, mS, g, options)
     recordedPk    = zeros(maximumIndex, mCPoints); %recordedPk(1, :) = Pk;
     recordedv_k   = zeros(maximumIndex, 1);    recordedv_k(1) = v_k * Vunit;
     recordedTimes = zeros(maximumIndex, 1);    recordedTimes(1) =  tInit * Tunit;
-    vars = {datestr(now, 'dddHHMMss'), 0, Tm, rS};
+    vars = {datestr(now, 'MMss'), 0, Tm, rS};
     
     % For coefficient of restitution
     Em_in = nan;
@@ -339,9 +339,9 @@ function mainFunction1_8(rS, Tm, R_f, mu, mS, g, options)
                     sprintf('%g', cPoints),' vz = ', sprintf('%.5f (mm/ms)', v_k*Vunit)],'FontSize',16);
                 drawnow;
             else
-                clc;
-                disp(['   t = ',sprintf('%.5f (ms)', t*Tunit),'   ','nl = ', ...
-                    sprintf('%g', cPoints),' vz = ', sprintf('%.5f (mm/ms)', v_k*Vunit)]);
+                %clc;
+                %disp(['   t = ',sprintf('%.5f (ms)', t*Tunit),'   ','nl = ', ...
+                %    sprintf('%g', cPoints),' vz = ', sprintf('%.5f (mm/ms)', v_k*Vunit)]);
             end
             %%%%%%%%%%%%
             %%%%%%%%%%%%
@@ -436,8 +436,7 @@ function mainFunction1_8(rS, Tm, R_f, mu, mS, g, options)
         
         % Save into a .mat file
         save(fullfile(pwd, sprintf('/simulations/simul%g_%g_%s.mat', Tm, rS ,vars{1})), ...
-            'recordedEta', 'recordedu_k', 'recordedz_k', 'recordedPk', 'recordedTimes', ...
-            'recordedv_k', 'ctime', 'maxDef', 'Tm', 'mu', 'rS', 'rt', 'v_k', 'N', ...
+            'maxDef', 'Tm', 'mu', 'rS', 'rt', 'v_k', 'N', ...
             'coefOfRestitution');
         writecell([vars, ctime, maxDef, coefOfRestitution], FileName, ...
            'WriteMode', 'append');

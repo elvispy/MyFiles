@@ -1,0 +1,143 @@
+
+cats = {0.9, 0.95, 0.995};%{0.35, 0.795, 1.75, 3};
+%Physical constants
+Tm = 27; %11.6164; %Tension of the material (in mg / ms^2)
+tol = 1e-4; 
+Nmin = 100;
+name = 'historialMinimumVelocity.csv';
+FileName = fullfile(pwd, "/simulations/" + name);
+OutPutName = fullfile(pwd, "/simulations/minimumVelocities.csv");
+if exist(OutPutName, 'file') == 0
+    writematrix(["radius", 'surfaceTension', "impactVelocity", "halfInterval", "N"], ...
+        OutPutName, 'WriteMode', 'append');
+    % Create dummy table
+    radius = 0;
+    previousValues = table(radius);
+else
+    previousValues = readtable(OutPutName, 'PreserveVariableNames', true);
+end
+for iii = 1:length(cats)
+    rS = cats{iii}; %Radius of the sphere (in mm)
+    N = Nmin;
+    % Use wise intervals if they exist
+    [~, LOCB] = ismembertol(rS, previousValues.radius, 0.01);
+    if LOCB ~= 0
+        IV = previousValues.impactVelocity(LOCB);
+        HI = previousValues.halfInterval(LOCB);
+        vilow  = IV - HI;
+        vihigh = IV + HI;
+        
+        %% Setting vilow
+        myHI = HI;
+        mainFunction1_8(rS, Tm, ...
+            'v_k'     , -abs(vilow), ...
+            'N'       , N, ...
+            'plotter' , false, ...
+            'FileName', name, ...
+            'exportData', true ...
+            );
+        values = readtable(FileName, 'PreserveVariableNames', true);
+        
+        while values.cTime(end) < Inf
+            vihigh = vilow;
+            vilow = vilow - myHI;
+            if vilow <=0
+                vilow = 0;
+                break;
+            end
+            mainFunction1_8(rS, Tm, ...
+                'v_k'     , -abs(vilow), ...
+                'N'       , N, ...
+                'plotter' , false, ...
+                'FileName', name, ...
+                'exportData', true ...
+                );
+            values = readtable(FileName, 'PreserveVariableNames', true);
+            myHI = 2 * myHI;
+        end
+        
+        %% Setting vihigh
+        myHI = HI;
+        mainFunction1_8(rS, Tm, ...
+            'v_k'     , -abs(vihigh), ...
+            'N'       , N, ...
+            'plotter' , false, ...
+            'FileName', name, ...
+            'exportData', true ...
+            );
+        values = readtable(FileName, 'PreserveVariableNames', true);
+        while values.cTime(end) > 1000
+            vilow = vihigh;
+            vihigh = vihigh + myHI;
+            mainFunction1_8(rS, Tm, ...
+                'v_k'     , -abs(vihigh), ...
+                'N'       , N, ...
+                'plotter' , false, ...
+                'FileName', name, ...
+                'exportData', true ...
+                );
+            values = readtable(FileName, 'PreserveVariableNames', true);
+            myHI = 2 * myHI;
+        end
+    else
+        vihigh = .2;
+        vilow = 0;
+    end
+       
+    
+    %% Lets check with N 
+    while vihigh - vilow > tol 
+        mainFunction1_8(rS, Tm, ...
+            'v_k'     , -abs(vihigh/2 + vilow/2), ...
+            'N'       , N, ...
+            'plotter' , false, ...
+            'FileName', name, ...
+            'exportData', true ...
+            );
+        values = readtable(FileName, 'PreserveVariableNames', true);
+        cTime = values{end, 'cTime'};
+        if cTime < Inf
+            vihigh = (vihigh + vilow)/2;
+        else
+            vilow = (vihigh + vilow)/2;
+        end
+    end
+    
+    % Now double N
+%     N = 2*N;
+% 
+%     mainFunction1_8(rS, Tm, ...
+%             'v_k'     , -abs(vihigh), ...
+%             'N'       , N, ...
+%             'plotter' , false, ...
+%             'FileName', name, ...
+%             'exportData', true ...
+%             );
+%     values= readtable(fullfile('simulations\', name), 'PreserveVariableNames', true);
+%     
+%     while values{end, 'cTime'} > 1000
+%         dif = vihigh - vilow;
+%         vilow = vihigh;
+%         vihigh = vilow + dif;
+%         mainFunction1_8(rS, Tm, ...
+%             'v_k'     , -abs(vihigh), ...
+%             'N'       , N, ...
+%             'plotter' , false, ...
+%             'FileName', name, ...
+%             'exportData', true ...
+%             );
+%         values= readtable(fullfile('simulations\', name), 'PreserveVariableNames', true);
+%     end
+    
+    if LOCB ~= 0
+        previousValues.impactVelocity(LOCB) = vihigh/2 + vilow/2;
+        previousValues.halfInterval(LOCB)   = vihigh/2 - vilow/2;
+        
+        writetable(previousValues, OutPutName);
+    else
+        writematrix([rS, Tm, vihigh/2+vilow/2, vihigh/2-vilow/2, N], OutPutName, 'WriteMode', 'append');
+    end
+    
+    fprintf('Para el radio %.5f, la velocidad minima de impacto es %.5f, con tolerancia %.3e \n\n', rS, vilow/2 + vihigh/2, vihigh/2 - vilow/2);
+    
+end

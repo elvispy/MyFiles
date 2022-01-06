@@ -10,7 +10,7 @@ else
     conffigs = detectImportOptions(fullfile(path, file));
     conffigs.VariableTypes{1} = 'string';
     conffigs.PreserveVariableNames = true;
-    %conffigs.SelectedVariableNames = {'ID', 'vi', 'surfaceTension', 'radius'};
+    conffigs.SelectedVariableNames = {'ID', 'surfaceTension', 'radius'};
     values = readtable(fullfile(path, file), conffigs);
 end
 %values = values(:, {'ID', 'surfaceTension', 'radius'});
@@ -117,6 +117,7 @@ set(gca, ...
   'YGrid'       , 'on'      , ...
   'XColor'      , [.3 .3 .3], ...
   'YColor'      , [.3 .3 .3], ...
+  'XTick'       , -.0:0.025:0.5  , ...
   'LineWidth'   , 1         );
 hold on; grid on;
 %xlim([-.01 0.35]);
@@ -126,16 +127,13 @@ ylabel('$\alpha^{2} \ \ \ \ $', 'Interpreter', 'latex', 'Rotation', 0, ...
       'FontSize', 24);
 
 for jj= 1:length(cats)
-    subvalues = values(abs(values.radius - cats{jj}) < 0.05, :);
-    A = zeros(height(subvalues), 1);
-    for ii = 1:height(subvalues)
+    subvalues = values(abs(values.radius - cats{ii}) < 0.05, :);
+    
+    for ii = 1:length(subvalues)
         load(fullfile("simulations", sprintf("simul%g_%g_%s.mat", values{ii, 'surfaceTension'}, ...
             values{ii, 'radius'}, values{ii, 'ID'})),...
             'coefOfRestitution', 'v_k', 'rS', 'Tm', 'mu');
-        A(ii) = coefOfRestitution;
     end
-    
-    plot(abs(subvalues.vi), A);
 end
 for ii = 1:height(values)
     if values.radius(ii) < 0.7 %abs(values.radius(ii)-.995) > 0.01 %

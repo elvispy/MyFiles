@@ -1,3 +1,4 @@
+% Para generar los datos para la figura 4
 %radii = [0.795, 1.25, 1.75, 2.78, 3.175];
 try
     experimentalData = readtable([pwd, '/datos_experimentales/experimentalCourbin.csv'], 'PreserveVariableNames', true);
