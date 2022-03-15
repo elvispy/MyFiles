@@ -39,7 +39,7 @@ LL = length(configs);
 %% CONTACT TIME
 
 figurectime = figure(1);
-set(gcf,'position',[100, 100, 560, 420], 'Units', 'pixels');    
+set(gcf,'position',[100, 100, 600, 420]);% , 'Units', 'pixels');    
 
 % NUMERICAL DATA, MAXIMUM TENSION
 set(gca, ...
@@ -56,10 +56,13 @@ set(gca, ...
   'LineWidth'   , 1         );
 hold on; grid on;
 xlim([0, 1.35]);
-xlabel('$V_{0}$', 'Interpreter', 'latex', 'FontSize', 24);
-ylabel('$t_{c} \ \ \ $', 'Interpreter', 'latex', 'Rotation', 0, ...
-      'FontSize', 24);
+xlabel('$V_{0} \ (ms^{-1})$', 'Interpreter', 'latex', 'FontSize', 20);
+ylabel('$t_{c} \ (ms) $', 'Interpreter', 'latex', 'Rotation', 0, ...
+      'FontSize', 20);
 ylim([-1.5, 20]);
+A= gca;
+A.Position(1) = 0.23;
+A.YLabel.Position(1) = A.YLabel.Position(1) - 0.13;
 
 % if showboth == true
 %     F  = cell(LL + 3, 1);
@@ -124,15 +127,15 @@ for ii = 1:LL
 
     
 end
-tt = text(.05, 16.75, '$a)$', 'Interpreter', 'latex', 'FontSize', 16);
-print(figurectime, '-depsc', '-r300', 'Graficos/cTimevsCourbinnew.eps');
+tt = text(.05, 16.85, '$a)$', 'Interpreter', 'latex', 'FontSize', 16);
+print(figurectime, '-depsc', '-r300', 'Graficos/cTimevsCourbinDim.eps');
 %% MAXIMUM DEFLECTION
 
 
 colsmaxDef = valuesMin.Properties.VariableNames([2 6]);
 
 figureDef = figure(2);
-set(gcf,'position',[700, 100, 560, 420], 'Units', 'pixels');
+set(gcf,'position',[700, 100, 600, 420], 'Units', 'pixels');
 
 set(gca, ...
   'Box'         , 'on'      , ...
@@ -144,13 +147,17 @@ set(gca, ...
   'YGrid'       , 'on'      , ...
   'XColor'      , [.3 .3 .3], ...
   'YColor'      , [.3 .3 .3], ...
+  'XTick'       , -0.2:0.2:2, ...
   'LineWidth'   , 1         );
 hold on; grid on;
 xlim([0, 1.35]);
-xlabel('$V_{0}$', 'Interpreter', 'latex', 'FontSize', 24);
-ylabel('$\delta \ \ $', 'Interpreter', 'latex', 'Rotation', 0, ...
-      'FontSize', 24);
+xlabel('$V_{0} \ (ms^{-1})$', 'Interpreter', 'latex', 'FontSize', 20);
+ylabel('$\delta \  (mm) $', 'Interpreter', 'latex', 'Rotation', 0, ...
+      'FontSize', 20);
 ylim([-0.4, 6.5]);
+A= gca;
+A.Position(1) = 0.22;
+A.YLabel.Position(1) = A.YLabel.Position(1) - 0.15;
 FExp = cell(LL+3, 1);
 FMin = cell(LL+3, 1);
 FMax = cell(LL+3, 1);
@@ -206,7 +213,7 @@ for ii = 1:LL
 
 end
 tt = text(.06, 5.5, '$b)$', 'Interpreter', 'latex', 'FontSize', 16);
-print(figureDef, '-depsc', '-r300', 'Graficos/maxDefvsCourbinnew.eps');
+print(figureDef, '-depsc', '-r300', 'Graficos/maxDefvsCourbinDim.eps');
 
 
 

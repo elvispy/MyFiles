@@ -1,0 +1,26 @@
+
+save_path = pwd;
+
+cd D:\GITRepos\MyFiles\Matlab\WaveEq\'Other Scripts'\
+plotter = @plotResults;
+
+% filePaths = ["KM_vacuum_Tm70_experimental.csv", ...
+%     "KM_vacuum_Tm70_uniform.csv", ...
+%     "KM_vacuum_Tm99_experimental.csv", ...
+%     "KM_vacuum_Tm107_experimental.csv", ...
+%     "KM_vacuum_Tm115_experimental.csv", ...
+%     "experimental_equivalents.csv"];
+ filePaths = ["KM_vacuum_rho793.csv"];
+%     "KM_vacuum_Tm99_experimental.csv", ...
+%     "KM_vacuum_Tm107_experimental.csv", ...
+%     "KM_vacuum_Tm115_experimental.csv", ...
+%     "experimental_equivalents.csv"];
+close all;
+for ii = 1:length(filePaths)
+    file = filePaths(ii);
+    
+    plotter(fullfile(save_path, "simulations", file), 'dummyname', 100*ii, false);
+    
+end
+
+cd(save_path);

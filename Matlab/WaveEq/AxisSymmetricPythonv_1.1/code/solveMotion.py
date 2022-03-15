@@ -101,7 +101,7 @@ def solveMotion(rS: np.float64 = 1.0, Tm: np.float64 = 72, R_f: np.float64 = -1,
 
     # Handling some default Values
     if R_f == -1: R_f = 52.4/rS
-    if mS == 0: mS = 7.8 * 4 * np.pi * (rS**3) / 3
+    if mS  ==  0: mS  = 7.8 * 4 * np.pi * (rS**3) / 3
     if method == 'Euler':
         from euler import euler as getNextStep
     else:
