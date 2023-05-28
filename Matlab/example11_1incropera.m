@@ -1,32 +1,33 @@
 close all;
 %% Counterflow pipe
-
+% Example 11.1 incropera
 counterflow = true;
-L = 60; % m, pip length
-r_inner = 0.1; % in m, pipe radius
-r_outer = 0.14; % m, outer pipe radius
+
+L = 65; % m, pip length
+r_inner = 25e-3/2; % in m, pipe radius
+r_outer = 45e-3/2; % m, outer pipe radius
 n = 100; % Number of nodes used
 
-m_inner = 3; % kg/s, mass flow rate
+m_inner = 0.2; % kg/s, mass flow rate
 cp_inner = 4180; % J/(kg * K) heat capacity of water)
 rho_inner = 1000; % kg/m^3, density of fluid (water)
 
-m_outer = 5; % kg/s, mass flow rate
-cp_outer = 4180; % J/(kg * K) heat capacity of water)
-rho_outer = 1000; % kg/m^3, density of fluid (water)
+m_outer = 0.1; % kg/s, mass flow rate
+cp_outer = 2131; % J/(kg * K) heat capacity of water)
+rho_outer = 841; % kg/m^3, density of fluid (water)
 
 area_inner = pi * r_inner^2;
 area_outer = pi * r_outer^2;
 perimeter_inner = 2 * pi * r_inner;
 perimeter_outer = 2 * pi * r_outer;
 
-T_inlet_inner  = 400; % Inlet temperature in Kelvin
-T_inlet_outer   = 800; % Inlet temperature in Kelvin
+T_inlet_inner  = 273+30; % Inlet temperature in Kelvin
+T_inlet_outer   = 273+100; % Inlet temperature in Kelvin
 T_guess = 400; % Initial temperature of fluid thourghout the pipe
 T_ambient = 300; % Ambient temperature
 
-h_air = 40; % Convective coefficient with air
-h = 349; % W/(m^2*K) overall heat transfer coefficient
+h_air = 0; % Convective coefficient with air
+h = 38.1; % W/(m^2*K) overall heat transfer coefficient
 
 dx = L/n;
 t_final = 1000; % in s, simulation time
@@ -59,7 +60,7 @@ for jj = 1:length(t)
     plot(x, T_inner, 'b');
     hold on;
     xlim([0, L]);
-    ylim([298, 820]);
+    ylim([250, T_inlet_outer*1.1]);
     title(sprintf("Current iteration: %5g ", jj), "FontSize", 16);
     xlabel("Distance (m)", "FontSize", 16);
     ylabel("Temperature (K)", "FontSize", 16);
